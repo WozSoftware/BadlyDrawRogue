@@ -10,9 +10,9 @@ namespace Woz.RogueEngine.Entities
     {
         private readonly long _id;
         private readonly string _name;
-        private readonly ImmutableDictionary<string, Field<int>> _attributes;
-        private readonly ImmutableDictionary<string, Field<bool>> _flags;
-        private readonly ImmutableDictionary<long, Entity> _children;
+        private readonly IImmutableDictionary<string, Field<int>> _attributes;
+        private readonly IImmutableDictionary<string, Field<bool>> _flags;
+        private readonly IImmutableDictionary<long, Entity> _children;
 
         public Entity(
             long id,
@@ -32,7 +32,7 @@ namespace Woz.RogueEngine.Entities
             IEnumerable<TValue> values, Func<TValue, TKey> keySelector)
         {
             return values
-                .ToMaybe<IEnumerable<TValue>>()
+                .ToMaybe()
                 .Where(x => x.Any())
                 .Select(x => x.ToImmutableDictionary(keySelector))
                 .OrElse(ImmutableDictionary<TKey, TValue>.Empty);
@@ -41,9 +41,9 @@ namespace Woz.RogueEngine.Entities
         private Entity(
             long id,
             string name,
-            ImmutableDictionary<string, Field<int>> attributes,
-            ImmutableDictionary<string, Field<bool>> flags,
-            ImmutableDictionary<long, Entity> children)
+            IImmutableDictionary<string, Field<int>> attributes,
+            IImmutableDictionary<string, Field<bool>> flags,
+            IImmutableDictionary<long, Entity> children)
         {
             _id = id;
             _name = name;
@@ -62,31 +62,33 @@ namespace Woz.RogueEngine.Entities
             get { return _name; } 
         }
 
-        public ImmutableDictionary<string, Field<int>> Attributes
+        public IImmutableDictionary<string, Field<int>> Attributes
         {
             get { return _attributes; }
         }
 
-        public ImmutableDictionary<string, Field<bool>> Flags
+        public IImmutableDictionary<string, Field<bool>> Flags
         {
             get { return _flags; }
         }
 
-        public ImmutableDictionary<long, Entity> Children
+        public IImmutableDictionary<long, Entity> Children
         {
             get { return _children; }
         }
 
         public Entity Set(
-            ImmutableDictionary<string, Field<int>> attributes,
-            ImmutableDictionary<string, Field<bool>> flags,
-            ImmutableDictionary<long, Entity> children)
+            IImmutableDictionary<string, Field<int>> attributes = null,
+            IImmutableDictionary<string, Field<bool>> flags = null,
+            IImmutableDictionary<long, Entity> children = null)
         {
-            return new Entity(
-                Id, _name, 
-                attributes ?? _attributes, 
-                flags ?? _flags,
-                children ?? _children);
+            return attributes == null && flags == null && children == null
+                ? this
+                : new Entity(
+                    Id, _name,
+                    attributes ?? _attributes,
+                    flags ?? _flags,
+                    children ?? _children);
         }
     }
 }
