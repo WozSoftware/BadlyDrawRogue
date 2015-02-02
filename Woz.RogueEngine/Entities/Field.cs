@@ -1,7 +1,7 @@
 ﻿
 namespace Woz.RogueEngine.Entities
 {
-    public class Field<T>
+    public class Field<T> 
         where T : struct
     {
         private readonly string _name;
