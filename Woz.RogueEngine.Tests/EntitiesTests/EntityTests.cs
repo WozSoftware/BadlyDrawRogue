@@ -10,95 +10,38 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
     {
         private const int Id = 1;
         private const string Name = "Name";
+        private readonly IImmutableDictionary<EntityAttributes, int> _emptyAttributes =
+            ImmutableDictionary<EntityAttributes, int>.Empty;
+        private readonly IImmutableDictionary<EntityFlags, bool> _emptyFlags =
+            ImmutableDictionary<EntityFlags, bool>.Empty;
+        private readonly IImmutableDictionary<long, Entity> _emptyChildren =
+            ImmutableDictionary<long, Entity>.Empty;
 
-        [TestMethod]
-        public void ConstructorBasics()
+        private Entity _entity;
+
+        [TestInitialize]
+        public void Setup()
         {
-            var entity = new Entity(Id, Name, null, null, null);
-
-            Assert.AreEqual(Id, entity.Id);
-            Assert.AreEqual(Name, entity.Name);
+            _entity = new Entity(
+                Id, Name, _emptyAttributes, _emptyFlags, _emptyChildren);
+        }
+            
+        [TestMethod]
+        public void Constructor()
+        {
+            Assert.AreEqual(Id, _entity.Id);
+            Assert.AreSame(Name, _entity.Name);
+            Assert.AreSame(_emptyAttributes, _entity.Attributes);
+            Assert.AreSame(_emptyFlags, _entity.Flags);
+            Assert.AreSame(_emptyChildren, _entity.Children);
         }
 
         [TestMethod]
-        public void ConstructorNullLists()
+        public void SetWithAttributes()
         {
-            var entity = new Entity(Id, Name, null, null, null);
+            var newAttributes = _entity.Attributes.SetItem(EntityAttributes.Luck, 1);
 
-            Assert.AreSame(ImmutableDictionary<string, Field<int>>.Empty, entity.Attributes);
-            Assert.AreSame(ImmutableDictionary<string, Field<bool>>.Empty, entity.Flags);
-            Assert.AreSame(ImmutableDictionary<long, Entity>.Empty, entity.Children);
-        }
-
-        [TestMethod]
-        public void ConstructorEmptyLists()
-        {
-            var entity = new Entity(
-                Id, Name, new Field<int>[0], new Field<bool>[0], new Entity[0]);
-
-            Assert.AreSame(ImmutableDictionary<string, Field<int>>.Empty, entity.Attributes);
-            Assert.AreSame(ImmutableDictionary<string, Field<bool>>.Empty, entity.Flags);
-            Assert.AreSame(ImmutableDictionary<long, Entity>.Empty, entity.Children);
-        }
-
-        [TestMethod]
-        public void ConstructorAttributesSupplied()
-        {
-            var attributes =
-                new[]
-                {
-                    new Field<int>("A", 1),
-                    new Field<int>("B", 2)
-                };
-
-            var entity = new Entity(Id, Name, attributes, null, null);
-
-            CollectionAssert
-                .AreEquivalent(attributes, entity.Attributes.Values.ToArray());
-        }
-
-        [TestMethod]
-        public void ConstructorFlagsSupplied()
-        {
-            var flags =
-                new[]
-                {
-                    new Field<bool>("A", true),
-                    new Field<bool>("B", false)
-                };
-
-            var entity = new Entity(Id, Name, null, flags, null);
-
-            CollectionAssert
-                .AreEquivalent(flags, entity.Flags.Values.ToArray());
-        }
-
-        [TestMethod]
-        public void ConstructorChildrenSupplied()
-        {
-            var children =
-                new[]
-                {
-                    new Entity(2, "A", null, null, null),
-                    new Entity(3, "B", null, null, null)
-                };
-
-            var entity = new Entity(Id, Name, null, null, children);
-
-            CollectionAssert
-                .AreEquivalent(children, entity.Children.Values.ToArray());
-        }
-
-        [TestMethod]
-        public void SetAttributes()
-        {
-            var entity = new Entity(Id, Name, null, null, null);
-
-            var newAttributes = entity
-                .Attributes
-                .Add("A", new Field<int>("A", 1));
-
-            var newEntity = entity.Set(attributes: newAttributes);
+            var newEntity = _entity.Set(attributes: newAttributes);
 
             CollectionAssert.AreEquivalent(
                 newAttributes.Values.ToArray(), 
@@ -106,15 +49,11 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         }
 
         [TestMethod]
-        public void SetFlags()
+        public void SetWithFlags()
         {
-            var entity = new Entity(Id, Name, null, null, null);
+            var newFlags = _entity.Flags.SetItem(EntityFlags.IsActor, true);
 
-            var newFlags = entity
-                .Flags
-                .Add("A", new Field<bool>("A", true));
-
-            var newEntity = entity.Set(flags: newFlags);
+            var newEntity = _entity.Set(flags: newFlags);
 
             CollectionAssert.AreEquivalent(
                 newFlags.Values.ToArray(),
@@ -122,15 +61,13 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         }
 
         [TestMethod]
-        public void SetChildren()
+        public void SetWithChildren()
         {
-            var entity = new Entity(Id, Name, null, null, null);
-
-            var newChildren = entity
+            var newChildren = _entity
                 .Children
-                .Add(5, new Entity(5, "A", null, null, null));
+                .SetItem(new Entity(5, "A"));
 
-            var newEntity = entity.Set(children: newChildren);
+            var newEntity = _entity.Set(children: newChildren);
 
             CollectionAssert.AreEquivalent(
                 newChildren.Values.ToArray(),

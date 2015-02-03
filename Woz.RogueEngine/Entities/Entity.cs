@@ -1,48 +1,29 @@
-﻿using Functional.Maybe;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Immutable;
 
 namespace Woz.RogueEngine.Entities
 {
-    public class Entity
+    public class Entity 
     {
         private readonly long _id;
         private readonly string _name;
-        private readonly IImmutableDictionary<string, Field<int>> _attributes;
-        private readonly IImmutableDictionary<string, Field<bool>> _flags;
+        private readonly IImmutableDictionary<EntityAttributes, int> _attributes;
+        private readonly IImmutableDictionary<EntityFlags, bool> _flags;
         private readonly IImmutableDictionary<long, Entity> _children;
+
+        public Entity(long id, string name)
+            : this(
+                id, name, 
+                ImmutableDictionary<EntityAttributes, int>.Empty, 
+                ImmutableDictionary<EntityFlags, bool>.Empty,
+                ImmutableDictionary<long, Entity>.Empty)
+        {
+        }
 
         public Entity(
             long id,
-            string name, 
-            IEnumerable<Field<int>> attributes,
-            IEnumerable<Field<bool>> flags,
-            IEnumerable<Entity> children)
-        {
-            _id = id;
-            _name = name;
-            _attributes = BuildDictionary(attributes, x => x.Name);
-            _flags = BuildDictionary(flags, x => x.Name);
-            _children = BuildDictionary(children, x => x.Id);
-        }
-
-        private ImmutableDictionary<TKey, TValue> BuildDictionary<TKey, TValue>(
-            IEnumerable<TValue> values, Func<TValue, TKey> keySelector)
-        {
-            return values
-                .ToMaybe()
-                .Where(x => x.Any())
-                .Select(x => x.ToImmutableDictionary(keySelector))
-                .OrElse(ImmutableDictionary<TKey, TValue>.Empty);
-        }
-
-        private Entity(
-            long id,
             string name,
-            IImmutableDictionary<string, Field<int>> attributes,
-            IImmutableDictionary<string, Field<bool>> flags,
+            IImmutableDictionary<EntityAttributes, int> attributes,
+            IImmutableDictionary<EntityFlags, bool> flags,
             IImmutableDictionary<long, Entity> children)
         {
             _id = id;
@@ -62,12 +43,12 @@ namespace Woz.RogueEngine.Entities
             get { return _name; } 
         }
 
-        public IImmutableDictionary<string, Field<int>> Attributes
+        public IImmutableDictionary<EntityAttributes, int> Attributes
         {
             get { return _attributes; }
         }
 
-        public IImmutableDictionary<string, Field<bool>> Flags
+        public IImmutableDictionary<EntityFlags, bool> Flags
         {
             get { return _flags; }
         }
@@ -78,8 +59,8 @@ namespace Woz.RogueEngine.Entities
         }
 
         public Entity Set(
-            IImmutableDictionary<string, Field<int>> attributes = null,
-            IImmutableDictionary<string, Field<bool>> flags = null,
+            IImmutableDictionary<EntityAttributes, int> attributes = null,
+            IImmutableDictionary<EntityFlags, bool> flags = null,
             IImmutableDictionary<long, Entity> children = null)
         {
             return attributes == null && flags == null && children == null

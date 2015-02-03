@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.RogueEngine", "Woz.Rogu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.RogueEngine.Tests", "Woz.RogueEngine.Tests\Woz.RogueEngine.Tests.csproj", "{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Functional", "Woz.Functional\Woz.Functional.csproj", "{2C67B481-A544-4A2B-A2D0-958EC1769F93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
