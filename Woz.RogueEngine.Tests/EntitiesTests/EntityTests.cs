@@ -9,7 +9,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
     public class EntityTests
     {
         private const int Id = 1;
-        private const EntityType Type = EntityType.Drink;
+        private const EntityType Type = EntityType.Door;
         private const string Name = "Name";
         private readonly IImmutableDictionary<EntityAttributes, int> _emptyAttributes =
             ImmutableDictionary<EntityAttributes, int>.Empty;

@@ -10,6 +10,8 @@ namespace Woz.RogueEngine.Entities
         Inteligence,
         Luck,
 
+        Range,
+
         DamageType,
         DamageInflicted,
         DamageAbsorbed,

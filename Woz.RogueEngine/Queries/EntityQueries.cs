@@ -10,8 +10,56 @@ namespace Woz.RogueEngine.Queries
 {
     public static class EntityQueries
     {
+        public static bool BlocksLineOfSight(this Entity entity)
+        {
+            return entity.TreeHasFlagSet(EntityFlags.BlocksLineOfSight);
+        }
+
+        public static bool BlocksMovement(this Entity entity)
+        {
+            return entity.TreeHasFlagSet(EntityFlags.BlocksMovement);
+        }
+
+        public static IEnumerable<KeyValuePair<DamageTypes, int>>
+            GetDamageTypesInflicted(this Entity entity, EntityAttributes attribute)
+        {
+            return entity.GetDamageTypes(EntityAttributes.DamageInflicted);
+        }
+
+        public static IEnumerable<KeyValuePair<DamageTypes, int>>
+            GetDamageTypesAbsorbed(this Entity entity, EntityAttributes attribute)
+        {
+            return entity.GetDamageTypes(EntityAttributes.DamageAbsorbed);
+        }
+
+        private static IEnumerable<KeyValuePair<DamageTypes, int>>
+            GetDamageTypes(this Entity entity, EntityAttributes attribute)
+        {
+            return entity
+                .Walk()
+                .Select(
+                    x => new
+                         {
+                             DamageType = x.Attributes.LookupAsEnum<DamageTypes>(EntityAttributes.DamageType),
+                             Damage = x.Attributes.Lookup(attribute)
+                         })
+                .Where(x => x.DamageType.HasValue && x.Damage.HasValue)
+                .Select(
+                    x => new
+                         {
+                             DamageType = x.DamageType.Value,
+                             Damage = x.Damage.Value
+                         })
+                .GroupBy(x => x.DamageType)
+                .Select(
+                    grouping => new KeyValuePair<DamageTypes, int>(
+                        grouping.Key,
+                        grouping.Select(x => x.Damage).Sum()));
+        }
+
         public static int EffectiveAttributeValue(
-            this Entity entity, EntityAttributes attribute)
+            this Entity entity,
+            EntityAttributes attribute)
         {
             return entity
                 .Walk()
