@@ -38,6 +38,7 @@
       <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,11 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ClothingLocations.cs" />
+    <Compile Include="Entities\DamageTypes.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityAttributes.cs" />
-    <Compile Include="Entities\EntityExtensions.cs" />
+    <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Entities\EntityFlags.cs" />
+    <Compile Include="Entities\EntityStore.cs" />
+    <Compile Include="Entities\EntityType.cs" />
+    <Compile Include="Levels\ActorState.cs" />
+    <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\EnumConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -59,6 +67,9 @@
       <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
       <Name>Woz.Functional</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Definitions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

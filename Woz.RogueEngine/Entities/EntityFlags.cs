@@ -2,15 +2,20 @@
 {
     public enum EntityFlags
     {
-        IsActor,
-        IsMonster,
+        IsHostile,
+        HasSeenPlayer,
 
+        IsShield,
         IsWeapon,
-        IsDefensive,
+        IsClothing,
+        IsEquiped,
+        IsFood,
+        IsDrink,
+        IsPotion,
 
-        IsFloor,
-        IsWall,
-        IsDoor,
-        IsDoorOpen
+        IsOpen,
+
+        BlocksMovement,
+        BlocksLineOfSight,
     }
 }

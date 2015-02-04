@@ -8,6 +8,14 @@ namespace Woz.RogueEngine.Entities
         Strength,
         Dexterity,
         Inteligence,
-        Luck
+        Luck,
+
+        DamageType,
+        DamageInflicted,
+        DamageAbsorbed,
+
+        ClothingLocation,
+
+        Weight
     }
 }
