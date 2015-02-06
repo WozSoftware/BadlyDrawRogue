@@ -17,6 +17,7 @@
         Skill,
         Spell,
 
+        CombatAttributes,
         Effect
     }
 }
