@@ -5,6 +5,8 @@
         IsHostile,
         HasSeenPlayer,
 
+        IsHidden,
+
         IsShield,
         IsWeapon,
         IsClothing,

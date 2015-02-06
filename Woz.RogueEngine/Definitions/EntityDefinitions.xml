@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Entities>
+  <Entity Type="Floor" Name="Dungeon Floor"/>
+  
+  <Entity Type="Wall" Name="Dungeon Wall">
+    <Flags>
+      <Flag Type="BlocksMovement" Value="true"/>
+      <Flag Type="BlocksLineOfSight" Value="true"/>
+    </Flags>
+  </Entity>
+
+  <Entity Type="Door" Name="Door">
+    <Flags>
+      <Flag Type="IsOpen" Value="false"/>
+      <Flag Type="BlocksMovement" Value="true"/>
+      <Flag Type="BlocksLineOfSight" Value="true"/>
+    </Flags>
+  </Entity>
+
+  <Entity Type="Window" Name="Window">
+    <Flags>
+      <Flag Type="BlocksMovement" Value="true"/>
+      <Flag Type="BlocksLineOfSight" Value="false"/>
+    </Flags>
+  </Entity>
+</Entities>
+
+<!--
+  <Entity Type="" Name="">
+    <Attributes>
+      <Attribute Type="" Value=""/>
+    </Attributes>
+    <Flags>
+      <Flag Type="" Value=""/>
+    </Flags>
+    <Entities>
+      
+    </Entities>
+  </Entity>
+
+  <Entity Type="" Name="">
+    <Attributes/>
+    <Flags/>
+    <Entities/>
+  </Entity>
+-->

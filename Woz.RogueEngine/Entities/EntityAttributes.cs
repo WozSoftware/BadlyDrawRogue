@@ -5,6 +5,9 @@ namespace Woz.RogueEngine.Entities
         MaxHitPoints,
         HitPoints,
 
+        MaxManaPoints,
+        ManaPoints,
+
         Strength,
         Dexterity,
         Inteligence,
