@@ -46,7 +46,8 @@ namespace Woz.RogueEngine.Queries
             }
 
             yield return root;
-            foreach (var child in root.Children.SelectMany(x => x.Flattern()))
+            foreach (var child in 
+                root.Children.SelectMany(x => x.Flattern(predicate)))
             {
                 yield return child;
             }
