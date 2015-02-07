@@ -14,7 +14,7 @@
 //        // TILES WRONG - More collections
 //        private readonly IImmutableDictionary<Point, Entity> _tiles;
 //        private readonly Maybe<ActorState> _player;
-//        private readonly IImmutableDictionary<long, ActorState> _npcs; 
+//        private readonly IImmutableDictionary<long, ActorState> _npcs;
 
 //        public Level(IImmutableDictionary<Point, Entity> tiles)
 //            : this(

@@ -53,6 +53,7 @@
     <Compile Include="Entities\DamageTypes.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityAttributes.cs" />
+    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />

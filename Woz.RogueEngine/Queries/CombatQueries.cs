@@ -10,21 +10,21 @@ namespace Woz.RogueEngine.Queries
     public static class CombatQueries
     {
         public static IEnumerable<KeyValuePair<DamageTypes, int>>
-            GetDamageTypesInflicted(this Entity entity, EntityAttributes attribute)
+            GetDamageTypesInflicted(this IEntity entity, EntityAttributes attribute)
         {
             return entity.GetDamageTypes(EntityAttributes.DamageInflicted);
         }
 
         public static IEnumerable<KeyValuePair<DamageTypes, int>>
-            GetDamageTypesAbsorbed(this Entity entity, EntityAttributes attribute)
+            GetDamageTypesAbsorbed(this IEntity entity, EntityAttributes attribute)
         {
             return entity.GetDamageTypes(EntityAttributes.DamageAbsorbed);
         }
 
         private static IEnumerable<KeyValuePair<DamageTypes, int>>
-            GetDamageTypes(this Entity entity, EntityAttributes attribute)
+            GetDamageTypes(this IEntity entity, EntityAttributes attribute)
         {
-            Func<Entity, Maybe<KeyValuePair<DamageTypes, int>>> entityDamage =
+            Func<IEntity, Maybe<KeyValuePair<DamageTypes, int>>> entityDamage =
                 x =>
                 {
                     var damageType = x.Attributes.LookupAsEnum<DamageTypes>(EntityAttributes.DamageType);

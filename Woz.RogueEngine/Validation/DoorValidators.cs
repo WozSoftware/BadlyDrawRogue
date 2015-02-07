@@ -5,7 +5,7 @@ namespace Woz.RogueEngine.Validation
 {
     public static class DoorValidators
     {
-        public static Error<Entity> CanOpenDoor(this Entity entity)
+        public static Error<IEntity> CanOpenDoor(this IEntity entity)
         {
             return entity
                 .ToSuccees()
@@ -13,7 +13,7 @@ namespace Woz.RogueEngine.Validation
                 .SelectMany(x => x.RuleCanOpenDoor());
         }
 
-        public static Error<Entity> CanCloseDoor(this Entity entity)
+        public static Error<IEntity> CanCloseDoor(this IEntity entity)
         {
             return entity
                 .ToSuccees()

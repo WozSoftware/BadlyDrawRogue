@@ -6,25 +6,25 @@ namespace Woz.RogueEngine.Validation
 {
     public static class DoorRules
     {
-        public static Error<Entity> RuleIsDoor(this Entity entity)
+        public static Error<IEntity> RuleIsDoor(this IEntity entity)
         {
             return entity.EntityType == EntityType.Door
                 ? entity.ToSuccees()
-                : "Entity is not a door".ToError<Entity>();
+                : "Entity is not a door".ToError<IEntity>();
         }
 
-        public static Error<Entity> RuleCanOpenDoor(this Entity entity)
+        public static Error<IEntity> RuleCanOpenDoor(this IEntity entity)
         {
             return entity.HasFlagSet(EntityFlags.IsOpen)
                 ? entity.ToSuccees()
-                : "The door is already open".ToError<Entity>();
+                : "The door is already open".ToError<IEntity>();
         }
 
-        public static Error<Entity> RuleCanCloseDoor(this Entity entity)
+        public static Error<IEntity> RuleCanCloseDoor(this IEntity entity)
         {
             return !entity.HasFlagSet(EntityFlags.IsOpen)
                 ? entity.ToSuccees()
-                : "The door is already closed".ToError<Entity>();
+                : "The door is already closed".ToError<IEntity>();
         }
     }
 }

@@ -4,17 +4,17 @@ namespace Woz.RogueEngine.Operations
 {
     public static class DoorOperations
     {
-        public static Entity OpenDoor(this Entity entity)
+        public static IEntity OpenDoor(this IEntity entity)
         {
             return entity.UpdateDoor(true);
         }
 
-        public static Entity CloseDoor(this Entity entity)
+        public static IEntity CloseDoor(this IEntity entity)
         {
             return entity.UpdateDoor(false);
         }
 
-        private static Entity UpdateDoor(this Entity entity, bool isOpen)
+        private static IEntity UpdateDoor(this IEntity entity, bool isOpen)
         {
             var newFlags = entity
                 .Flags

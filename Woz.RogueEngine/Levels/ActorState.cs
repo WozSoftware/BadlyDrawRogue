@@ -1,27 +1,26 @@
-//using System.Drawing;
-//using Woz.RogueEngine.Entities;
+using System.Drawing;
 
-//namespace Woz.RogueEngine.Levels
-//{
-//    public class ActorState
-//    {
-//        private readonly Entity _actor;
-//        private readonly Point _location;
+namespace Woz.RogueEngine.Levels
+{
+    public class ActorState
+    {
+        private readonly long _actorId;
+        private readonly Point _location;
 
-//        public ActorState(Entity actor, Point location)
-//        {
-//            _actor = actor;
-//            _location = location;
-//        }
+        public ActorState(long actorId, Point location)
+        {
+            _actorId = actorId;
+            _location = location;
+        }
 
-//        public Entity Actor
-//        {
-//            get { return _actor; }
-//        }
+        public long ActorId
+        {
+            get { return _actorId; }
+        }
 
-//        public Point Location
-//        {
-//            get { return _location; }
-//        }
-//    }
-//}
+        public Point Location
+        {
+            get { return _location; }
+        }
+    }
+}

@@ -11,7 +11,7 @@ namespace Woz.RogueEngine.Definitions
 {
     public static class EntityParser
     {
-        public static IEnumerable<Entity> ReadEntities(
+        public static IEnumerable<IEntity> ReadEntities(
             this XElement entitiesElement)
         {
             return entitiesElement
@@ -19,7 +19,7 @@ namespace Woz.RogueEngine.Definitions
                 .Select(ReadEntity);
         }
 
-        public static Entity ReadEntity(this XElement entityElement)
+        public static IEntity ReadEntity(this XElement entityElement)
         {
             var id = entityElement
                 .MaybeAttribute(XmlAttributes.Id)
@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Definitions
                 .OrElse(0);
 
             return 
-                new Entity(
+                Entity.Build(
                     id,
                     entityElement.RequiredAttribute(XmlAttributes.Type).Value.ToEnum<EntityType>(),
                     entityElement.RequiredAttribute(XmlAttributes.Name).Value,

@@ -12,7 +12,7 @@ namespace Woz.RogueEngine.Queries
     public static class EntityQueries
     {
         public static int EffectiveAttributeValue(
-            this Entity entity,
+            this IEntity entity,
             EntityAttributes attribute)
         {
             return entity
@@ -32,13 +32,13 @@ namespace Woz.RogueEngine.Queries
                 .Select(x => x.ToEnum<int, T>());
         }
 
-        public static IEnumerable<Entity> Flattern(this Entity root)
+        public static IEnumerable<IEntity> Flattern(this IEntity root)
         {
             return root.Flattern(x => true);
         }
 
-        public static IEnumerable<Entity> Flattern(
-            this Entity root, Func<Entity, bool> predicate)
+        public static IEnumerable<IEntity> Flattern(
+            this IEntity root, Func<IEntity, bool> predicate)
         {
             if (!predicate(root))
             {
@@ -53,7 +53,7 @@ namespace Woz.RogueEngine.Queries
             }
         }
 
-        public static bool TreeHasFlagSet(this Entity entity, EntityFlags flag)
+        public static bool TreeHasFlagSet(this IEntity entity, EntityFlags flag)
         {
             return entity
                 .Flattern()
@@ -62,7 +62,7 @@ namespace Woz.RogueEngine.Queries
                 .OrElse(false);
         }
 
-        public static bool HasFlagSet(this Entity entity, EntityFlags flag)
+        public static bool HasFlagSet(this IEntity entity, EntityFlags flag)
         {
             return entity.Flags.Lookup(flag).OrElse(false);
         }

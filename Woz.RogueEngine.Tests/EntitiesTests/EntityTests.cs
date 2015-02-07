@@ -15,20 +15,20 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
             ImmutableDictionary<EntityAttributes, int>.Empty;
         private readonly IImmutableDictionary<EntityFlags, bool> _emptyFlags =
             ImmutableDictionary<EntityFlags, bool>.Empty;
-        private readonly IImmutableList<Entity> _emptyChildren =
-            ImmutableList<Entity>.Empty;
+        private readonly IImmutableList<IEntity> _emptyChildren =
+            ImmutableList<IEntity>.Empty;
 
-        private Entity _entity;
+        private IEntity _entity;
 
         [TestInitialize]
         public void Setup()
         {
-            _entity = new Entity(
+            _entity = Entity.Build(
                 Id, Type, Name, _emptyAttributes, _emptyFlags, _emptyChildren);
         }
             
         [TestMethod]
-        public void Constructor()
+        public void Build()
         {
             Assert.AreEqual(Id, _entity.Id);
             Assert.AreEqual(Type, _entity.EntityType);
@@ -67,7 +67,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         {
             var newChildren = _entity
                 .Children
-                .Add(new Entity(5, EntityType.Wall, "A"));
+                .Add(Entity.Build(5, EntityType.Wall, "A"));
 
             var newEntity = _entity.Set(children: newChildren);
 
