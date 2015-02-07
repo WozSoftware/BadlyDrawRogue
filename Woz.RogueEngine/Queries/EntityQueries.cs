@@ -34,6 +34,17 @@ namespace Woz.RogueEngine.Queries
 
         public static IEnumerable<Entity> Flattern(this Entity root)
         {
+            return root.Flattern(x => true);
+        }
+
+        public static IEnumerable<Entity> Flattern(
+            this Entity root, Func<Entity, bool> predicate)
+        {
+            if (!predicate(root))
+            {
+                yield break;
+            }
+
             yield return root;
             foreach (var child in root.Children.SelectMany(x => x.Flattern()))
             {

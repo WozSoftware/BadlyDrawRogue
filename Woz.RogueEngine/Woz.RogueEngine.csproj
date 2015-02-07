@@ -63,6 +63,8 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\NavigationQueries.cs" />
+    <Compile Include="Validation\DoorRules.cs" />
+    <Compile Include="Validation\DoorValidators.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
