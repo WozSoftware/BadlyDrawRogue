@@ -12,7 +12,7 @@ was time to revisit a roguelike engine using these techniques. The aim is to cre
 a simple game backed by a very flexible engine that will allow creation of far more 
 complex games down the line.
 
-I have no yet chosen the render techniques I will use yet. The main application is 
+I have not yet chosen the render techniques I will use. The main application is 
 currently an old WinForms project but as the engine lives in a separate project this 
 will be switched out when I decide on the UI.
 
