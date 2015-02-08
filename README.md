@@ -1,5 +1,6 @@
 # BadlyDrawRogue
 Roguelike Engine Using the functional side of C#
+https://wozsoftware.wordpress.com/
 
 The name Badly Drawn Rogue comes from the fact that I am no artist so the graphics 
 for the game will be hand drawn… badly.
