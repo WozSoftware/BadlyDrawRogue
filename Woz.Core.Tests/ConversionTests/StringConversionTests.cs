@@ -17,13 +17,54 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Core.Conversion;
 
 namespace Woz.Core.Tests.ConversionTests
 {
     [TestClass]
     public class StringConversionTests
     {
-        
+        [TestMethod]
+        public void ParseAsWhenValid()
+        {
+            Assert.AreEqual(5, "5".ParseAs<int>());
+            Assert.AreEqual(5m, "5".ParseAs<decimal>());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ParseAsWhenInvalid()
+        {
+            "a".ParseAs<int>();
+        }
+
+        [TestMethod]
+        public void ParseAsWithDefaultWhenValid()
+        {
+            Assert.AreEqual(5, "5".ParseAs(2));
+            Assert.AreEqual(5m, "5".ParseAs(2m));
+        }
+
+        [TestMethod]
+        public void ParseAsWithDefaultWhenInvalid()
+        {
+            Assert.AreEqual(5, "a".ParseAs(5));
+        }
+
+        [TestMethod]
+        public void ParseAsMaybeWhenValid()
+        {
+            Assert.AreEqual(5, "5".ParseAsMaybe<int>().Value);
+            Assert.AreEqual(5m, "5".ParseAsMaybe<decimal>().Value);
+        }
+
+        [TestMethod]
+        public void ParseAsMaybeWhenInvalid()
+        {
+            Assert.IsFalse("a".ParseAsMaybe<int>().HasValue);
+        }
     }
 }
