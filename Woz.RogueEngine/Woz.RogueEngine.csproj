@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Woz.RogueEngine.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">
