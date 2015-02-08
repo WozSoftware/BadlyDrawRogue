@@ -13,13 +13,13 @@ namespace Woz.RogueEngine.Entities
         Strength,
         Dexterity,
         Inteligence,
+        Stamina,
         Luck,
-
-        Range,
 
         DamageType,
         DamageInflicted,
         DamageAbsorbed,
+        Range,
 
         ClothingLocation,
 

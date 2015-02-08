@@ -51,6 +51,18 @@ namespace Woz.Functional.Error
                 : _errorMessage.ToError<TResult>();
         }
 
+        public Error<TResult> TryBind<TResult>(Func<T, Error<TResult>> operation)
+        {
+            try
+            {
+                return Bind(operation);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToError<TResult>();
+            }
+        }
+
         public Error<T> ThrowOnError(Func<string, Exception> exceptionBuilder)
         {
             if (!IsValid)

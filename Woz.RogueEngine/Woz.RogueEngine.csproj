@@ -52,12 +52,13 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityAttributes.cs" />
     <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
     <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Entities\EntityFlags.cs" />
-    <Compile Include="Entities\EntityStore.cs" />
+    <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Levels\ActorState.cs" />
     <Compile Include="Levels\Level.cs" />
@@ -83,9 +84,6 @@
       <Project>{1c394bd3-381e-4a26-9263-7e4057bd3bff}</Project>
       <Name>Woz.Linq</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Definitions\EntityDefinitions.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

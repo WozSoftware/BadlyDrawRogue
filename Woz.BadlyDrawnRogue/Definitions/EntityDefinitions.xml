@@ -3,12 +3,18 @@
 <Entities>
   <!-- Tiles -->
 
+  <!-- Only one void -->
   <Entity Type="Tile" Name="Void">
     <Attributes>
       <Attribute Type="TileType" Value="0"/>
     </Attributes>
+    <Flags>
+      <Flag Type="BlocksMovement" Value="true"/>
+      <Flag Type="BlocksLineOfSight" Value="true"/>
+    </Flags>
   </Entity>
 
+  <!-- At least one of each tile type -->
   <Entity Type="Tile" Name="Flagstone Floor">
     <Attributes>
       <Attribute Type="TileType" Value="1"/>
@@ -45,6 +51,10 @@
       <Flag Type="BlocksLineOfSight" Value="false"/>
     </Flags>
   </Entity>
+  
+  <!-- Players -->
+  
+  <!-- Other Actors -->
   
   <!-- Clothing -->
 
