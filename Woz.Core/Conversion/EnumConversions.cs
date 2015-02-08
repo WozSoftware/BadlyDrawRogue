@@ -1,5 +1,5 @@
 #region License
-// Copyright ? Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.Core.
@@ -24,6 +24,10 @@ using Functional.Maybe;
 
 namespace Woz.Core.Conversion
 {
+    /// <summary>
+    /// Various helpers for the conversion of strings and numerics to Enum in
+    /// a safe way that ensures the result is a valid value.
+    /// </summary>
     public static class EnumConversions
     {
         public static TEnum ToEnum<TEnum>(this string value)
@@ -34,7 +38,7 @@ namespace Woz.Core.Conversion
                 .OrElse(
                     () => new InvalidEnumArgumentException(
                         string.Format(
-                            "{0} is not part of {1}]", 
+                            "{0} is not part of {1}", 
                             value ?? "null", 
                             typeof (TEnum).Name)));
         }
@@ -63,7 +67,7 @@ namespace Woz.Core.Conversion
                 .OrElse(
                     () => new InvalidEnumArgumentException(
                         string.Format(
-                            "{0} is not enum in {1}]",
+                            "{0} is not enum in {1}",
                             value, typeof(TEnum).Name)));
         }
 

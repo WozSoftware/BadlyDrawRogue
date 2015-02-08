@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Linq", "Woz.Linq\Woz.Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Core", "Woz.Core\Woz.Core.csproj", "{E030E5BA-A70A-4023-92D7-D20A7F4102F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Core.Tests", "Woz.Core.Tests\Woz.Core.Tests.csproj", "{EE413E35-4738-40B7-950C-659B0133DB21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,7 +34,6 @@ Global
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3F3571E-DB9E-44EF-B604-69FFB3CEF4EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C67B481-A544-4A2B-A2D0-958EC1769F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +46,9 @@ Global
 		{E030E5BA-A70A-4023-92D7-D20A7F4102F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E030E5BA-A70A-4023-92D7-D20A7F4102F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E030E5BA-A70A-4023-92D7-D20A7F4102F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE413E35-4738-40B7-950C-659B0133DB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE413E35-4738-40B7-950C-659B0133DB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE413E35-4738-40B7-950C-659B0133DB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

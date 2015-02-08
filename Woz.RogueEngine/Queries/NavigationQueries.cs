@@ -1,5 +1,5 @@
 #region License
-// Copyright ? Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.RoqueEngine.

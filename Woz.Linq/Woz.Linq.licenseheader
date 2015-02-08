@@ -1,6 +1,6 @@
 extensions: designer.cs generated.cs
 extensions: .cpp .h
-// Copyright © Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.Linq.
@@ -20,7 +20,7 @@ extensions: .cpp .h
 
 extensions: .cs
 #region License
-// Copyright © Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.Linq.
@@ -41,7 +41,7 @@ extensions: .cs
 
 extensions: .aspx .ascx
 <%-- 
-Copyright © Woz.Software 2015
+Copyright (C) Woz.Software 2015
 [https://github.com/WozSoftware/BadlyDrawRogue]
 
 This file is part of Woz.Linq.
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 
 extensions: .vb
-' Copyright © Woz.Software 2015
+' Copyright (C) Woz.Software 2015
 ' [https://github.com/WozSoftware/BadlyDrawRogue]
 ' 
 ' This file is part of Woz.Linq.
@@ -81,7 +81,7 @@ extensions: .vb
 
 extensions:  .xml .config .xsd
 <!--
-Copyright © Woz.Software 2015
+Copyright (C) Woz.Software 2015
 [https://github.com/WozSoftware/BadlyDrawRogue]
 
 This file is part of Woz.Linq.

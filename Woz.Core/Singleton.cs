@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright � Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.Core.
@@ -19,6 +19,12 @@
 #endregion
 namespace Woz.Core
 {
+    /// <summary>
+    /// Object used to provide the singleton pattern to a non static class. 
+    /// Relies on the fact that generic static classes build out to a new 
+    /// instance per type.
+    /// </summary>
+    /// <typeparam name="T">Type of the singleton</typeparam>
     public static class Singleton<T>
         where T : class
     {

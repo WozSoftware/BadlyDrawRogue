@@ -1,5 +1,5 @@
 #region License
-// Copyright ? Woz.Software 2015
+// Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.Core.
@@ -22,6 +22,10 @@ using Functional.Maybe;
 
 namespace Woz.Core.Conversion
 {
+    /// <summary>
+    /// Various helpers to ease parsing strings into value types in a 
+    /// safe way.
+    /// </summary>
     public static class StringConversion
     {
         public static T ParseAs<T>(this string value)
@@ -32,7 +36,7 @@ namespace Woz.Core.Conversion
                 .OrElse(
                     () => new ArgumentException(
                         string.Format(
-                            "{0} does not convert to {1}]", 
+                            "{0} does not convert to {1}", 
                             value ?? "null", 
                             typeof (T).Name)));
         }

@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Linq.
+// This file is part of Woz.Core.
 //
-// Woz.Linq is free software: you can redistribute it 
+// Woz.Core is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -23,11 +23,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Woz.Linq")]
+[assembly: AssemblyTitle("Woz.Core.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Woz.Software")]
-[assembly: AssemblyProduct("Woz.Linq")]
+[assembly: AssemblyProduct("Woz.Core.Tests")]
 [assembly: AssemblyCopyright("Copyright © Woz.Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8ffeea77-8dc4-4cbb-a706-f672d544c326")]
+[assembly: Guid("6979aefb-a29f-43a8-bc38-a74d01fdad95")]
 
 // Version information for an assembly consists of the following four values:
 //
