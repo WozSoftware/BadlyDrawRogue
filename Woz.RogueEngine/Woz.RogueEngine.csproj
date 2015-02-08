@@ -49,11 +49,13 @@
     <Compile Include="Definitions\EntityParser.cs" />
     <Compile Include="Definitions\XmlAttributes.cs" />
     <Compile Include="Definitions\XmlNames.cs" />
+    <Compile Include="Entities\ActorType.cs" />
     <Compile Include="Entities\ClothingLocations.cs" />
     <Compile Include="Entities\DamageTypes.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityAttributes.cs" />
     <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\TileTypes.cs" />
     <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />
@@ -64,8 +66,9 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\NavigationQueries.cs" />
-    <Compile Include="Validation\DoorRules.cs" />
-    <Compile Include="Validation\DoorValidators.cs" />
+    <Compile Include="Validation\RuleHelpers.cs" />
+    <Compile Include="Validation\TileRules.cs" />
+    <Compile Include="Validation\TileValidators.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

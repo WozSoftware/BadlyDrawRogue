@@ -2,17 +2,33 @@
 
 <Entities>
   <!-- Tiles -->
+
+  <Entity Type="Tile" Name="Void">
+    <Attributes>
+      <Attribute Type="TileType" Value="0"/>
+    </Attributes>
+  </Entity>
+
+  <Entity Type="Tile" Name="Flagstone Floor">
+    <Attributes>
+      <Attribute Type="TileType" Value="1"/>
+    </Attributes>
+  </Entity>
   
-  <Entity Type="Floor" Name="Dungeon Floor"/>
-  
-  <Entity Type="Wall" Name="Dungeon Wall">
+  <Entity Type="Tile" Name="Stone Wall">
+    <Attributes>
+      <Attribute Type="TileType" Value="2"/>
+    </Attributes>
     <Flags>
       <Flag Type="BlocksMovement" Value="true"/>
       <Flag Type="BlocksLineOfSight" Value="true"/>
     </Flags>
   </Entity>
 
-  <Entity Type="Door" Name="Door">
+  <Entity Type="Tile" Name="Wooden Door">
+    <Attributes>
+      <Attribute Type="TileType" Value="3"/>
+    </Attributes>
     <Flags>
       <Flag Type="IsOpen" Value="false"/>
       <Flag Type="BlocksMovement" Value="true"/>
@@ -20,7 +36,10 @@
     </Flags>
   </Entity>
 
-  <Entity Type="Window" Name="Window">
+  <Entity Type="Tile" Name="Glass Window">
+    <Attributes>
+      <Attribute Type="TileType" Value="4"/>
+    </Attributes>
     <Flags>
       <Flag Type="BlocksMovement" Value="true"/>
       <Flag Type="BlocksLineOfSight" Value="false"/>

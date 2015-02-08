@@ -2,17 +2,13 @@
 {
     public enum EntityType
     {
-        Player,
-        Npc,
+        Actor,
         Corpse,
 
         Item,
         Furniture,
 
-        Floor,
-        Wall,
-        Door,
-        Window,
+        Tile,
 
         Skill,
         Spell,

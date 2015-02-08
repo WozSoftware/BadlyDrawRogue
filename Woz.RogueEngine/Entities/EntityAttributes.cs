@@ -2,6 +2,8 @@ namespace Woz.RogueEngine.Entities
 {
     public enum EntityAttributes
     {
+        TileType,
+
         MaxHitPoints,
         HitPoints,
 

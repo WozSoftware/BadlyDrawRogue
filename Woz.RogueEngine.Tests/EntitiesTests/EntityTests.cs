@@ -9,7 +9,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
     public class EntityTests
     {
         private const int Id = 1;
-        private const EntityType Type = EntityType.Door;
+        private const EntityType Type = EntityType.Tile;
         private const string Name = "Name";
         private readonly IImmutableDictionary<EntityAttributes, int> _emptyAttributes =
             ImmutableDictionary<EntityAttributes, int>.Empty;
@@ -67,7 +67,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         {
             var newChildren = _entity
                 .Children
-                .Add(Entity.Build(5, EntityType.Wall, "A"));
+                .Add(Entity.Build(5, EntityType.Item, "A"));
 
             var newEntity = _entity.Set(children: newChildren);
 

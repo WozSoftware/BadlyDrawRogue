@@ -1,16 +1,25 @@
-﻿using Woz.Functional.Error;
+﻿using System;
+using Woz.Functional.Error;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
 namespace Woz.RogueEngine.Validation
 {
-    public static class DoorRules
+    public static class TileRules
     {
-        public static Error<IEntity> RuleIsDoor(this IEntity entity)
+        public static Error<IEntity> RuleIsTile(this IEntity entity)
         {
-            return entity.EntityType == EntityType.Door
+            return entity.EntityType == EntityType.Tile
                 ? entity.ToSuccees()
-                : "Entity is not a door".ToError<IEntity>();
+                : "Entity is not a tile".ToError<IEntity>();
+        }
+
+        public static Error<IEntity> RuleIsTileType(this IEntity entity, TileTypes tileType)
+        {
+            return entity.RuleAttributeHasEnumValue(
+                EntityAttributes.TileType,
+                tileType,
+                () => string.Format("Entity is not a {0}", tileType));
         }
 
         public static Error<IEntity> RuleCanOpenDoor(this IEntity entity)
