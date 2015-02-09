@@ -29,7 +29,7 @@ namespace Woz.RogueEngine.Validation
         public static Error<IEntity> RuleIsTile(this IEntity entity)
         {
             return entity.EntityType == EntityType.Tile
-                ? entity.ToSuccees()
+                ? entity.ToSuccess()
                 : "Entity is not a tile".ToError<IEntity>();
         }
 
@@ -44,14 +44,14 @@ namespace Woz.RogueEngine.Validation
         public static Error<IEntity> RuleCanOpenDoor(this IEntity entity)
         {
             return entity.HasFlagSet(EntityFlags.IsOpen)
-                ? entity.ToSuccees()
+                ? entity.ToSuccess()
                 : "The door is already open".ToError<IEntity>();
         }
 
         public static Error<IEntity> RuleCanCloseDoor(this IEntity entity)
         {
             return !entity.HasFlagSet(EntityFlags.IsOpen)
-                ? entity.ToSuccees()
+                ? entity.ToSuccess()
                 : "The door is already closed".ToError<IEntity>();
         }
     }

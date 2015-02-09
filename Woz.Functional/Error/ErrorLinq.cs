@@ -27,7 +27,7 @@ namespace Woz.Functional.Error
             this Error<T> error, Func<T, TResult> selector)
         {
             return error.IsValid
-                ? selector(error.Value).ToSuccees()
+                ? selector(error.Value).ToSuccess()
                 : error.ErrorMessage.ToError<TResult>();
         }
 
@@ -61,7 +61,7 @@ namespace Woz.Functional.Error
         {
             return error.Bind(x => 
                     transform(x).Bind(y => 
-                        composer(x, y).ToSuccees()));
+                        composer(x, y).ToSuccess()));
         }
 
         public static Error<TResult> TrySelectMany<T1, T2, TResult>(

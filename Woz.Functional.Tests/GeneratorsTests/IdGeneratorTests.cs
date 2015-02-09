@@ -17,24 +17,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Error
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Functional.Generators;
+
+namespace Woz.Functional.Tests.GeneratorsTests
 {
-    public static class ErrorOperations
+    [TestClass]
+    public class IdGeneratorTests
     {
-        public static Error<T> ToSuccess<T>(this T value)
+        [TestMethod]
+        public void Build()
         {
-            return new Error<T>(value);
-        }
+            var idGenerator = IdGenerator.Build();
 
-        public static Error<T> ToError<T>(this string errorMessage)
-        {
-            return new Error<T>(errorMessage);
-        }
-
-        public static Error<T> Collapse<T>(this Error<Error<T>> error)
-        {
-            // using implicit cast
-            return error;
+            Assert.AreEqual(1, idGenerator());
+            Assert.AreEqual(2, idGenerator());
+            Assert.AreEqual(3, idGenerator());
         }
     }
 }

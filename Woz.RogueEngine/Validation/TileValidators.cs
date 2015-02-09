@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Validation
         public static Error<IEntity> CanOpenDoor(this IEntity entity)
         {
             return entity
-                .ToSuccees()
+                .ToSuccess()
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanOpenDoor());
@@ -36,7 +36,7 @@ namespace Woz.RogueEngine.Validation
         public static Error<IEntity> CanCloseDoor(this IEntity entity)
         {
             return entity
-                .ToSuccees()
+                .ToSuccess()
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanCloseDoor());

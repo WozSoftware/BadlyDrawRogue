@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,24 +17,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Error
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Functional.Error;
+
+namespace Woz.Functional.Tests.ErrorTests
 {
-    public static class ErrorOperations
+    [TestClass]
+    public class ErrorOperationsTests
     {
-        public static Error<T> ToSuccess<T>(this T value)
+        // ToSuccess and ToError tested in ErrorTests
+
+        [TestMethod]
+        public void CollapseWhenOuterSuccess()
         {
-            return new Error<T>(value);
+            var nested = 1.ToSuccess().ToSuccess();
+            var collapsed = nested.Collapse();
+
+            Assert.IsTrue(collapsed.IsValid);
+            Assert.AreEqual(1, collapsed.Value);
         }
 
-        public static Error<T> ToError<T>(this string errorMessage)
+        [TestMethod]
+        public void CollapseWhenOuterError()
         {
-            return new Error<T>(errorMessage);
-        }
+            var nested = "A".ToError<Error<int>>();
+            var collapsed = nested.Collapse();
 
-        public static Error<T> Collapse<T>(this Error<Error<T>> error)
-        {
-            // using implicit cast
-            return error;
+            Assert.IsFalse(collapsed.IsValid);
+            Assert.AreEqual("A", collapsed.ErrorMessage);
+
         }
     }
 }

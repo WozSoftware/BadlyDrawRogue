@@ -17,24 +17,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Error
+using System;
+using System.Collections.Immutable;
+using Functional.Maybe;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Woz.Functional.Tests.MaybeTests
 {
-    public static class ErrorOperations
+    [TestClass]
+    public class MaybeImmutableDictionaryTests
     {
-        public static Error<T> ToSuccess<T>(this T value)
+        [TestMethod]
+        public void LookupWhenPresent()
         {
-            return new Error<T>(value);
+            var dictionary = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var result = dictionary.Lookup(1);
+
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual("A", result.Value);
         }
 
-        public static Error<T> ToError<T>(this string errorMessage)
+        [TestMethod]
+        public void LookupWhenNotPresent()
         {
-            return new Error<T>(errorMessage);
-        }
+            var result = ImmutableDictionary<int, string>.Empty.Lookup(1);
 
-        public static Error<T> Collapse<T>(this Error<Error<T>> error)
-        {
-            // using implicit cast
-            return error;
+            Assert.IsFalse(result.HasValue);
         }
     }
 }

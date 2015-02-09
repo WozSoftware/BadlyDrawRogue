@@ -30,7 +30,7 @@ namespace Woz.BadlyDrawnRogue
         public static IEntityFactory LoadEntityFactory(string fileName)
         {
             return fileName
-                .ToSuccees()
+                .ToSuccess()
                 .TrySelect(XDocument.Load)
                 .TrySelect(document => document.Root)
                 .TrySelect(EntityParser.ReadEntities)

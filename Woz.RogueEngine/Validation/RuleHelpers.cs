@@ -54,7 +54,7 @@ namespace Woz.RogueEngine.Validation
                 .LookupAsEnum<T>(attribute)
                 .Select(x => EqualityComparer<T>.Default.Equals(x, requiredType))
                 .OrElse(false)
-                ? entity.ToSuccees()
+                ? entity.ToSuccess()
                 : messageBuilder().ToError<IEntity>();
         }
     }
