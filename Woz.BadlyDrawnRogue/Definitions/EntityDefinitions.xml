@@ -23,10 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <!-- Tiles -->
 
   <!-- Only one void -->
-  <Entity Type="Tile" Name="Void">
-    <Attributes>
-      <Attribute Type="TileType" Value="0"/>
-    </Attributes>
+  <Entity Type="Void" Name="A void in the map">
     <Flags>
       <Flag Type="BlocksMovement" Value="true"/>
       <Flag Type="BlocksLineOfSight" Value="true"/>
@@ -36,13 +33,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <!-- At least one of each tile type -->
   <Entity Type="Tile" Name="Flagstone Floor">
     <Attributes>
-      <Attribute Type="TileType" Value="1"/>
+      <Attribute Type="TileType" Value="0"/>
     </Attributes>
   </Entity>
   
   <Entity Type="Tile" Name="Stone Wall">
     <Attributes>
-      <Attribute Type="TileType" Value="2"/>
+      <Attribute Type="TileType" Value="1"/>
     </Attributes>
     <Flags>
       <Flag Type="BlocksMovement" Value="true"/>
@@ -52,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
   <Entity Type="Tile" Name="Wooden Door">
     <Attributes>
-      <Attribute Type="TileType" Value="3"/>
+      <Attribute Type="TileType" Value="2"/>
     </Attributes>
     <Flags>
       <Flag Type="IsOpen" Value="false"/>
@@ -63,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
   <Entity Type="Tile" Name="Glass Window">
     <Attributes>
-      <Attribute Type="TileType" Value="4"/>
+      <Attribute Type="TileType" Value="3"/>
     </Attributes>
     <Flags>
       <Flag Type="BlocksMovement" Value="true"/>

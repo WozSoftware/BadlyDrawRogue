@@ -62,7 +62,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
                 "Tile1",
                 ImmutableDictionary<EntityAttributes, int>.Empty.SetItem(EntityAttributes.Luck, 1),
                 ImmutableDictionary<EntityFlags, bool>.Empty.SetItem(EntityFlags.IsFood, true),
-                ImmutableList<IEntity>.Empty.Add(child));
+                ImmutableDictionary<long, IEntity>.Empty.SetItem(child.Id, child));
 
             var factory = EntityFactory.Build(new IEntity[0]);
 

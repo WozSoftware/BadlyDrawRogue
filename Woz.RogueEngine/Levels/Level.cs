@@ -17,29 +17,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
-using Functional.Maybe;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
     public class Level
     {
-        private static readonly IEntity VoidTile = Entity.Build(0, EntityType.Tile, "Void");
-
+        private readonly int _width;
+        private readonly int _height;
         private readonly IImmutableList<IImmutableList<IEntity>> _tiles;
-        private readonly Maybe<ActorState> _player;
-        private readonly IImmutableDictionary<long, ActorState> _npcs;
+        private readonly IImmutableDictionary<long, ActorState> _actors;
 
         private Level(
+            int width,
+            int height,
             IImmutableList<IImmutableList<IEntity>> tiles,
-            Maybe<ActorState> player,
-            IImmutableDictionary<long, ActorState> npcs)
+            IImmutableDictionary<long, ActorState> actors)
         {
+            _width = width;
+            _height = height;
             _tiles = tiles;
-            _player = player;
-            _npcs = npcs;
+            _actors = actors;
+        }
+
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        public int Height
+        {
+            get { return _height; }
         }
 
         public IImmutableList<IImmutableList<IEntity>> Tiles
@@ -47,62 +60,42 @@ namespace Woz.RogueEngine.Levels
             get { return _tiles; }
         }
 
-        public Maybe<ActorState> Player
+        public IImmutableDictionary<long, ActorState> Actors
         {
-            get { return _player; }
-        }
-
-        public IImmutableDictionary<long, ActorState> Npcs
-        {
-            get { return _npcs; }
+            get { return _actors; }
         }
 
         public static Level Build(int width, int height)
         {
             IImmutableList<IEntity> tilesColumn = 
-                Enumerable.Repeat(VoidTile, height).ToImmutableList();
+                Enumerable.Repeat(EntityFactory.Void, height).ToImmutableList();
             
             IImmutableList<IImmutableList<IEntity>> tiles = 
                 Enumerable.Repeat(tilesColumn, width).ToImmutableList();
 
             return
                 new Level(
-                    tiles, 
-                    Maybe<ActorState>.Nothing, 
+                    width, height, tiles, 
                     ImmutableDictionary<long, ActorState>.Empty);
         }
 
-        //public Maybe<ActorState> GetActorAt(Point location)
-        //{
-        //    var actor = GetTile(location)
-        //        .Children
-        //        .WhereFlagSet(EntityFlags.IsActor)
-        //        .FirstMaybe();
+        public IEntity GetActor(long actorId)
+        {
+            return GetTile(_actors[actorId].Location).Children[actorId];
+        }
 
-        //    if (actor.IsNothing())
-        //    {
-        //        return Maybe<ActorState>.Nothing;
-        //    }
+        public IEntity GetTile(Point location)
+        {
+            return _tiles[location.X][location.Y];
+        }
 
-        //    return
-        //        actor.Value.HasFlagSet(EntityFlags.IsPlayer)
-        //            ? _player
-        //            : _npcs[actor.Value.Id].ToMaybe();
-        //}
+        public Level SetTile(Point location, IEntity tile)
+        {
+            var newTiles = _tiles.SetItem(
+                location.X,
+                _tiles[location.X].SetItem(location.Y, tile));
 
-        //public Level SpawnNpc(Point location, Entity npc)
-        //{
-        //    var tile = GetTile(location);
-
-        //}
-
-        //public Entity GetTile(Point location)
-        //{
-        //    return _tiles
-        //        .Lookup(location)
-        //        .OrElse(() =>
-        //            new InvalidOperationException(
-        //                string.Format("No tile at {0}", location)));
-        //}
+            return new Level(_width, _height, newTiles, _actors);
+        }
     }
 }

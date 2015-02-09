@@ -28,7 +28,7 @@ namespace Woz.RogueEngine.Entities
         private readonly string _name;
         private readonly IImmutableDictionary<EntityAttributes, int> _attributes;
         private readonly IImmutableDictionary<EntityFlags, bool> _flags;
-        private readonly IImmutableList<IEntity> _children;
+        private readonly IImmutableDictionary<long, IEntity> _children;
 
         private Entity(
             long id,
@@ -36,7 +36,7 @@ namespace Woz.RogueEngine.Entities
             string name,
             IImmutableDictionary<EntityAttributes, int> attributes,
             IImmutableDictionary<EntityFlags, bool> flags,
-            IImmutableList<IEntity> children)
+            IImmutableDictionary<long, IEntity> children)
         {
             _id = id;
             _entityType = entityType;
@@ -71,7 +71,7 @@ namespace Woz.RogueEngine.Entities
             get { return _flags; }
         }
 
-        public IImmutableList<IEntity> Children
+        public IImmutableDictionary<long, IEntity> Children
         {
             get { return _children; }
         }
@@ -84,7 +84,7 @@ namespace Woz.RogueEngine.Entities
                 name,
                 ImmutableDictionary<EntityAttributes, int>.Empty,
                 ImmutableDictionary<EntityFlags, bool>.Empty,
-                ImmutableList<IEntity>.Empty);
+                ImmutableDictionary<long, IEntity>.Empty);
         }
 
         public static IEntity Build(
@@ -93,7 +93,7 @@ namespace Woz.RogueEngine.Entities
             string name,
             IImmutableDictionary<EntityAttributes, int> attributes,
             IImmutableDictionary<EntityFlags, bool> flags,
-            IImmutableList<IEntity> children)
+            IImmutableDictionary<long, IEntity> children)
         {
             return new Entity(id, entityType, name, attributes, flags, children);
         }
@@ -101,7 +101,7 @@ namespace Woz.RogueEngine.Entities
         public IEntity Set(
             IImmutableDictionary<EntityAttributes, int> attributes = null,
             IImmutableDictionary<EntityFlags, bool> flags = null,
-            IImmutableList<IEntity> children = null)
+            IImmutableDictionary<long, IEntity> children = null)
         {
             return attributes == null && flags == null && children == null
                 ? this

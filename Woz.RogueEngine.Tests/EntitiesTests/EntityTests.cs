@@ -34,8 +34,8 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
             ImmutableDictionary<EntityAttributes, int>.Empty;
         private readonly IImmutableDictionary<EntityFlags, bool> _emptyFlags =
             ImmutableDictionary<EntityFlags, bool>.Empty;
-        private readonly IImmutableList<IEntity> _emptyChildren =
-            ImmutableList<IEntity>.Empty;
+        private readonly IImmutableDictionary<long, IEntity> _emptyChildren =
+            ImmutableDictionary<long, IEntity>.Empty;
 
         private IEntity _entity;
 
@@ -84,9 +84,9 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         [TestMethod]
         public void SetWithChildren()
         {
-            var newChildren = _entity
-                .Children
-                .Add(Entity.Build(5, EntityType.Item, "A"));
+            var child = Entity.Build(5, EntityType.Item, "A");
+ 
+            var newChildren = _entity.Children.SetItem(child.Id, child);
 
             var newEntity = _entity.Set(children: newChildren);
 

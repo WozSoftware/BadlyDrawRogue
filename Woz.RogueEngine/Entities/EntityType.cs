@@ -21,6 +21,8 @@ namespace Woz.RogueEngine.Entities
 {
     public enum EntityType
     {
+        Void,
+
         Actor,
         Corpse,
 

@@ -45,14 +45,15 @@ namespace Woz.RogueEngine.Definitions
                 .Select(x => x.Value.ParseAs<long>())
                 .OrElse(0);
 
-            return 
+            return
                 Entity.Build(
                     id,
                     entityElement.RequiredAttribute(XmlAttributes.Type).Value.ToEnum<EntityType>(),
                     entityElement.RequiredAttribute(XmlAttributes.Name).Value,
                     ReadAttributes(entityElement.ElementOrDefault(XmlElements.Attributes)),
                     ReadFlags(entityElement.ElementOrDefault(XmlElements.Flags)),
-                    ReadEntities(entityElement.ElementOrDefault(XmlElements.Entities)).ToImmutableList());
+                    ReadEntities(entityElement.ElementOrDefault(XmlElements.Entities))
+                        .ToImmutableDictionary(entity => entity.Id));
         }
 
         public static IImmutableDictionary<EntityAttributes, int>

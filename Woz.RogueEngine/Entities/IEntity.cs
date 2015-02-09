@@ -28,11 +28,11 @@ namespace Woz.RogueEngine.Entities
         string Name { get; }
         IImmutableDictionary<EntityAttributes, int> Attributes { get; }
         IImmutableDictionary<EntityFlags, bool> Flags { get; }
-        IImmutableList<IEntity> Children { get; }
+        IImmutableDictionary<long, IEntity> Children { get; }
 
         IEntity Set(
             IImmutableDictionary<EntityAttributes, int> attributes = null,
             IImmutableDictionary<EntityFlags, bool> flags = null,
-            IImmutableList<IEntity> children = null);
+            IImmutableDictionary<long, IEntity> children = null);
     }
 }
