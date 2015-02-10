@@ -54,6 +54,7 @@
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
+    <Compile Include="Levels\ILevel.cs" />
     <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />

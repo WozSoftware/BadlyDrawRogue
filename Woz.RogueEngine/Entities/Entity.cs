@@ -105,7 +105,7 @@ namespace Woz.RogueEngine.Entities
             IImmutableDictionary<long, IEntity> children = null)
         {
             return attributes == null && flags == null && children == null
-                ? this
+                ? this // Minimise object churn
                 : new Entity(
                     _id,
                     _entityType,

@@ -21,21 +21,23 @@
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
+using Functional.Maybe;
+using Woz.Functional.Maybe;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    public class Level
+    public class Level : ILevel
     {
         private readonly int _width;
         private readonly int _height;
-        private readonly IImmutableList<IImmutableList<IEntity>> _tiles;
+        private readonly IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> _tiles;
         private readonly IImmutableDictionary<long, ActorState> _actors;
 
         private Level(
             int width,
             int height,
-            IImmutableList<IImmutableList<IEntity>> tiles,
+            IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> tiles,
             IImmutableDictionary<long, ActorState> actors)
         {
             _width = width;
@@ -54,7 +56,7 @@ namespace Woz.RogueEngine.Levels
             get { return _height; }
         }
 
-        public IImmutableList<IImmutableList<IEntity>> Tiles
+        public IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> Tiles
         {
             get { return _tiles; }
         }
@@ -64,13 +66,18 @@ namespace Woz.RogueEngine.Levels
             get { return _actors; }
         }
 
-        public static Level Build(int width, int height)
+        public static ILevel Build(int width, int height)
         {
-            IImmutableList<IEntity> tilesColumn = 
-                Enumerable.Repeat(EntityFactory.Void, height).ToImmutableList();
-            
-            IImmutableList<IImmutableList<IEntity>> tiles = 
-                Enumerable.Repeat(tilesColumn, width).ToImmutableList();
+
+            IImmutableDictionary<int, IEntity> tilesColumn = 
+                ImmutableDictionary<int, IEntity>.Empty;
+
+            var tiles = 
+                Enumerable
+                    .Range(1, width)
+                    .Aggregate(
+                        ImmutableDictionary<int, IImmutableDictionary<int, IEntity>>.Empty,
+                        (dictionary, x) => dictionary.Add(x, tilesColumn));
 
             return
                 new Level(
@@ -85,14 +92,17 @@ namespace Woz.RogueEngine.Levels
 
         public IEntity GetTile(Point location)
         {
-            return _tiles[location.X][location.Y];
+            return _tiles[location.X]
+                .Lookup(location.Y)
+                .OrElse(EntityFactory.Void);
         }
 
-        public Level SetTile(Point location, IEntity tile)
+        public ILevel SetTile(Point location, IEntity tile)
         {
-            var newTiles = _tiles.SetItem(
-                location.X,
-                _tiles[location.X].SetItem(location.Y, tile));
+            var newTiles = _tiles
+                .SetItem(
+                    location.X,
+                    _tiles[location.X].SetItem(location.Y, tile));
 
             return new Level(_width, _height, newTiles, _actors);
         }
