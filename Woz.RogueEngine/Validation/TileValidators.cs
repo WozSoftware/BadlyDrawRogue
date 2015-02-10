@@ -18,14 +18,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.Functional.Error;
+using Woz.Functional.Try;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Validation
 {
     public static class TileValidators
     {
-        public static Error<IEntity> CanOpenDoor(this IEntity entity)
+        public static ITry<IEntity> CanOpenDoor(this IEntity entity)
         {
             return entity
                 .ToSuccess()
@@ -34,7 +34,7 @@ namespace Woz.RogueEngine.Validation
                 .SelectMany(x => x.RuleCanOpenDoor());
         }
 
-        public static Error<IEntity> CanCloseDoor(this IEntity entity)
+        public static ITry<IEntity> CanCloseDoor(this IEntity entity)
         {
             return entity
                 .ToSuccess()

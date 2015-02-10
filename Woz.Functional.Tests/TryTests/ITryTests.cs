@@ -21,15 +21,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Error;
+using Woz.Functional.Try;
 
-namespace Woz.Functional.Tests.ErrorTests
+namespace Woz.Functional.Tests.TryTests
 {
     [TestClass]
-    public class ErrorTests
+    public class ITryTests
     {
         [TestMethod]
-        public void ErrorWhenSuccess()
+        public void ToSuccess()
         {
             var errorObject = 1.ToSuccess();
 
@@ -38,9 +38,9 @@ namespace Woz.Functional.Tests.ErrorTests
         }
 
         [TestMethod]
-        public void ErrorWhenInvalid()
+        public void ToFailed()
         {
-            var errorObject = "bang".ToError<int>();
+            var errorObject = "bang".ToFailed<int>();
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -56,9 +56,9 @@ namespace Woz.Functional.Tests.ErrorTests
         }
 
         [TestMethod]
-        public void BindWhenInvalid()
+        public void BindWhenFailed()
         {
-            var errorObject = "bang".ToError<int>().Bind(x => (x + 1).ToSuccess());
+            var errorObject = "bang".ToFailed<int>().Bind(x => (x + 1).ToSuccess());
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -90,9 +90,9 @@ namespace Woz.Functional.Tests.ErrorTests
         }
 
         [TestMethod]
-        public void TryBindWhenInvalid()
+        public void TryBindWhenFailed()
         {
-            var errorObject = "bang".ToError<int>().TryBind(x => (x + 1).ToSuccess());
+            var errorObject = "bang".ToFailed<int>().TryBind(x => (x + 1).ToSuccess());
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -111,78 +111,35 @@ namespace Woz.Functional.Tests.ErrorTests
         [ExpectedException(typeof (Exception))]
         public void ThrowOnErrorWhenInvalid()
         {
-            var errorObject = "fail".ToError<int>();
+            var errorObject = "fail".ToFailed<int>();
             errorObject.ThrowOnError(s => new Exception(s));
         }
 
         [TestMethod]
-        public void ReturnWhenSuccess()
+        public void ReturnOrThrowWhenSuccess()
         {
             var errorObject = 1.ToSuccess();
-            var result = errorObject.Return(s => new Exception(s));
+            var result = errorObject.ReturnOrThrow(s => new Exception(s));
 
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof (Exception))]
-        public void ReturnWhenInvalid()
+        public void ReturnOrThrowWhenInvalid()
         {
-            var errorObject = "fail".ToError<int>();
-            errorObject.Return(s => new Exception(s));
+            var errorObject = "fail".ToFailed<int>();
+            errorObject.ReturnOrThrow(s => new Exception(s));
         }
 
         [TestMethod]
         public void Equals()
         {
             Assert.IsTrue(1.ToSuccess().Equals(1.ToSuccess()));
-            Assert.IsTrue("A".ToError<int>().Equals("A".ToError<int>()));
+            Assert.IsTrue("A".ToFailed<int>().Equals("A".ToFailed<int>()));
             Assert.IsFalse(1.ToSuccess().Equals(2.ToSuccess()));
-            Assert.IsFalse("A".ToError<int>().Equals("B".ToError<int>()));
-            Assert.IsFalse("A".ToError<int>().Equals(null));
-        }
-
-        [TestMethod]
-        [SuppressMessage("ReSharper", "EqualExpressionComparison")]
-        public void OperatorEqual()
-        {
-            Assert.IsTrue(1.ToSuccess() == 1.ToSuccess());
-            Assert.IsTrue("A".ToError<int>() == "A".ToError<int>());
-            Assert.IsFalse(1.ToSuccess() == 2.ToSuccess());
-            Assert.IsFalse("A".ToError<int>() == "B".ToError<int>());
-            Assert.IsFalse("A".ToError<int>() == null);
-        }
-
-        [TestMethod]
-        [SuppressMessage("ReSharper", "EqualExpressionComparison")]
-        public void OperatorNotEqual()
-        {
-            Assert.IsFalse(1.ToSuccess() != 1.ToSuccess());
-            Assert.IsFalse("A".ToError<int>() != "A".ToError<int>());
-            Assert.IsTrue(1.ToSuccess() != 2.ToSuccess());
-            Assert.IsTrue("A".ToError<int>() != "B".ToError<int>());
-            Assert.IsTrue("A".ToError<int>() != null);
-        }
-
-        [TestMethod]
-        public void OperatorCollapseWhenOuterSuccess()
-        {
-            var nested = 1.ToSuccess().ToSuccess();
-            Error<int> collapsed = nested;
-
-            Assert.IsTrue(collapsed.IsValid);
-            Assert.AreEqual(1, collapsed.Value);
-        }
-
-        [TestMethod]
-        public void OperatorCollapseWhenOuterError()
-        {
-            var nested = "A".ToError<Error<int>>();
-            Error<int> collapsed = nested;
-
-            Assert.IsFalse(collapsed.IsValid);
-            Assert.AreEqual("A", collapsed.ErrorMessage);
-
+            Assert.IsFalse("A".ToFailed<int>().Equals("B".ToFailed<int>()));
+            Assert.IsFalse("A".ToFailed<int>().Equals(null));
         }
     }
 }

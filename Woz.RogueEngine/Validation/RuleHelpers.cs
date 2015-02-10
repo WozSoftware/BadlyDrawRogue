@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 using Functional.Maybe;
-using Woz.Functional.Error;
+using Woz.Functional.Try;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
@@ -29,7 +29,7 @@ namespace Woz.RogueEngine.Validation
 {
     public static class RuleHelpers
     {
-        public static Error<IEntity> RuleAttributeHasEnumValue<T>(
+        public static ITry<IEntity> RuleAttributeHasEnumValue<T>(
             this IEntity entity,
             EntityAttributes attribute,
             T requiredType,
@@ -43,7 +43,7 @@ namespace Woz.RogueEngine.Validation
                     () => message);
         }
 
-        public static Error<IEntity> RuleAttributeHasEnumValue<T>(
+        public static ITry<IEntity> RuleAttributeHasEnumValue<T>(
             this IEntity entity,
             EntityAttributes attribute,
             T requiredType,
@@ -56,7 +56,7 @@ namespace Woz.RogueEngine.Validation
                 .Select(x => EqualityComparer<T>.Default.Equals(x, requiredType))
                 .OrElse(false)
                 ? entity.ToSuccess()
-                : messageBuilder().ToError<IEntity>();
+                : messageBuilder().ToFailed<IEntity>();
         }
     }
 }

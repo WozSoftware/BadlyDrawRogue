@@ -20,7 +20,7 @@
 
 using System;
 using System.Xml.Linq;
-using Woz.Functional.Error;
+using Woz.Functional.Try;
 using Woz.RogueEngine.Definitions;
 using Woz.RogueEngine.Entities;
 
@@ -33,10 +33,10 @@ namespace Woz.BadlyDrawnRogue
             return fileName
                 .ToSuccess()
                 .TrySelect(XDocument.Load)
-                .TrySelect(document => document.Root)
+                .Select(document => document.Root)
                 .TrySelect(EntityParser.ReadEntities)
                 .TrySelect(EntityFactory.Build)
-                .Return(message =>
+                .ReturnOrThrow(message =>
                     new Exception(
                         string.Format(
                             "Failed to load data file {0}: {1}",

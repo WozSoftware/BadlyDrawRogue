@@ -17,24 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Error
+namespace Woz.Functional.Try
 {
     public static class ErrorOperations
     {
-        public static Error<T> ToSuccess<T>(this T value)
+        public static ITry<T> ToSuccess<T>(this T value)
         {
-            return new Error<T>(value);
+            return new TrySuccess<T>(value);
         }
 
-        public static Error<T> ToError<T>(this string errorMessage)
+        public static ITry<T> ToFailed<T>(this string errorMessage)
         {
-            return new Error<T>(errorMessage);
-        }
-
-        public static Error<T> Collapse<T>(this Error<Error<T>> error)
-        {
-            // using implicit cast
-            return error;
+            return new TryFailed<T>(errorMessage);
         }
     }
 }

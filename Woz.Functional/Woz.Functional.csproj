@@ -40,9 +40,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Error\Error.cs" />
-    <Compile Include="Error\ErrorLinq.cs" />
-    <Compile Include="Error\ErrorOperations.cs" />
+    <Compile Include="Try\TryFailed.cs" />
+    <Compile Include="Try\TrySuccess.cs" />
+    <Compile Include="Try\TryLinq.cs" />
+    <Compile Include="Try\ErrorOperations.cs" />
+    <Compile Include="Try\ITry.cs" />
     <Compile Include="Generators\IdGenerator.cs" />
     <Compile Include="Maybe\MaybeImmutableDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

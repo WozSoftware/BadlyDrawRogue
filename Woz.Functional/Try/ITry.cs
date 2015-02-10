@@ -18,35 +18,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Error;
+using System;
 
-namespace Woz.Functional.Tests.ErrorTests
+namespace Woz.Functional.Try
 {
-    [TestClass]
-    public class ErrorOperationsTests
+    public interface ITry<T> : IEquatable<ITry<T>>
     {
-        // ToSuccess and ToError tested in ErrorTests
+        bool IsValid { get; }
 
-        [TestMethod]
-        public void CollapseWhenOuterSuccess()
-        {
-            var nested = 1.ToSuccess().ToSuccess();
-            var collapsed = nested.Collapse();
+        T Value { get; }
+        string ErrorMessage { get; }
+        
+        ITry<TResult> Bind<TResult>(Func<T, ITry<TResult>> operation);
+        ITry<TResult> TryBind<TResult>(Func<T, ITry<TResult>> operation);
+        ITry<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
+        T ReturnOrThrow(Func<string, Exception> exceptionBuilder);
 
-            Assert.IsTrue(collapsed.IsValid);
-            Assert.AreEqual(1, collapsed.Value);
-        }
-
-        [TestMethod]
-        public void CollapseWhenOuterError()
-        {
-            var nested = "A".ToError<Error<int>>();
-            var collapsed = nested.Collapse();
-
-            Assert.IsFalse(collapsed.IsValid);
-            Assert.AreEqual("A", collapsed.ErrorMessage);
-
-        }
+        bool Equals(object obj);
+        int GetHashCode();
     }
 }

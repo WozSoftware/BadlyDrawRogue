@@ -20,9 +20,9 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Error;
+using Woz.Functional.Try;
 
-namespace Woz.Functional.Tests.ErrorTests
+namespace Woz.Functional.Tests.TryTests
 {
     [TestClass]
     public class ErrorLinqTests
@@ -37,9 +37,9 @@ namespace Woz.Functional.Tests.ErrorTests
         }
 
         [TestMethod]
-        public void SelectWhenError()
+        public void SelectWhenFailed()
         {
-            var result = "A".ToError<int>().Select(x => 2);
+            var result = "A".ToFailed<int>().Select(x => 2);
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("A", result.ErrorMessage);
@@ -70,9 +70,9 @@ namespace Woz.Functional.Tests.ErrorTests
         }
 
         [TestMethod]
-        public void TrySelectWhenError()
+        public void TrySelectWhenFailed()
         {
-            var result = "A".ToError<int>().TrySelect(x => 2);
+            var result = "A".ToFailed<int>().TrySelect(x => 2);
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("A", result.ErrorMessage);
@@ -95,7 +95,7 @@ namespace Woz.Functional.Tests.ErrorTests
         {
             var result =
                 from a in 1.ToSuccess()
-                from b in "A".ToError<int>()
+                from b in "A".ToFailed<int>()
                 select a + b;
 
             Assert.IsFalse(result.IsValid);

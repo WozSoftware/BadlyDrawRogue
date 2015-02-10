@@ -58,9 +58,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ErrorTests\ErrorOperationsTests.cs" />
-    <Compile Include="ErrorTests\ErrorTests.cs" />
-    <Compile Include="ErrorTests\ErrorLinqTests.cs" />
+    <Compile Include="TryTests\ErrorOperationsTests.cs" />
+    <Compile Include="TryTests\ITryTests.cs" />
+    <Compile Include="TryTests\ErrorLinqTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
     <Compile Include="MaybeTests\MaybeImmutableDictionaryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
