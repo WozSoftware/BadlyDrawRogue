@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -78,7 +79,7 @@ namespace Woz.RogueEngine.Entities
         {
             // Never has an ID. Not expected to be manipulated, just used to
             // mark voids in the map for route finding etc
-            return Entities.Entity.Build(
+            return Entity.Build(
                 0,
                 EntityType.Void,
                 "An empty void",

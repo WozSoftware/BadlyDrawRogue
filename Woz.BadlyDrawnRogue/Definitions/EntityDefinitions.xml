@@ -20,17 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <Entities>
-  <!-- Tiles -->
-
-  <!-- Only one void -->
-  <Entity Type="Void" Name="A void in the map">
-    <Flags>
-      <Flag Type="BlocksMovement" Value="true"/>
-      <Flag Type="BlocksLineOfSight" Value="true"/>
-    </Flags>
-  </Entity>
-
-  <!-- At least one of each tile type -->
+  <!-- Tiles - At least one of each tile type -->
   <Entity Type="Tile" Name="Flagstone Floor">
     <Attributes>
       <Attribute Type="TileType" Value="0"/>

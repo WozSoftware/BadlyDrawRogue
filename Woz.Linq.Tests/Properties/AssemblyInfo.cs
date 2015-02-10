@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.Linq.
 //
-// Woz.Functional is free software: you can redistribute it 
+// Woz.Linq is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -17,18 +17,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Woz.Functional")]
+[assembly: AssemblyTitle("Woz.Linq.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Woz.Software")]
-[assembly: AssemblyProduct("Woz.Functional")]
+[assembly: AssemblyProduct("Woz.Linq.Tests")]
 [assembly: AssemblyCopyright("Copyright © Woz.Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -39,7 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7ce38e56-9183-4b33-9377-fab75e19e243")]
+[assembly: Guid("391c7b9f-38ba-4358-bc8d-46335cc1e91b")]
 
 // Version information for an assembly consists of the following four values:
 //
