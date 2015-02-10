@@ -17,27 +17,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using System;
 using System.Collections.Immutable;
-using System.Drawing;
 using Woz.RogueEngine.Entities;
 
-namespace Woz.RogueEngine.Levels
+namespace Woz.RogueEngine.Operations
 {
-    public interface ILevel
+    public static class EntityOperations
     {
-        int Width { get; }
-        int Height { get; }
-        IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> Tiles { get; }
-        IImmutableDictionary<long, ActorState> Actors { get; }
+        public static IEntity AddChild(this IEntity entity, IEntity thing)
+        {
+            return entity.EditChild(x => x.Add(thing.Id, thing));
+        }
 
-        Point GetActorLocation(long actorId);
-        IEntity GetActor(long actorId);
-        ILevel MoveActor(long actorId, Point newLocation);
+        public static IEntity RemoveChild(this IEntity entity, long thingId)
+        {
+            return entity.EditChild(x => x.Remove(thingId));
+        }
 
-        IEntity GetTile(Point location);
-        ILevel SetTile(Point location, IEntity tile);
-
-        ILevel AddToTile(Point location, IEntity thing);
-        ILevel RemoveFromTile(Point location, long thingId);
+        public static IEntity EditChild(
+            this IEntity entity,
+            Func<IImmutableDictionary<long, IEntity>, IImmutableDictionary<long, IEntity>> childEditor)
+        {
+            return entity.Set(children: childEditor(entity.Children));
+        }
     }
 }

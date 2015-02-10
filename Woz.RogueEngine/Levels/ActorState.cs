@@ -42,5 +42,10 @@ namespace Woz.RogueEngine.Levels
         {
             get { return _location; }
         }
+
+        public ActorState Set(Point location)
+        {
+            return new ActorState(_actorId, location);
+        }
     }
 }

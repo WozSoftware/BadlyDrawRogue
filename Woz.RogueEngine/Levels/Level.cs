@@ -18,12 +18,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
 using Functional.Maybe;
 using Woz.Functional.Maybe;
 using Woz.RogueEngine.Entities;
+using Woz.RogueEngine.Operations;
 
 namespace Woz.RogueEngine.Levels
 {
@@ -85,9 +87,34 @@ namespace Woz.RogueEngine.Levels
                     ImmutableDictionary<long, ActorState>.Empty);
         }
 
+        public Point GetActorLocation(long actorId)
+        {
+            return _actors[actorId].Location;
+        }
+
         public IEntity GetActor(long actorId)
         {
-            return GetTile(_actors[actorId].Location).Children[actorId];
+            return GetTile(GetActorLocation(actorId)).Children[actorId];
+        }
+
+        public ILevel MoveActor(long actorId, Point newLocation)
+        {
+            var actorState = _actors[actorId];
+            var oldLocation = actorState.Location;
+            var oldlocationTile = GetTile(oldLocation);
+            var actor = oldlocationTile.Children[actorId];
+
+            var editedOldlocationTile = GetTile(oldLocation).RemoveChild(actorId);
+            var editedNewLocationTile = GetTile(newLocation).AddChild(actor);
+            
+            return new Level(
+                _width,
+                _height,
+                _tiles
+                    .ReplaceTile(oldLocation, editedOldlocationTile)
+                    .ReplaceTile(newLocation, editedNewLocationTile),
+                _actors
+                    .SetItem(actorId, actorState.Set(newLocation)));
         }
 
         public IEntity GetTile(Point location)
@@ -99,12 +126,21 @@ namespace Woz.RogueEngine.Levels
 
         public ILevel SetTile(Point location, IEntity tile)
         {
-            var newTiles = _tiles
-                .SetItem(
-                    location.X,
-                    _tiles[location.X].SetItem(location.Y, tile));
+            return new Level(
+                _width, 
+                _height, 
+                _tiles.ReplaceTile(location, tile), 
+                _actors);
+        }
 
-            return new Level(_width, _height, newTiles, _actors);
+        public ILevel AddToTile(Point location, IEntity thing)
+        {
+            return SetTile(location, GetTile(location).AddChild(thing));
+        }
+
+        public ILevel RemoveFromTile(Point location, long thingId)
+        {
+            return SetTile(location, GetTile(location).RemoveChild(thingId));
         }
     }
 }
