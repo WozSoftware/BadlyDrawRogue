@@ -26,10 +26,7 @@ namespace Woz.Functional.Maybe
     {
         public static IMaybe<T> Lookup<TK, T>(this IImmutableDictionary<TK, T> dictionary, TK key)
         {
-            var getter = MaybeFunctionalWrappers
-                .Wrap<TK, T>(dictionary.TryGetValue);
-            
-            return getter(key);
+            return MaybeTryGet.Wrap<TK, T>(dictionary.TryGetValue, key);
         }
     }
 }

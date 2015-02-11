@@ -53,10 +53,7 @@ namespace Woz.Core.Conversion
         public static IMaybe<TEnum> ToMaybeEnum<TEnum>(this string value)
             where TEnum : struct
         {
-            TEnum result;
-            return Enum.TryParse(value, out result) 
-                ? result.ToMaybe() 
-                : Maybe<TEnum>.Nothing;
+            return MaybeTryGet.Wrap<string, TEnum>(Enum.TryParse, value);
         }
 
         public static TEnum ToEnum<TValue, TEnum>(this TValue value)

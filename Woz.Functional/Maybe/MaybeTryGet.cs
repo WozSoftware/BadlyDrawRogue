@@ -18,23 +18,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-
 namespace Woz.Functional.Maybe
 {
-    public class MaybeFunctionalWrappers
+    public class MaybeTryGet
     {
         public delegate bool TryGet<in T, TR>(T key, out TR val);
 
-        public static Func<T, IMaybe<TR>> Wrap<T, TR>(TryGet<T, TR> tryer)
+        public static IMaybe<TR> Wrap<T, TR>(TryGet<T, TR> tryer, T value)
         {
-            return s =>
-            {
-                TR result;
-                return tryer(s, out result)
-                    ? result.ToMaybe()
-                    : Maybe<TR>.Nothing;
-            };
+            TR result;
+            return tryer(value, out result)
+                ? result.ToMaybe()
+                : Maybe<TR>.Nothing;
         }
     }
 }

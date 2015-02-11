@@ -41,7 +41,7 @@
     <Compile Include="Maybe\Maybe.cs" />
     <Compile Include="Maybe\MaybeConversion.cs" />
     <Compile Include="Maybe\MaybeEnumerable.cs" />
-    <Compile Include="Maybe\MaybeFunctionalWrappers.cs" />
+    <Compile Include="Maybe\MaybeTryGet.cs" />
     <Compile Include="Maybe\MaybeLinq.cs" />
     <Compile Include="Maybe\Nothing.cs" />
     <Compile Include="Maybe\Some.cs" />
