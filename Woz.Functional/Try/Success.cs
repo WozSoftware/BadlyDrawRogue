@@ -23,11 +23,11 @@ using System.Collections.Generic;
 
 namespace Woz.Functional.Try
 {
-    internal struct TrySuccess<T> : ITry<T>
+    internal struct Success<T> : ITry<T>
     {
         private readonly T _value;
 
-        internal TrySuccess(T value)
+        internal Success(T value)
         {
             _value = value;
         }
@@ -92,7 +92,7 @@ namespace Woz.Functional.Try
                 return false;
             }
 
-            return obj is TrySuccess<T> && Equals((TrySuccess<T>)obj);
+            return obj is Success<T> && Equals((Success<T>)obj);
         }
 
         public override int GetHashCode()

@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Functional.Maybe;
+using Woz.Functional.Maybe;
 
 namespace Woz.Core.Conversion
 {
@@ -48,7 +48,7 @@ namespace Woz.Core.Conversion
             return value.ParseAsMaybe<T>().OrElse(defaultValue);
         }
 
-        public static Maybe<T> ParseAsMaybe<T>(this string value)
+        public static IMaybe<T> ParseAsMaybe<T>(this string value)
             where T : struct
         {
             T result;

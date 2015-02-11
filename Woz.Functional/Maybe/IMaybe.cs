@@ -18,18 +18,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Immutable;
+using System;
 
 namespace Woz.Functional.Maybe
 {
-    public static class MaybeImmutableDictionary
+    public interface IMaybe<T> : IEquatable<IMaybe<T>>
     {
-        public static IMaybe<T> Lookup<TK, T>(this IImmutableDictionary<TK, T> dictionary, TK key)
-        {
-            var getter = MaybeFunctionalWrappers
-                .Wrap<TK, T>(dictionary.TryGetValue);
-            
-            return getter(key);
-        }
+        bool HasValue { get; }
+
+        T Value { get; }
+
+        IMaybe<TResult> Bind<TResult>(Func<T, IMaybe<TResult>> operation);
+
+        T OrElseDefault();
+        T OrElse(T defaultValue);
+        T OrElse(Func<Exception> builder);
+        
+        bool Equals(object obj);
+        int GetHashCode();
     }
 }

@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Functional.Maybe;
 using Woz.Core.Conversion;
 using Woz.Functional.Maybe;
 using Woz.RogueEngine.Entities;
@@ -38,11 +37,11 @@ namespace Woz.RogueEngine.Queries
             return entity
                 .Flattern()
                 .Select(x => x.Attributes.Lookup(attribute))
-                .WhereValueExist()
+                .WhereHasValue()
                 .Sum();
         }
 
-        public static Maybe<T> LookupAsEnum<T>(
+        public static IMaybe<T> LookupAsEnum<T>(
             this IImmutableDictionary<EntityAttributes, int> attributes,
             EntityAttributes attribute)
             where T : struct, IConvertible
@@ -78,7 +77,7 @@ namespace Woz.RogueEngine.Queries
             return entity
                 .Flattern()
                 .Select(x => x.HasFlagSet(flag))
-                .FirstMaybe(x => x)
+                .FirstMaybe()
                 .OrElse(false);
         }
 

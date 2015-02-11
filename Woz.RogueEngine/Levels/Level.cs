@@ -18,11 +18,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
-using Functional.Maybe;
 using Woz.Functional.Maybe;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Operations;

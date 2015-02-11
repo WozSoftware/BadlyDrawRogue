@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Xml.Linq;
-using Functional.Maybe;
 using Woz.Core.Conversion;
+using Woz.Functional.Maybe;
 using Woz.Linq.Xml;
 using Woz.RogueEngine.Entities;
 

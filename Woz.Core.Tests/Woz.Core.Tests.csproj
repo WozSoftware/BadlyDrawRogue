@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Functional.Maybe, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Functional.Maybe.1.0.3\lib\Functional.Maybe.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -60,13 +56,16 @@
     <Compile Include="SingletonTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Woz.Core.Tests.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">
       <Project>{E030E5BA-A70A-4023-92D7-D20A7F4102F4}</Project>
       <Name>Woz.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
+      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
+      <Name>Woz.Functional</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

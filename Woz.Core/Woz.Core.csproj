@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Functional.Maybe">
-      <HintPath>..\packages\Functional.Maybe.1.0.3\lib\Functional.Maybe.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -43,8 +40,13 @@
     <Compile Include="Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Woz.Core.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
+      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
+      <Name>Woz.Functional</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

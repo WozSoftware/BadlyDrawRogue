@@ -17,19 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System.Collections.Immutable;
+using Woz.Functional.Try;
 
 namespace Woz.Functional.Maybe
 {
-    public static class MaybeImmutableDictionary
+    public static class Maybe<T>
     {
-        public static IMaybe<T> Lookup<TK, T>(this IImmutableDictionary<TK, T> dictionary, TK key)
-        {
-            var getter = MaybeFunctionalWrappers
-                .Wrap<TK, T>(dictionary.TryGetValue);
-            
-            return getter(key);
-        }
+        public static readonly IMaybe<T> Nothing = default(Nothing<T>);
     }
 }

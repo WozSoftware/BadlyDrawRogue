@@ -21,7 +21,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Functional.Maybe;
 using Woz.Functional.Maybe;
 using Woz.RogueEngine.Entities;
 
@@ -44,7 +43,7 @@ namespace Woz.RogueEngine.Queries
         private static IEnumerable<KeyValuePair<DamageTypes, int>>
             GetDamageTypes(this IEntity entity, EntityAttributes attribute)
         {
-            Func<IEntity, Maybe<KeyValuePair<DamageTypes, int>>> entityDamage =
+            Func<IEntity, IMaybe<KeyValuePair<DamageTypes, int>>> entityDamage =
                 x =>
                 {
                     var damageType = x.Attributes.LookupAsEnum<DamageTypes>(EntityAttributes.DamageType);
@@ -59,7 +58,7 @@ namespace Woz.RogueEngine.Queries
             return entity
                 .Flattern()
                 .Select(entityDamage)
-                .WhereValueExist()
+                .WhereHasValue()
                 .GroupBy(x => x.Key)
                 .Select(
                     grouping =>

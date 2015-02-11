@@ -20,7 +20,7 @@
 
 using System.Xml;
 using System.Xml.Linq;
-using Functional.Maybe;
+using Woz.Functional.Maybe;
 
 namespace Woz.Linq.Xml
 {
@@ -46,7 +46,7 @@ namespace Woz.Linq.Xml
                             name, element.Name)));
         }
 
-        public static Maybe<XElement> 
+        public static IMaybe<XElement> 
             MaybeElement(this XElement element, string name)
         {
             return element.Element(name).ToMaybe();

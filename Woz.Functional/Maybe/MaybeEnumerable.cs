@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,19 +17,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System.Collections.Immutable;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Woz.Functional.Maybe
 {
-    public static class MaybeImmutableDictionary
+    public static class MaybeEnumerable
     {
-        public static IMaybe<T> Lookup<TK, T>(this IImmutableDictionary<TK, T> dictionary, TK key)
+        public static IMaybe<T> FirstMaybe<T>(this IEnumerable<T> enumerable)
         {
-            var getter = MaybeFunctionalWrappers
-                .Wrap<TK, T>(dictionary.TryGetValue);
-            
-            return getter(key);
+            return enumerable.FirstOrDefault().ToMaybe();
+        }
+
+        public static IEnumerable<T> WhereHasValue<T>(
+            this IEnumerable<IMaybe<T>> enumerable)
+        {
+            return enumerable
+                .Where(x => x.HasValue)
+                .Select(x => x.Value);
         }
     }
 }

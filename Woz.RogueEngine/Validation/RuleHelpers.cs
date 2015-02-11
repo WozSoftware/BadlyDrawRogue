@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic;
-using Functional.Maybe;
+using Woz.Functional.Maybe;
 using Woz.Functional.Try;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;

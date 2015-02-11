@@ -21,7 +21,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using Functional.Maybe;
+using Woz.Functional.Maybe;
 
 namespace Woz.Core.Conversion
 {
@@ -50,7 +50,7 @@ namespace Woz.Core.Conversion
             return value.ToMaybeEnum<TEnum>().OrElse(defaultValue);
         }
 
-        public static Maybe<TEnum> ToMaybeEnum<TEnum>(this string value)
+        public static IMaybe<TEnum> ToMaybeEnum<TEnum>(this string value)
             where TEnum : struct
         {
             TEnum result;
@@ -79,7 +79,7 @@ namespace Woz.Core.Conversion
             return value.ToMaybeEnum<TValue, TEnum>().OrElse(defaultValue);
         }
 
-        public static Maybe<TEnum> ToMaybeEnum<TValue, TEnum>(this TValue value)
+        public static IMaybe<TEnum> ToMaybeEnum<TValue, TEnum>(this TValue value)
             where TValue : struct, IConvertible
             where TEnum : struct, IConvertible
         {

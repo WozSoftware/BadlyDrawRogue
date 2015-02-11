@@ -23,12 +23,12 @@ namespace Woz.Functional.Try
     {
         public static ITry<T> ToSuccess<T>(this T value)
         {
-            return new TrySuccess<T>(value);
+            return new Success<T>(value);
         }
 
         public static ITry<T> ToFailed<T>(this string errorMessage)
         {
-            return new TryFailed<T>(errorMessage);
+            return new Failed<T>(errorMessage);
         }
     }
 }

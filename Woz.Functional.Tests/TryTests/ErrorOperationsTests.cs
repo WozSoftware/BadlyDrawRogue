@@ -19,7 +19,6 @@
 #endregion
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Try;
 
 namespace Woz.Functional.Tests.TryTests
 {

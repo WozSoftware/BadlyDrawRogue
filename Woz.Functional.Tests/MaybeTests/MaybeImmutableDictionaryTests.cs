@@ -19,8 +19,8 @@
 #endregion
 
 using System.Collections.Immutable;
-using Functional.Maybe;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Functional.Maybe;
 
 namespace Woz.Functional.Tests.MaybeTests
 {

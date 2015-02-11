@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Functional.Maybe, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Functional.Maybe.1.0.3\lib\Functional.Maybe.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -61,13 +57,16 @@
     <Compile Include="XmlTests\ElementHelpersTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
+      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
+      <Name>Woz.Functional</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
       <Project>{1C394BD3-381E-4A26-9263-7E4057BD3BFF}</Project>
       <Name>Woz.Linq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Woz.Linq.Tests.licenseheader" />
   </ItemGroup>
   <Choose>
