@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Functional.Maybe;
@@ -25,10 +26,10 @@ using Woz.Functional.Maybe;
 namespace Woz.Functional.Tests.MaybeTests
 {
     [TestClass]
-    public class MaybeImmutableDictionaryTests
+    public class MaybeDictionaryLookupTests
     {
         [TestMethod]
-        public void LookupWhenPresent()
+        public void LookupImmutableDictionaryWhenPresent()
         {
             IImmutableDictionary<int, string> dictionary = 
                 ImmutableDictionary<int, string>.Empty.Add(1, "A");
@@ -40,10 +41,31 @@ namespace Woz.Functional.Tests.MaybeTests
         }
 
         [TestMethod]
-        public void LookupWhenNotPresent()
+        public void LookupImmutableDictionaryWhenNotPresent()
         {
             IImmutableDictionary<int, string> dictionary =
                 ImmutableDictionary<int, string>.Empty;
+
+            var result = dictionary.Lookup(1);
+
+            Assert.IsFalse(result.HasValue);
+        }
+
+        [TestMethod]
+        public void LookupDictionaryWhenPresent()
+        {
+            var dictionary = new Dictionary<int, string>{{1, "A"}};
+
+            var result = dictionary.Lookup(1);
+
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual("A", result.Value);
+        }
+
+        [TestMethod]
+        public void LookupDictionaryWhenNotPresent()
+        {
+            var dictionary = new Dictionary<int, string>();
 
             var result = dictionary.Lookup(1);
 

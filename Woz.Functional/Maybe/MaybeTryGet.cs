@@ -20,7 +20,7 @@
 
 namespace Woz.Functional.Maybe
 {
-    public class MaybeTryGet
+    public static class MaybeTryGet
     {
         public delegate bool TryGet<in T, TR>(T key, out TR val);
 
