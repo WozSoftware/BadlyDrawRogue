@@ -18,13 +18,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace Woz.Functional.Tests.TryTests
+namespace Woz.Functional.Validation
 {
-    [TestClass]
-    public class ErrorOperationsTests
+    public interface IValidation<T> : IEquatable<IValidation<T>>
     {
-        // ToSuccess and ToError tested in ITryTests
+        bool IsValid { get; }
+
+        T Value { get; }
+        string ErrorMessage { get; }
+
+        IValidation<TResult> Bind<TResult>(Func<T, IValidation<TResult>> operation);
+        IValidation<TResult> TryBind<TResult>(Func<T, IValidation<TResult>> operation);
+        
+        IValidation<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
+        
+        T OrElse(Func<string, Exception> exceptionBuilder);
+
+        bool Equals(object obj);
+        int GetHashCode();
     }
 }

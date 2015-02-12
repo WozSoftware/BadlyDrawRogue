@@ -32,11 +32,11 @@ namespace Woz.BadlyDrawnRogue
         {
             return fileName
                 .ToSuccess()
-                .TrySelect(XDocument.Load)
+                .Select(XDocument.Load)
                 .Select(document => document.Root)
-                .TrySelect(EntityParser.ReadEntities)
-                .TrySelect(EntityFactory.Build)
-                .ReturnOrThrow(message =>
+                .Select(EntityParser.ReadEntities)
+                .Select(EntityFactory.Build)
+                .OrElse(message =>
                     new Exception(
                         string.Format(
                             "Failed to load data file {0}: {1}",

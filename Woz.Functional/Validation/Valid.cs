@@ -20,13 +20,13 @@
 
 using System;
 
-namespace Woz.Functional.Try
+namespace Woz.Functional.Validation
 {
-    internal struct Success<T> : ITry<T>
+    internal struct Valid<T> : IValidation<T>
     {
         private readonly T _value;
 
-        internal Success(T value)
+        internal Valid(T value)
         {
             _value = value;
         }
@@ -41,48 +41,46 @@ namespace Woz.Functional.Try
             get { return _value; }
         }
 
-        public Exception Error
+        public string ErrorMessage
         {
             get
             {
                 throw new InvalidOperationException(
-                    "Try has not failed, no exception present");
+                    "Validation has not failed, no error message");
             }
         }
 
-        public ITry<TResult> Bind<TResult>(Func<T, ITry<TResult>> operation)
+        public IValidation<TResult> Bind<TResult>(
+            Func<T, IValidation<TResult>> operation)
+        {
+            return operation(_value);
+        }
+
+        public IValidation<TResult> TryBind<TResult>(
+            Func<T, IValidation<TResult>> operation)
         {
             try
             {
-                return operation(_value);
+                return Bind(operation);
             }
             catch (Exception ex)
             {
-                return ex.ToException<TResult>();
+                return ex.Message.ToInvalid<TResult>();
             }
         }
 
-        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
+        public IValidation<T> ThrowOnError(
+            Func<string, Exception> exceptionBuilder)
         {
             return this;
         }
 
-        public ITry<T> ThrowOnError()
-        {
-            return this;
-        }
-
-        public T OrElse(Func<Exception, Exception> exceptionBuilder)
+        public T OrElse(Func<string, Exception> exceptionBuilder)
         {
             return _value;
         }
 
-        public T OrElseException()
-        {
-            return _value;
-        }
-
-        public bool Equals(ITry<T> other)
+        public bool Equals(IValidation<T> other)
         {
             return other.IsValid && _value.Equals(other.Value);
         }
@@ -94,7 +92,7 @@ namespace Woz.Functional.Try
                 return false;
             }
 
-            return obj is Success<T> && Equals((Success<T>)obj);
+            return obj is Valid<T> && Equals((Valid<T>)obj);
         }
 
         public override int GetHashCode()

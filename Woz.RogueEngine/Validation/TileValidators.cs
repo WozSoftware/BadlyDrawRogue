@@ -18,26 +18,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.Functional.Try;
+using Woz.Functional.Validation;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Validation
 {
     public static class TileValidators
     {
-        public static ITry<IEntity> CanOpenDoor(this IEntity entity)
+        public static IValidation<IEntity> CanOpenDoor(this IEntity entity)
         {
             return entity
-                .ToSuccess()
+                .ToValid()
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanOpenDoor());
         }
 
-        public static ITry<IEntity> CanCloseDoor(this IEntity entity)
+        public static IValidation<IEntity> CanCloseDoor(this IEntity entity)
         {
             return entity
-                .ToSuccess()
+                .ToValid()
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanCloseDoor());

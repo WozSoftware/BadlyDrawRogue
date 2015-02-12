@@ -17,29 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Maybe
+
+namespace Woz.Functional.Validation
 {
-    public static class MaybeConversion
+    public static class ValidationConversions
     {
-        public static IMaybe<T> ToSome<T>(this T value)
+        public static IValidation<T> ToValid<T>(this T value)
         {
-            return new Some<T>(value);    
+            return new Valid<T>(value);
         }
 
-        public static IMaybe<T> ToMaybe<T>(this T? value)
-            where T : struct
+        public static IValidation<T> ToInvalid<T>(this string errorMessage)
         {
-            return value.HasValue ? value.Value.ToMaybe() : Maybe<T>.Nothing;
-        }
-
-        public static IMaybe<T> ToMaybe<T>(this T value)
-        {
-            return value == null ? Maybe<T>.Nothing : new Some<T>(value);
-        }
-
-        public static IMaybe<T> Collapse<T>(this IMaybe<IMaybe<T>> doubleMaybe)
-        {
-            return doubleMaybe.OrElse(Maybe<T>.Nothing);
+            return new Invalid<T>(errorMessage);
         }
     }
 }

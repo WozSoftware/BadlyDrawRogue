@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,15 +18,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Immutable;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Woz.Functional.Maybe
+namespace Woz.Functional.Tests.TryTests
 {
-    public static class MaybeImmutableDictionary
+    [TestClass]
+    public class TryConversionsTests
     {
-        public static IMaybe<T> Lookup<TK, T>(this IImmutableDictionary<TK, T> dictionary, TK key)
-        {
-            return MaybeTryGet.Wrap<TK, T>(dictionary.TryGetValue, key);
-        }
+        // ToSuccess and ToException tested in TryTests
     }
 }

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -20,71 +20,63 @@
 
 using System;
 
-namespace Woz.Functional.Try
+namespace Woz.Functional.Validation
 {
-    internal struct Success<T> : ITry<T>
+    internal struct Invalid<T> : IValidation<T>
     {
-        private readonly T _value;
+        private readonly string _errorMessage;
 
-        internal Success(T value)
+        internal Invalid(string errorMessage)
         {
-            _value = value;
+            _errorMessage = errorMessage;
         }
 
         public bool IsValid
         {
-            get { return true; }
+            get { return false; }
         }
 
         public T Value
         {
-            get { return _value; }
-        }
-
-        public Exception Error
-        {
             get
             {
                 throw new InvalidOperationException(
-                    "Try has not failed, no exception present");
+                    string.Format("Try has no value, failed with: {0}", _errorMessage));
             }
         }
 
-        public ITry<TResult> Bind<TResult>(Func<T, ITry<TResult>> operation)
+        public string ErrorMessage
         {
-            try
-            {
-                return operation(_value);
-            }
-            catch (Exception ex)
-            {
-                return ex.ToException<TResult>();
-            }
+            get { return _errorMessage; }
         }
 
-        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
+
+        public IValidation<TResult> Bind<TResult>(
+            Func<T, IValidation<TResult>> operation)
         {
-            return this;
+            return _errorMessage.ToInvalid<TResult>();
         }
 
-        public ITry<T> ThrowOnError()
+        public IValidation<TResult> TryBind<TResult>(
+            Func<T, IValidation<TResult>> operation)
         {
-            return this;
+            return _errorMessage.ToInvalid<TResult>();
         }
 
-        public T OrElse(Func<Exception, Exception> exceptionBuilder)
+        public IValidation<T> ThrowOnError(
+            Func<string, Exception> exceptionBuilder)
         {
-            return _value;
+            throw exceptionBuilder(_errorMessage);
         }
 
-        public T OrElseException()
+        public T OrElse(Func<string, Exception> exceptionBuilder)
         {
-            return _value;
+            throw exceptionBuilder(_errorMessage);
         }
 
-        public bool Equals(ITry<T> other)
+        public bool Equals(IValidation<T> other)
         {
-            return other.IsValid && _value.Equals(other.Value);
+            return !other.IsValid && _errorMessage.Equals(other.ErrorMessage);
         }
 
         public override bool Equals(object obj)
@@ -94,12 +86,12 @@ namespace Woz.Functional.Try
                 return false;
             }
 
-            return obj is Success<T> && Equals((Success<T>)obj);
+            return obj is Invalid<T> && Equals((Invalid<T>)obj);
         }
 
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return _errorMessage.GetHashCode();
         }
     }
 }

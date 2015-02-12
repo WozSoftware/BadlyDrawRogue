@@ -20,17 +20,17 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Try;
+using Woz.Functional.Validation;
 
-namespace Woz.Functional.Tests.TryTests
+namespace Woz.Functional.Tests.ValidationTests
 {
     [TestClass]
-    public class ErrorLinqTests
+    public class ValidationLinqTests
     {
         [TestMethod]
         public void SelectWhenSuccess()
         {
-            var result = 1.ToSuccess().Select(x => 2);
+            var result = 1.ToValid().Select(x => 2);
 
             Assert.IsTrue(result.IsValid);
             Assert.AreEqual(2, result.Value);
@@ -39,7 +39,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void SelectWhenFailed()
         {
-            var result = "A".ToFailed<int>().Select(x => 2);
+            var result = "A".ToInvalid<int>().Select(x => 2);
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("A", result.ErrorMessage);
@@ -48,7 +48,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void TrySelectWhenSuccess()
         {
-            var result = 1.ToSuccess().TrySelect(x => 2);
+            var result = 1.ToValid().TrySelect(x => 2);
 
             Assert.IsTrue(result.IsValid);
             Assert.AreEqual(2, result.Value);
@@ -58,7 +58,7 @@ namespace Woz.Functional.Tests.TryTests
         public void TrySelectWhenThrows()
         {
             var result = 1
-                .ToSuccess()
+                .ToValid()
                 .TrySelect<int, int>(
                     x =>
                     {
@@ -72,7 +72,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void TrySelectWhenFailed()
         {
-            var result = "A".ToFailed<int>().TrySelect(x => 2);
+            var result = "A".ToInvalid<int>().TrySelect(x => 2);
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("A", result.ErrorMessage);
@@ -82,8 +82,8 @@ namespace Woz.Functional.Tests.TryTests
         public void SelectManyWhenSuccess()
         {
             var result =
-                from a in 1.ToSuccess()
-                from b in 2.ToSuccess()
+                from a in 1.ToValid()
+                from b in 2.ToValid()
                 select a + b;
 
             Assert.IsTrue(result.IsValid);
@@ -94,8 +94,8 @@ namespace Woz.Functional.Tests.TryTests
         public void SelectManyWhenError()
         {
             var result =
-                from a in 1.ToSuccess()
-                from b in "A".ToFailed<int>()
+                from a in 1.ToValid()
+                from b in "A".ToInvalid<int>()
                 select a + b;
 
             Assert.IsFalse(result.IsValid);

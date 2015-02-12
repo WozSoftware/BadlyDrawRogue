@@ -19,9 +19,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Woz.Functional.Maybe;
-using Woz.Functional.Try;
+using Woz.Functional.Validation;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
@@ -29,7 +28,7 @@ namespace Woz.RogueEngine.Validation
 {
     public static class RuleHelpers
     {
-        public static ITry<IEntity> RuleAttributeHasEnumValue<T>(
+        public static IValidation<IEntity> RuleAttributeHasEnumValue<T>(
             this IEntity entity,
             EntityAttributes attribute,
             T requiredType,
@@ -43,7 +42,7 @@ namespace Woz.RogueEngine.Validation
                     () => message);
         }
 
-        public static ITry<IEntity> RuleAttributeHasEnumValue<T>(
+        public static IValidation<IEntity> RuleAttributeHasEnumValue<T>(
             this IEntity entity,
             EntityAttributes attribute,
             T requiredType,
@@ -53,10 +52,10 @@ namespace Woz.RogueEngine.Validation
             return entity
                 .Attributes
                 .LookupAsEnum<T>(attribute)
-                .Select(x => EqualityComparer<T>.Default.Equals(x, requiredType))
+                .Select(x => x.Equals(requiredType))
                 .OrElse(false)
-                ? entity.ToSuccess()
-                : messageBuilder().ToFailed<IEntity>();
+                ? entity.ToValid()
+                : messageBuilder().ToInvalid<IEntity>();
         }
     }
 }

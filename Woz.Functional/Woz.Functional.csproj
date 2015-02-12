@@ -48,11 +48,16 @@
     <Compile Include="Try\Failed.cs" />
     <Compile Include="Try\Success.cs" />
     <Compile Include="Try\TryLinq.cs" />
-    <Compile Include="Try\ErrorOperations.cs" />
+    <Compile Include="Try\TryConversions.cs" />
     <Compile Include="Try\ITry.cs" />
     <Compile Include="Generators\IdGenerator.cs" />
-    <Compile Include="Maybe\MaybeImmutableDictionary.cs" />
+    <Compile Include="Maybe\MaybeDictionaryLookup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\ValidationConversions.cs" />
+    <Compile Include="Validation\Invalid.cs" />
+    <Compile Include="Validation\IValidation.cs" />
+    <Compile Include="Validation\Valid.cs" />
+    <Compile Include="Validation\ValidationLinq.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

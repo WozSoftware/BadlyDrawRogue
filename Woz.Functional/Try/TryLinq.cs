@@ -27,21 +27,15 @@ namespace Woz.Functional.Try
         public static ITry<TResult> Select<T, TResult>(
             this ITry<T> trySuccess, Func<T, TResult> selector)
         {
-            return trySuccess.IsValid
-                ? selector(trySuccess.Value).ToSuccess()
-                : trySuccess.ErrorMessage.ToFailed<TResult>();
-        }
-
-        public static ITry<TResult> TrySelect<T, TResult>(
-            this ITry<T> trySuccess, Func<T, TResult> selector)
-        {
             try
             {
-                return trySuccess.Select(selector);
+                return trySuccess.IsValid
+                    ? selector(trySuccess.Value).ToSuccess()
+                    : trySuccess.Error.ToException<TResult>();
             }
             catch (Exception ex)
             {
-                return ex.Message.ToFailed<TResult>();
+                return ex.ToException<TResult>();
             }
         }
 
@@ -49,12 +43,6 @@ namespace Woz.Functional.Try
             this ITry<T> trySuccess, Func<T, ITry<TResult>> selector)
         {
             return trySuccess.Bind(selector);
-        }
-
-        public static ITry<TResult> TrySelectMany<T, TResult>(
-            this ITry<T> trySuccess, Func<T, ITry<TResult>> selector)
-        {
-            return trySuccess.TryBind(selector);
         }
 
         public static ITry<TResult> SelectMany<T1, T2, TResult>(
@@ -65,21 +53,6 @@ namespace Woz.Functional.Try
             return trySuccess.Bind(x => 
                     transform(x).Bind(y => 
                         composer(x, y).ToSuccess()));
-        }
-
-        public static ITry<TResult> TrySelectMany<T1, T2, TResult>(
-            this ITry<T1> trySuccess, 
-            Func<T1, ITry<T2>> transform, 
-            Func<T1, T2, TResult> composer)
-        {
-            try
-            {
-                return trySuccess.SelectMany(transform, composer);
-            }
-            catch (Exception ex)
-            {
-                return ex.Message.ToFailed<TResult>();
-            }
         }
     }
 }

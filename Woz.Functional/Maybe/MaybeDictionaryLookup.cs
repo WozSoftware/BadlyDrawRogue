@@ -17,18 +17,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Try
+
+using System.Collections.Generic;
+using System.Collections.Immutable;
+
+namespace Woz.Functional.Maybe
 {
-    public static class ErrorOperations
+    public static class MaybeDictionaryLookup
     {
-        public static ITry<T> ToSuccess<T>(this T value)
+        public static IMaybe<T> Lookup<TKey, T>(this IImmutableDictionary<TKey, T> dictionary, TKey key)
         {
-            return new Success<T>(value);
+            return MaybeTryGet.Wrap<TKey, T>(dictionary.TryGetValue, key);
         }
 
-        public static ITry<T> ToFailed<T>(this string errorMessage)
+        public static IMaybe<T> Lookup<TKey, T>(this IDictionary<TKey, T> dictionary, TKey key)
         {
-            return new Failed<T>(errorMessage);
+            return MaybeTryGet.Wrap<TKey, T>(dictionary.TryGetValue, key);
         }
     }
 }

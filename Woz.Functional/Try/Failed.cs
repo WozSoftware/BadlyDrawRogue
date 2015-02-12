@@ -17,18 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System;
-using System.Collections.Generic;
 
 namespace Woz.Functional.Try
 {
     internal struct Failed<T> : ITry<T>
     {
-        private readonly string _errorMessage;
+        private readonly Exception _error;
 
-        internal Failed(string errorMessage)
+        internal Failed(Exception error)
         {
-            _errorMessage = errorMessage;
+            _error = error;
         }
 
         public bool IsValid
@@ -41,41 +41,46 @@ namespace Woz.Functional.Try
             get
             {
                 throw new InvalidOperationException(
-                    string.Format("Try has no value, failed with: {0}", _errorMessage));
+                    string.Format(
+                        "Try has no value, failed with: {0}", 
+                        _error.Message));
             }
         }
 
-        public string ErrorMessage
+        public Exception Error
         {
-            get { return _errorMessage; }
+            get { return _error; }
         }
 
 
         public ITry<TResult> Bind<TResult>(Func<T, ITry<TResult>> operation)
         {
-            return _errorMessage.ToFailed<TResult>();
+            return _error.ToException<TResult>();
         }
 
-        public ITry<TResult> TryBind<TResult>(Func<T, ITry<TResult>> operation)
+        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
         {
-            return _errorMessage.ToFailed<TResult>();
+            throw exceptionBuilder(_error);
         }
 
-        public ITry<T> ThrowOnError(Func<string, Exception> exceptionBuilder)
+        public ITry<T> ThrowOnError()
         {
-            throw exceptionBuilder(_errorMessage);
+            throw _error;
         }
 
-        public T ReturnOrThrow(Func<string, Exception> exceptionBuilder)
+        public T OrElse(Func<Exception, Exception> exceptionBuilder)
         {
-            throw exceptionBuilder(_errorMessage);
+            throw exceptionBuilder(_error);
+        }
+
+        public T OrElseException()
+        {
+            throw _error;
         }
 
         public bool Equals(ITry<T> other)
         {
-            return
-                !other.IsValid &&
-                EqualityComparer<string>.Default.Equals(_errorMessage, other.ErrorMessage);
+            return !other.IsValid && _error.Equals(other.Error);
         }
 
         public override bool Equals(object obj)
@@ -90,7 +95,7 @@ namespace Woz.Functional.Try
 
         public override int GetHashCode()
         {
-            return EqualityComparer<string>.Default.GetHashCode(_errorMessage);
+            return _error.GetHashCode();
         }
     }
 }

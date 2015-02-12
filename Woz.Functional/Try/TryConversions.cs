@@ -17,29 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.Functional.Maybe
+
+using System;
+
+namespace Woz.Functional.Try
 {
-    public static class MaybeConversion
+    public static class TryConversions
     {
-        public static IMaybe<T> ToSome<T>(this T value)
+        public static ITry<T> ToSuccess<T>(this T value)
         {
-            return new Some<T>(value);    
+            return new Success<T>(value);
         }
 
-        public static IMaybe<T> ToMaybe<T>(this T? value)
-            where T : struct
+        public static ITry<T> ToException<T>(this Exception exception)
         {
-            return value.HasValue ? value.Value.ToMaybe() : Maybe<T>.Nothing;
-        }
-
-        public static IMaybe<T> ToMaybe<T>(this T value)
-        {
-            return value == null ? Maybe<T>.Nothing : new Some<T>(value);
-        }
-
-        public static IMaybe<T> Collapse<T>(this IMaybe<IMaybe<T>> doubleMaybe)
-        {
-            return doubleMaybe.OrElse(Maybe<T>.Nothing);
+            return new Failed<T>(exception);
         }
     }
 }

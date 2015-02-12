@@ -20,26 +20,26 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Try;
+using Woz.Functional.Validation;
 
-namespace Woz.Functional.Tests.TryTests
+namespace Woz.Functional.Tests.ValidationTests
 {
     [TestClass]
-    public class ITryTests
+    public class ValidationTests
     {
         [TestMethod]
-        public void ToSuccess()
+        public void ToValid()
         {
-            var errorObject = 1.ToSuccess();
+            var errorObject = 1.ToValid();
 
             Assert.IsTrue(errorObject.IsValid);
             Assert.AreEqual(1, errorObject.Value);
         }
 
         [TestMethod]
-        public void ToFailed()
+        public void ToInvalid()
         {
-            var errorObject = "bang".ToFailed<int>();
+            var errorObject = "bang".ToInvalid<int>();
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -48,7 +48,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void BindWhenSuccess()
         {
-            var errorObject = 1.ToSuccess().Bind(x => (x + 1).ToSuccess());
+            var errorObject = 1.ToValid().Bind(x => (x + 1).ToValid());
 
             Assert.IsTrue(errorObject.IsValid);
             Assert.AreEqual(2, errorObject.Value);
@@ -57,7 +57,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void BindWhenFailed()
         {
-            var errorObject = "bang".ToFailed<int>().Bind(x => (x + 1).ToSuccess());
+            var errorObject = "bang".ToInvalid<int>().Bind(x => (x + 1).ToValid());
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -66,7 +66,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void TryBindWhenSuccess()
         {
-            var errorObject = 1.ToSuccess().TryBind(x => (x + 1).ToSuccess());
+            var errorObject = 1.ToValid().TryBind(x => (x + 1).ToValid());
 
             Assert.IsTrue(errorObject.IsValid);
             Assert.AreEqual(2, errorObject.Value);
@@ -76,7 +76,7 @@ namespace Woz.Functional.Tests.TryTests
         public void TryBindWhenExceptionThrown()
         {
             var errorObject = 1
-                .ToSuccess()
+                .ToValid()
                 .TryBind<int>(
                     x =>
                     {
@@ -91,7 +91,7 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void TryBindWhenFailed()
         {
-            var errorObject = "bang".ToFailed<int>().TryBind(x => (x + 1).ToSuccess());
+            var errorObject = "bang".ToInvalid<int>().TryBind(x => (x + 1).ToValid());
 
             Assert.IsFalse(errorObject.IsValid);
             Assert.AreEqual("bang", errorObject.ErrorMessage);
@@ -100,8 +100,8 @@ namespace Woz.Functional.Tests.TryTests
         [TestMethod]
         public void ThrowOnErrorWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject.ThrowOnError(s => new Exception(s));
+            var errorObject = 1.ToValid();
+            var result = errorObject.ThrowOnError(x => new Exception());
 
             Assert.AreEqual(errorObject, result);
         }
@@ -110,35 +110,35 @@ namespace Woz.Functional.Tests.TryTests
         [ExpectedException(typeof (Exception))]
         public void ThrowOnErrorWhenInvalid()
         {
-            var errorObject = "fail".ToFailed<int>();
-            errorObject.ThrowOnError(s => new Exception(s));
+            var errorObject = "fail".ToInvalid<int>();
+            errorObject.ThrowOnError(x => new Exception());
         }
 
         [TestMethod]
-        public void ReturnOrThrowWhenSuccess()
+        public void OrElseWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject.ReturnOrThrow(s => new Exception(s));
+            var errorObject = 1.ToValid();
+            var result = errorObject.OrElse(x => new Exception());
 
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof (Exception))]
-        public void ReturnOrThrowWhenInvalid()
+        public void OrElseWhenInvalid()
         {
-            var errorObject = "fail".ToFailed<int>();
-            errorObject.ReturnOrThrow(s => new Exception(s));
+            var errorObject = "fail".ToInvalid<int>();
+            errorObject.OrElse(x => new Exception());
         }
 
         [TestMethod]
         public void Equals()
         {
-            Assert.IsTrue(1.ToSuccess().Equals(1.ToSuccess()));
-            Assert.IsTrue("A".ToFailed<int>().Equals("A".ToFailed<int>()));
-            Assert.IsFalse(1.ToSuccess().Equals(2.ToSuccess()));
-            Assert.IsFalse("A".ToFailed<int>().Equals("B".ToFailed<int>()));
-            Assert.IsFalse("A".ToFailed<int>().Equals(null));
+            Assert.IsTrue(1.ToValid().Equals(1.ToValid()));
+            Assert.IsTrue("A".ToInvalid<int>().Equals("A".ToInvalid<int>()));
+            Assert.IsFalse(1.ToValid().Equals(2.ToValid()));
+            Assert.IsFalse("A".ToInvalid<int>().Equals("B".ToInvalid<int>()));
+            Assert.IsFalse("A".ToInvalid<int>().Equals(null));
         }
     }
 }

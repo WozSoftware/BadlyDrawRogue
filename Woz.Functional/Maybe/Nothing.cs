@@ -19,7 +19,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 
 namespace Woz.Functional.Maybe
 {
@@ -67,7 +66,7 @@ namespace Woz.Functional.Maybe
 
         public override int GetHashCode()
         {
-            return EqualityComparer<bool>.Default.GetHashCode(false);
+            return false.GetHashCode();
         }
     }
 }

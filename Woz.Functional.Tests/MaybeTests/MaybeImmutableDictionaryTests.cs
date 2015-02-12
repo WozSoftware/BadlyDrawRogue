@@ -30,7 +30,8 @@ namespace Woz.Functional.Tests.MaybeTests
         [TestMethod]
         public void LookupWhenPresent()
         {
-            var dictionary = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+            IImmutableDictionary<int, string> dictionary = 
+                ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
             var result = dictionary.Lookup(1);
 
@@ -41,7 +42,10 @@ namespace Woz.Functional.Tests.MaybeTests
         [TestMethod]
         public void LookupWhenNotPresent()
         {
-            var result = ImmutableDictionary<int, string>.Empty.Lookup(1);
+            IImmutableDictionary<int, string> dictionary =
+                ImmutableDictionary<int, string>.Empty;
+
+            var result = dictionary.Lookup(1);
 
             Assert.IsFalse(result.HasValue);
         }

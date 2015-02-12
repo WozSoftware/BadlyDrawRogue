@@ -27,12 +27,15 @@ namespace Woz.Functional.Try
         bool IsValid { get; }
 
         T Value { get; }
-        string ErrorMessage { get; }
+        Exception Error { get; }
         
         ITry<TResult> Bind<TResult>(Func<T, ITry<TResult>> operation);
-        ITry<TResult> TryBind<TResult>(Func<T, ITry<TResult>> operation);
-        ITry<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
-        T ReturnOrThrow(Func<string, Exception> exceptionBuilder);
+        
+        ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder);
+        ITry<T> ThrowOnError();
+        
+        T OrElse(Func<Exception, Exception> exceptionBuilder);
+        T OrElseException();
 
         bool Equals(object obj);
         int GetHashCode();

@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.Functional.Try;
+using Woz.Functional.Validation;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
@@ -26,14 +26,14 @@ namespace Woz.RogueEngine.Validation
 {
     public static class TileRules
     {
-        public static ITry<IEntity> RuleIsTile(this IEntity entity)
+        public static IValidation<IEntity> RuleIsTile(this IEntity entity)
         {
             return entity.EntityType == EntityType.Tile
-                ? entity.ToSuccess()
-                : "Entity is not a tile".ToFailed<IEntity>();
+                ? entity.ToValid()
+                : "Entity is not a tile".ToInvalid<IEntity>();
         }
 
-        public static ITry<IEntity> RuleIsTileType(this IEntity entity, TileTypes tileType)
+        public static IValidation<IEntity> RuleIsTileType(this IEntity entity, TileTypes tileType)
         {
             return entity.RuleAttributeHasEnumValue(
                 EntityAttributes.TileType,
@@ -41,18 +41,18 @@ namespace Woz.RogueEngine.Validation
                 () => string.Format("Entity is not a {0}", tileType));
         }
 
-        public static ITry<IEntity> RuleCanOpenDoor(this IEntity entity)
+        public static IValidation<IEntity> RuleCanOpenDoor(this IEntity entity)
         {
             return entity.HasFlagSet(EntityFlags.IsOpen)
-                ? entity.ToSuccess()
-                : "The door is already open".ToFailed<IEntity>();
+                ? entity.ToValid()
+                : "The door is already open".ToInvalid<IEntity>();
         }
 
-        public static ITry<IEntity> RuleCanCloseDoor(this IEntity entity)
+        public static IValidation<IEntity> RuleCanCloseDoor(this IEntity entity)
         {
             return !entity.HasFlagSet(EntityFlags.IsOpen)
-                ? entity.ToSuccess()
-                : "The door is already closed".ToFailed<IEntity>();
+                ? entity.ToValid()
+                : "The door is already closed".ToInvalid<IEntity>();
         }
     }
 }
