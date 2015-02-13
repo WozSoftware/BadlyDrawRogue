@@ -56,6 +56,11 @@ namespace Woz.Functional.Maybe
             return _value;
         }
 
+        public T OrElse(Func<T> builder)
+        {
+            return _value;
+        }
+
         public T OrElse(Func<Exception> builder)
         {
             return _value;

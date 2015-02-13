@@ -49,6 +49,11 @@ namespace Woz.Functional.Maybe
             return defaultValue;
         }
 
+        public T OrElse(Func<T> builder)
+        {
+            return builder();
+        }
+
         public T OrElse(Func<Exception> builder)
         {
             throw builder();

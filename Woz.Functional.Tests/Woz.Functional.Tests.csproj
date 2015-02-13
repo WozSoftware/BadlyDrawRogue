@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MaybeTests\MaybeTests.cs" />
     <Compile Include="TryTests\TryConversionsTests.cs" />
     <Compile Include="TryTests\TryTests.cs" />
     <Compile Include="TryTests\TryLinqTests.cs" />
