@@ -18,30 +18,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Xml;
 using System.Xml.Linq;
-using Woz.Functional.Maybe;
+using Woz.Functional.IO;
 
 namespace Woz.Linq.Xml
 {
-    public static class AttributeHelpers
+    public static class XDocumentIO
     {
-        public static XAttribute 
-            RequiredAttribute(this XElement element, string name)
+        public static IO<XDocument> Load(string uri)
         {
-            return element
-                .MaybeAttribute(name)
-                .OrElse(
-                    () => new XmlException(
-                        string.Format(
-                            "Attribute {0} missing from Element {1}",
-                            name, element.Name)));
-        }
-
-        public static IMaybe<XAttribute> 
-            MaybeAttribute(this XElement element, string name)
-        {
-            return element.Attribute(name).ToMaybe();
+            return IO.Build(() => XDocument.Load(uri));
         }
     }
 }

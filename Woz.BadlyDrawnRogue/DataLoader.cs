@@ -20,7 +20,9 @@
 
 using System;
 using System.Xml.Linq;
+using Woz.Functional.IO;
 using Woz.Functional.Try;
+using Woz.Linq.Xml;
 using Woz.RogueEngine.Definitions;
 using Woz.RogueEngine.Entities;
 
@@ -28,19 +30,23 @@ namespace Woz.BadlyDrawnRogue
 {
     public static class DataLoader
     {
-        public static IEntityFactory LoadEntityFactory(string fileName)
+        public static IEntityFactory LoadEntityFactory(string uri)
         {
-            return fileName
-                .ToSuccess()
-                .Select(XDocument.Load)
-                .Select(document => document.Root)
-                .Select(EntityParser.ReadEntities)
-                .Select(EntityFactory.Build)
-                .OrElse(message =>
-                    new Exception(
-                        string.Format(
+            var operation = XDocumentIO.Load(uri)
+                .Select(document => document.Root.ReadEntities())
+                .Select(EntityFactory.Build);
+
+            return operation
+                .Run()
+                .OrElse(
+                    ex =>
+                    {
+                        var message = string.Format(
                             "Failed to load data file {0}: {1}",
-                            fileName, message)));
+                            uri, ex.Message);
+                       
+                        return new Exception(message, ex);
+                    });
         }
     }
 }

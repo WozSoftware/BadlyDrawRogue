@@ -37,8 +37,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\AttributeHelpers.cs" />
-    <Compile Include="Xml\ElementHelpers.cs" />
+    <Compile Include="Xml\XAttributeHelpers.cs" />
+    <Compile Include="Xml\XDocumentIO.cs" />
+    <Compile Include="Xml\XElementHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Woz.Linq.licenseheader" />

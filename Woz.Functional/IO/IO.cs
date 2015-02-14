@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.BadlyDrawnRogue.
+// This file is part of Woz.Functional.
 //
-// Woz.BadlyDrawnRogue is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -19,28 +19,28 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
-using Woz.BadlyDrawnRogue.Views;
-using Woz.Core;
-using Woz.RogueEngine.Entities;
+using Woz.Functional.Try;
 
-namespace Woz.BadlyDrawnRogue
+namespace Woz.Functional.IO
 {
-    static class Program
+    public delegate T IO<out T>();
+
+    public static class IO
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        public static IO<T> Build<T>(this Func<T> operation)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            return new IO<T>(operation);
+        }
 
-            Singleton<IEntityFactory>.Instance = DataLoader
-                .LoadEntityFactory("Definitions/EntityDefinitions.xml");
+        public static IO<TResult> Bind<T, TResult>(
+            this IO<T> io, Func<T, IO<TResult>> operation)
+        {
+            return operation(io());
+        }
 
-            Application.Run(new MainForm());
+        public static ITry<T> Run<T>(this IO<T> operation)
+        {
+            return operation.ToSuccess().Bind(x => x().ToSuccess());
         }
     }
 }

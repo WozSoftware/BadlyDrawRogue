@@ -86,6 +86,10 @@
       <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
       <Name>Woz.Functional</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
+      <Project>{1C394BD3-381E-4A26-9263-7E4057BD3BFF}</Project>
+      <Name>Woz.Linq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.RogueEngine\Woz.RogueEngine.csproj">
       <Project>{37ef993b-be7a-4e2e-ac27-7ef8da5c8493}</Project>
       <Name>Woz.RogueEngine</Name>
@@ -94,6 +98,7 @@
   <ItemGroup>
     <Content Include="Definitions\EntityDefinitions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
