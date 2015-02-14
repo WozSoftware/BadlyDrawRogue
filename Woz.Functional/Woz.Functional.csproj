@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\IO.cs" />
-    <Compile Include="IO\IOHelpers.cs" />
     <Compile Include="IO\IOLinq.cs" />
     <Compile Include="Maybe\IMaybe.cs" />
     <Compile Include="Maybe\Maybe.cs" />
