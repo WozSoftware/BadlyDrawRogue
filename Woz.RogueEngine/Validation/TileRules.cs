@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.Functional.Validation;
+using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 

@@ -21,7 +21,7 @@
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
-using Woz.Functional.Maybe;
+using Woz.Functional.Monads.MaybeMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Operations;
 

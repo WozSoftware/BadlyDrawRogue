@@ -20,7 +20,7 @@
 
 using System.Xml;
 using System.Xml.Linq;
-using Woz.Functional.Maybe;
+using Woz.Functional.Monads.MaybeMonad;
 
 namespace Woz.Linq.Xml
 {

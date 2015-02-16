@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Woz.Core.Conversion;
-using Woz.Functional.Maybe;
+using Woz.Functional.Monads.MaybeMonad;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Queries

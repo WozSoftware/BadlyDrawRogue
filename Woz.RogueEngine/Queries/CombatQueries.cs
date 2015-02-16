@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Woz.Functional.Maybe;
+using Woz.Functional.Monads.MaybeMonad;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Queries

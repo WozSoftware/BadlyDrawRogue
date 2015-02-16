@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Woz.Functional.IO;
+using Woz.Functional.Monads.IOMonad;
 using Woz.Linq.Xml;
 using Woz.RogueEngine.Definitions;
 using Woz.RogueEngine.Entities;

@@ -19,8 +19,8 @@
 #endregion
 
 using System;
-using Woz.Functional.Maybe;
-using Woz.Functional.Validation;
+using Woz.Functional.Monads.MaybeMonad;
+using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 

@@ -37,29 +37,29 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\IO.cs" />
-    <Compile Include="IO\IOLinq.cs" />
-    <Compile Include="Maybe\IMaybe.cs" />
-    <Compile Include="Maybe\Maybe.cs" />
-    <Compile Include="Maybe\MaybeConversion.cs" />
-    <Compile Include="Maybe\MaybeEnumerable.cs" />
-    <Compile Include="Maybe\MaybeTryGet.cs" />
-    <Compile Include="Maybe\MaybeLinq.cs" />
-    <Compile Include="Maybe\Nothing.cs" />
-    <Compile Include="Maybe\Some.cs" />
-    <Compile Include="Try\Failed.cs" />
-    <Compile Include="Try\Success.cs" />
-    <Compile Include="Try\TryLinq.cs" />
-    <Compile Include="Try\TryConversions.cs" />
-    <Compile Include="Try\ITry.cs" />
+    <Compile Include="Monads\IOMonad\IO.cs" />
+    <Compile Include="Monads\IOMonad\IOLinq.cs" />
+    <Compile Include="Monads\MaybeMonad\IMaybe.cs" />
+    <Compile Include="Monads\MaybeMonad\Maybe.cs" />
+    <Compile Include="Monads\MaybeMonad\MaybeConversion.cs" />
+    <Compile Include="Monads\MaybeMonad\MaybeEnumerable.cs" />
+    <Compile Include="Monads\MaybeMonad\MaybeTryGet.cs" />
+    <Compile Include="Monads\MaybeMonad\MaybeLinq.cs" />
+    <Compile Include="Monads\MaybeMonad\Nothing.cs" />
+    <Compile Include="Monads\MaybeMonad\Some.cs" />
+    <Compile Include="Monads\TryMonad\Failed.cs" />
+    <Compile Include="Monads\TryMonad\Success.cs" />
+    <Compile Include="Monads\TryMonad\TryLinq.cs" />
+    <Compile Include="Monads\TryMonad\TryConversions.cs" />
+    <Compile Include="Monads\TryMonad\ITry.cs" />
     <Compile Include="Generators\IdGenerator.cs" />
-    <Compile Include="Maybe\MaybeDictionaryLookup.cs" />
+    <Compile Include="Monads\MaybeMonad\MaybeDictionaryLookup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\ValidationConversions.cs" />
-    <Compile Include="Validation\Invalid.cs" />
-    <Compile Include="Validation\IValidation.cs" />
-    <Compile Include="Validation\Valid.cs" />
-    <Compile Include="Validation\ValidationLinq.cs" />
+    <Compile Include="Monads\ValidationMonad\ValidationConversions.cs" />
+    <Compile Include="Monads\ValidationMonad\Invalid.cs" />
+    <Compile Include="Monads\ValidationMonad\IValidation.cs" />
+    <Compile Include="Monads\ValidationMonad\Valid.cs" />
+    <Compile Include="Monads\ValidationMonad\ValidationLinq.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

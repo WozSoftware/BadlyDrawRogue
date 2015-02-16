@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Woz.Functional.Maybe;
+using Woz.Functional.Monads.MaybeMonad;
 
 namespace Woz.Core.Conversion
 {

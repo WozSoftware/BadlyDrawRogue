@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Linq.
+// This file is part of Woz.Functional.
 //
-// Woz.Linq is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -18,16 +18,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Xml.Linq;
-using Woz.Functional.Monads.IOMonad;
+using System;
 
-namespace Woz.Linq.Xml
+namespace Woz.Functional.Monads.MaybeMonad
 {
-    public static class XDocumentIO
+    public interface IMaybe<T> : IEquatable<IMaybe<T>>
     {
-        public static IO<XDocument> Load(string uri)
-        {
-            return IO.ToIO(() => XDocument.Load(uri));
-        }
+        bool HasValue { get; }
+
+        T Value { get; }
+
+        IMaybe<TResult> Map<TResult>(Func<T, TResult> operation); 
+        IMaybe<TResult> FlatMap<TResult>(Func<T, IMaybe<TResult>> operation);
+
+        T OrElseDefault();
+        T OrElse(T defaultValue);
+        T OrElse(Func<T> builder);
+        T OrElse(Func<Exception> builder);
+        
+        bool Equals(object obj);
+        int GetHashCode();
     }
 }

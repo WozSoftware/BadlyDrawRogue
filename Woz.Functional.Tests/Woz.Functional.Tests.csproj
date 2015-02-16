@@ -54,15 +54,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MaybeTests\MaybeTests.cs" />
-    <Compile Include="TryTests\TryConversionsTests.cs" />
-    <Compile Include="TryTests\TryTests.cs" />
-    <Compile Include="TryTests\TryLinqTests.cs" />
+    <Compile Include="MonadsTests\IOMonadTests\IOTests.cs" />
+    <Compile Include="MonadsTests\IOMonadTests\IOLinqTests.cs" />
+    <Compile Include="MonadsTests\MaybeMonadTests\MaybeTests.cs" />
+    <Compile Include="MonadsTests\TryMonadTests\TryConversionsTests.cs" />
+    <Compile Include="MonadsTests\TryMonadTests\TryTests.cs" />
+    <Compile Include="MonadsTests\TryMonadTests\TryLinqTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
-    <Compile Include="MaybeTests\MaybeDictionaryLookupTests.cs" />
+    <Compile Include="MonadsTests\MaybeMonadTests\MaybeDictionaryLookupTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationTests\ValidationLinqTests.cs" />
-    <Compile Include="ValidationTests\ValidationTests.cs" />
+    <Compile Include="MonadsTests\ValidationMonadTests\ValidationConversionsTests.cs" />
+    <Compile Include="MonadsTests\ValidationMonadTests\ValidationLinqTests.cs" />
+    <Compile Include="MonadsTests\ValidationMonadTests\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

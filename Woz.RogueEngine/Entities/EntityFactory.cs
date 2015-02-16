@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Woz.Functional.Generators;
+using Woz.Functional.Monads.IOMonad;
 
 namespace Woz.RogueEngine.Entities
 {
@@ -65,12 +66,6 @@ namespace Woz.RogueEngine.Entities
 
         public IEntity Build(IEntity template, string name)
         {
-            var children = template
-                .Children
-                .Values
-                .Select(Build)
-                .ToImmutableDictionary(x => x.Id);
-
             return 
                 Entity.Build(
                     _idGenerator(),
@@ -78,7 +73,7 @@ namespace Woz.RogueEngine.Entities
                     name,
                     template.Attributes,
                     template.Flags,
-                    children);
+                    template.Children);
         }
 
         private static IEntity BuildVoidEntity()

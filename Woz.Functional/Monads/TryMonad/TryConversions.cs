@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Linq.
+// This file is part of Woz.Functional.
 //
-// Woz.Linq is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -18,16 +18,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Xml.Linq;
-using Woz.Functional.Monads.IOMonad;
+using System;
 
-namespace Woz.Linq.Xml
+namespace Woz.Functional.Monads.TryMonad
 {
-    public static class XDocumentIO
+    public static class TryConversions
     {
-        public static IO<XDocument> Load(string uri)
+        public static ITry<T> ToSuccess<T>(this T value)
         {
-            return IO.ToIO(() => XDocument.Load(uri));
+            return new Success<T>(value);
+        }
+
+        public static ITry<T> ToException<T>(this Exception exception)
+        {
+            return new Failed<T>(exception);
         }
     }
 }

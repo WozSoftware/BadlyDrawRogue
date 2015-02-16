@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Linq.
+// This file is part of Woz.Functional.
 //
-// Woz.Linq is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -18,16 +18,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Xml.Linq;
-using Woz.Functional.Monads.IOMonad;
-
-namespace Woz.Linq.Xml
+namespace Woz.Functional.Monads.MaybeMonad
 {
-    public static class XDocumentIO
+    public static class MaybeTryGet
     {
-        public static IO<XDocument> Load(string uri)
+        public delegate bool TryGet<in T, TR>(T key, out TR val);
+
+        public static IMaybe<TR> Wrap<T, TR>(TryGet<T, TR> tryer, T value)
         {
-            return IO.ToIO(() => XDocument.Load(uri));
+            TR result;
+            return tryer(value, out result)
+                ? result.ToMaybe()
+                : Maybe<TR>.Nothing;
         }
     }
 }
