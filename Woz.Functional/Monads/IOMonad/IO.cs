@@ -27,26 +27,39 @@ namespace Woz.Functional.Monads.IOMonad
 
     public static class IO
     {
-        public static IO<T> ToIO<T>(this Func<T> operation)
+        public static IO<T> BuildFor<T>(T value)
         {
-            return () => operation();
+            return () => value;
         }
 
-        public static IO<TResult> Map<T, TResult>(
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public static IO<TResult> Select<T, TResult>(
             this IO<T> io, Func<T, TResult> operation)
         {
             return () => operation(io());
         }
 
-        public static IO<TResult> FlatMap<T, TResult>(
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public static IO<TResult> SelectMany<T, TResult>(
             this IO<T> io, Func<T, IO<TResult>> operation)
         {
             return () => operation(io())();
         }
 
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public static IO<TResult> SelectMany<T1, T2, TResult>(
+            this IO<T1> io,
+            Func<T1, IO<T2>> transform,
+            Func<T1, T2, TResult> composer)
+        {
+            return io.SelectMany(x =>
+                transform(x).SelectMany(y =>
+                    new IO<TResult>(() => composer(x, y))));
+        }
+
         public static ITry<T> Run<T>(this IO<T> operation)
         {
-            return operation.ToSuccess().FlatMap(x => x().ToSuccess());
+            return Try.Catcher(() => operation().ToSuccess());
         }
     }
 }

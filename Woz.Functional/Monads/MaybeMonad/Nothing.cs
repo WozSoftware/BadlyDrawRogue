@@ -34,14 +34,28 @@ namespace Woz.Functional.Monads.MaybeMonad
             get { throw new InvalidOperationException("Maybe has no value"); }
         }
 
-        public IMaybe<TResult> Map<TResult>(Func<T, TResult> operation)
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public IMaybe<TResult> Select<TResult>(Func<T, TResult> operation)
         {
             return new Nothing<TResult>();
         }
 
-        public IMaybe<TResult> FlatMap<TResult>(Func<T, IMaybe<TResult>> operation)
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public IMaybe<TResult> SelectMany<TResult>(Func<T, IMaybe<TResult>> operation)
         {
             return new Nothing<TResult>();
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public IMaybe<TResult> SelectMany<T2, TResult>(
+            Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer)
+        {
+            return new Nothing<TResult>();
+        }
+
+        public IMaybe<T> Where(Func<T, bool> predicate)
+        {
+            return this;
         }
 
         public T OrElseDefault()

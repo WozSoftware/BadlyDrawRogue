@@ -90,41 +90,53 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void MapWhenValue()
+        public void SelectWhenSome()
         {
-            var maybe = 1.ToMaybe().Map(x => (x + 1));
+            var maybe = 1.ToMaybe().Select(x => (x + 1));
 
             Assert.IsTrue(maybe.HasValue);
             Assert.AreEqual(2, maybe.Value);
         }
 
         [TestMethod]
-        public void MapWhenNoValue()
+        public void SelectWhenNone()
         {
-            var maybe = Maybe<int>.Nothing.Map(x => (x + 1));
+            var maybe = Maybe<int>.Nothing.Select(x => (x + 1));
 
             Assert.IsFalse(maybe.HasValue);
         }
 
         [TestMethod]
-        public void FlatMapWhenValue()
+        public void SelectManyWhenSome()
         {
-            var maybe = 1.ToMaybe().FlatMap(x => (x + 1).ToMaybe());
+            var maybe = 1.ToMaybe().SelectMany(x => (x + 1).ToMaybe());
 
             Assert.IsTrue(maybe.HasValue);
             Assert.AreEqual(2, maybe.Value);
         }
 
         [TestMethod]
-        public void FlatMapWhenNoValue()
+        public void SelectManyWhenNone()
         {
-            var maybe = Maybe<int>.Nothing.FlatMap(x => (x + 1).ToMaybe());
+            var maybe = Maybe<int>.Nothing.SelectMany(x => (x + 1).ToMaybe());
 
             Assert.IsFalse(maybe.HasValue);
         }
 
         [TestMethod]
-        public void OrElseDefaultWhenValue()
+        public void SelectManyCompose()
+        {
+            var maybe = 
+                from value1 in 1.ToMaybe()
+                from value2 in 2.ToMaybe()
+                select value1 + value2;
+
+            Assert.IsTrue(maybe.HasValue);
+            Assert.AreEqual(3, maybe.Value);
+        }
+
+        [TestMethod]
+        public void OrElseDefaultWhenSome()
         {
             var maybe = 1.ToMaybe();
 
@@ -132,13 +144,13 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseDefaultWhenNoValue()
+        public void OrElseDefaultWhenNone()
         {
             Assert.AreEqual(0, Maybe<int>.Nothing.OrElseDefault());
         }
 
         [TestMethod]
-        public void OrElseWhenValue()
+        public void OrElseWhenSome()
         {
             var maybe = 1.ToMaybe();
 
@@ -146,13 +158,13 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseWhenNoValue()
+        public void OrElseWhenNone()
         {
             Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(5));
         }
 
         [TestMethod]
-        public void OrElseBuilderWhenValue()
+        public void OrElseBuilderWhenSome()
         {
             var maybe = 1.ToMaybe();
 
@@ -160,13 +172,13 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseBuilderWhenNoValue()
+        public void OrElseBuilderWhenNone()
         {
             Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(() => 5));
         }
 
         [TestMethod]
-        public void OrElseExceptionWhenValue()
+        public void OrElseExceptionWhenSome()
         {
             var maybe = 1.ToMaybe();
 
@@ -175,7 +187,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void OrElseExceptionWhenNoValue()
+        public void OrElseExceptionWhenNone()
         {
             Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(() => new Exception()));
         }

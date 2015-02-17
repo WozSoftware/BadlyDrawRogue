@@ -52,13 +52,22 @@ namespace Woz.Functional.Monads.TryMonad
             get { return _error; }
         }
 
-
-        public ITry<TResult> Map<TResult>(Func<T, TResult> operation)
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public ITry<TResult> Select<TResult>(Func<T, TResult> operation)
         {
             return _error.ToException<TResult>();
         }
 
-        public ITry<TResult> FlatMap<TResult>(Func<T, ITry<TResult>> operation)
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public ITry<TResult> SelectMany<TResult>(
+            Func<T, ITry<TResult>> operation)
+        {
+            return _error.ToException<TResult>();
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public ITry<TResult> SelectMany<T2, TResult>(
+            Func<T, ITry<T2>> transform, Func<T, T2, TResult> composer)
         {
             return _error.ToException<TResult>();
         }

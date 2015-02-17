@@ -64,9 +64,9 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\NavigationQueries.cs" />
-    <Compile Include="Validation\RuleHelpers.cs" />
-    <Compile Include="Validation\TileRules.cs" />
-    <Compile Include="Validation\TileValidators.cs" />
+    <Compile Include="Validators\RuleHelpers.cs" />
+    <Compile Include="Validators\TileRules.cs" />
+    <Compile Include="Validators\TileValidators.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

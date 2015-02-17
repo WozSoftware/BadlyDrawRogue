@@ -28,9 +28,18 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         T Value { get; }
 
-        IMaybe<TResult> Map<TResult>(Func<T, TResult> operation); 
-        IMaybe<TResult> FlatMap<TResult>(Func<T, IMaybe<TResult>> operation);
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        IMaybe<TResult> Select<TResult>(Func<T, TResult> operation);
 
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        IMaybe<TResult> SelectMany<TResult>(Func<T, IMaybe<TResult>> operation);
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        IMaybe<TResult> SelectMany<T2, TResult>(
+            Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer);
+
+        IMaybe<T> Where(Func<T, bool> predicate);
+        
         T OrElseDefault();
         T OrElse(T defaultValue);
         T OrElse(Func<T> builder);

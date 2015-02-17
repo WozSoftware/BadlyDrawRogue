@@ -28,31 +28,35 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
     public class IOTests
     {
         [TestMethod]
-        public void ToIO()
+        public void BuildFor()
         {
-            var io = IO.ToIO(() => "hello");
+            var io = IO.BuildFor("hello");
 
             Assert.AreEqual("hello", io());
         }
 
         [TestMethod]
-        public void Map()
+        public void Select()
         {
             IO<string> io = () => "hello";
 
-            var boundIo = io.Map(value => value + "world");
+            var boundIo = io.Select(value => value + "world");
 
             Assert.AreEqual("helloworld", boundIo());
         }
 
         [TestMethod]
-        public void FlatMap()
+        public void SelectMany()
         {
-            IO<string> io = () => "hello";
+            IO<string> io1 = () => "hello";
+            IO<string> io2 = () => "world";
 
-            var boundIo = io.FlatMap(value => IO.ToIO(() => value + "world"));
+            var operation =
+                from val1 in io1
+                from val2 in io2
+                select val1 + val2;
 
-            Assert.AreEqual("helloworld", boundIo());
+            Assert.AreEqual("helloworld", operation());
         }
 
         [TestMethod]
@@ -60,7 +64,7 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
         {
             IO<string> io = () => "hello";
 
-            var boundIo = io.Map(value => value + "world");
+            var boundIo = io.Select(value => value + "world");
 
             var runResults = boundIo.Run();
 
@@ -78,7 +82,7 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
                     throw new Exception("Bang");
                 };
 
-            var boundIo = func1.Map(value => value + "world");
+            var boundIo = func1.Select(value => value + "world");
 
             var runResults = boundIo.Run();
 

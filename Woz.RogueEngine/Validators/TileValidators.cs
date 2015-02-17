@@ -21,14 +21,14 @@
 using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 
-namespace Woz.RogueEngine.Validation
+namespace Woz.RogueEngine.Validators
 {
     public static class TileValidators
     {
         public static IValidation<IEntity> CanOpenDoor(this IEntity entity)
         {
-            return entity
-                .ToValid()
+            return Validator
+                .For(entity)
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanOpenDoor());
@@ -36,8 +36,8 @@ namespace Woz.RogueEngine.Validation
 
         public static IValidation<IEntity> CanCloseDoor(this IEntity entity)
         {
-            return entity
-                .ToValid()
+            return Validator
+                .For(entity)
                 .SelectMany(x => x.RuleIsTile())
                 .SelectMany(x => x.RuleIsTileType(TileTypes.Door))
                 .SelectMany(x => x.RuleCanCloseDoor());

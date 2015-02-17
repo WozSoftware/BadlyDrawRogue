@@ -29,8 +29,15 @@ namespace Woz.Functional.Monads.TryMonad
         T Value { get; }
         Exception Error { get; }
 
-        ITry<TResult> Map<TResult>(Func<T, TResult> operation);
-        ITry<TResult> FlatMap<TResult>(Func<T, ITry<TResult>> operation);
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        ITry<TResult> Select<TResult>(Func<T, TResult> operation);
+
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        ITry<TResult> SelectMany<TResult>(Func<T, ITry<TResult>> operation);
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        ITry<TResult> SelectMany<T2, TResult>(
+            Func<T, ITry<T2>> transform, Func<T, T2, TResult> composer);
         
         ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder);
         ITry<T> ThrowOnError();

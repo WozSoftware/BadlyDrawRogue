@@ -29,9 +29,17 @@ namespace Woz.Functional.Monads.ValidationMonad
         T Value { get; }
         string ErrorMessage { get; }
 
-        IValidation<TResult> Map<TResult>(Func<T, TResult> operation);
-        IValidation<TResult> FlatMap<TResult>(Func<T, IValidation<TResult>> operation);
-        
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        IValidation<TResult> Select<TResult>(Func<T, TResult> operation);
+
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        IValidation<TResult> SelectMany<TResult>(
+            Func<T, IValidation<TResult>> operation);
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        IValidation<TResult> SelectMany<T2, TResult>(
+            Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer);
+
         IValidation<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
         
         T OrElse(Func<string, Exception> exceptionBuilder);

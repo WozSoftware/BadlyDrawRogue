@@ -47,82 +47,66 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         }
 
         [TestMethod]
-        public void MapWhenSuccess()
+        public void SelectWhenSuccess()
         {
-            var errorObject = 1.ToSuccess().Map(x => x + 1);
+            var result = 1.ToSuccess().Select(x => 2);
 
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(2, errorObject.Value);
+            Assert.IsTrue(result.IsValid);
+            Assert.AreEqual(2, result.Value);
         }
 
         [TestMethod]
-        public void MapWhenException()
+        public void SelectWhenThrows()
         {
             var exception = new Exception();
 
-            var errorObject = exception
-                .ToException<int>()
-                .Map(x => x + 1);
-
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreSame(exception, errorObject.Error);
-        }
-
-        [TestMethod]
-        public void MapWhenExceptionThrown()
-        {
-            var exception = new Exception();
-
-            var errorObject = 1
+            var result = 1
                 .ToSuccess()
-                .Map<int>(
+                .Select<int>(
                     x =>
                     {
                         throw exception;
                     });
 
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreSame(exception, errorObject.Error);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreSame(exception, result.Error);
         }
 
         [TestMethod]
-        public void FlatMapWhenSuccess()
-        {
-            var errorObject = 1.ToSuccess().FlatMap(x => (x + 1).ToSuccess());
-
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(2, errorObject.Value);
-        }
-
-        [TestMethod]
-        public void FlatMapWhenException()
+        public void SelectWhenFailed()
         {
             var exception = new Exception();
 
-            var errorObject = exception
-                .ToException<int>()
-                .FlatMap(x => (x + 1).ToSuccess());
+            var result = exception.ToException<int>().Select(x => 2);
 
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreSame(exception, errorObject.Error);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreSame(exception, result.Error);
         }
 
         [TestMethod]
-        public void FlatMapWhenExceptionThrown()
+        public void SelectManyWhenSuccess()
+        {
+            var result =
+                from a in 1.ToSuccess()
+                from b in 2.ToSuccess()
+                select a + b;
+
+            Assert.IsTrue(result.IsValid);
+            Assert.AreEqual(3, result.Value);
+        }
+
+        [TestMethod]
+        public void SelectManyWhenError()
         {
             var exception = new Exception();
 
-            var errorObject = 1
-                .ToSuccess()
-                .FlatMap<int>(
-                    x =>
-                    {
-                        throw exception;
+            var result =
+                from a in 1.ToSuccess()
+                from b in exception.ToException<int>()
+                select a + b;
 
-                    });
-
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreSame(exception, errorObject.Error);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreSame(exception, result.Error);
         }
 
         [TestMethod]

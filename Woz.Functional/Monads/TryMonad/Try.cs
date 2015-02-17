@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,13 +18,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace Woz.Functional.Tests.MonadsTests.ValidationMonadTests
+namespace Woz.Functional.Monads.TryMonad
 {
-    [TestClass]
-    public class ValidationConversionsTests
+    public static class Try
     {
-        // ToValid and ToInvalid tested in TryTests
+        public static ITry<T> ToSuccess<T>(this T value)
+        {
+            return new Success<T>(value);
+        }
+
+        public static ITry<T> ToException<T>(this Exception exception)
+        {
+            return new Failed<T>(exception);
+        }
+
+        public static ITry<T> Catcher<T>(this Func<ITry<T>> operation)
+        {
+            try
+            {
+                return operation();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToException<T>();
+            }
+        }
     }
 }

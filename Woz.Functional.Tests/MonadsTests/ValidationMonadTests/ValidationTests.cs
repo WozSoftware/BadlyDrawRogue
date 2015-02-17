@@ -46,39 +46,45 @@ namespace Woz.Functional.Tests.MonadsTests.ValidationMonadTests
         }
 
         [TestMethod]
-        public void MapWhenSuccess()
+        public void SelectWhenSuccess()
         {
-            var errorObject = 1.ToValid().Map(x => x + 1);
+            var result = 1.ToValid().Select(x => 2);
 
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(2, errorObject.Value);
+            Assert.IsTrue(result.IsValid);
+            Assert.AreEqual(2, result.Value);
         }
 
         [TestMethod]
-        public void MapWhenFailed()
+        public void SelectWhenFailed()
         {
-            var errorObject = "bang".ToInvalid<int>().Map(x => x + 1);
+            var result = "A".ToInvalid<int>().Select(x => 2);
 
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreEqual("bang", errorObject.ErrorMessage);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual("A", result.ErrorMessage);
         }
 
         [TestMethod]
-        public void FlatMapWhenSuccess()
+        public void SelectManyWhenSuccess()
         {
-            var errorObject = 1.ToValid().FlatMap(x => (x + 1).ToValid());
+            var result =
+                from a in 1.ToValid()
+                from b in 2.ToValid()
+                select a + b;
 
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(2, errorObject.Value);
+            Assert.IsTrue(result.IsValid);
+            Assert.AreEqual(3, result.Value);
         }
 
         [TestMethod]
-        public void FlatMapWhenFailed()
+        public void SelectManyWhenError()
         {
-            var errorObject = "bang".ToInvalid<int>().FlatMap(x => (x + 1).ToValid());
+            var result =
+                from a in 1.ToValid()
+                from b in "A".ToInvalid<int>()
+                select a + b;
 
-            Assert.IsFalse(errorObject.IsValid);
-            Assert.AreEqual("bang", errorObject.ErrorMessage);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual("A", result.ErrorMessage);
         }
 
         [TestMethod]

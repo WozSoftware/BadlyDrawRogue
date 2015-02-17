@@ -18,20 +18,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-
-namespace Woz.Functional.Monads.TryMonad
+namespace Woz.Functional.Monads.ValidationMonad
 {
-    public static class TryConversions
+    public static class Validator
     {
-        public static ITry<T> ToSuccess<T>(this T value)
+        public static IValidation<T> For<T>(T value)
         {
-            return new Success<T>(value);
+            return new Valid<T>(value);
         }
 
-        public static ITry<T> ToException<T>(this Exception exception)
+        public static IValidation<T> ToValid<T>(this T value)
         {
-            return new Failed<T>(exception);
+            return new Valid<T>(value);
+        }
+
+        public static IValidation<T> ToInvalid<T>(this string errorMessage)
+        {
+            return new Invalid<T>(errorMessage);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Woz.Functional.Monads.MaybeMonad
         public static IEnumerable<IMaybe<TResult>> Select<T, TResult>(
             this IEnumerable<IMaybe<T>> self, Func<T, TResult> selector)
         {
-            return self.Select(maybe => maybe.Map(selector));
+            return self.Select(maybe => maybe.Select(selector));
         }
     }
 }

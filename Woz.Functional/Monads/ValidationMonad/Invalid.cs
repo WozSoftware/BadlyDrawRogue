@@ -51,14 +51,21 @@ namespace Woz.Functional.Monads.ValidationMonad
         }
 
 
-        public IValidation<TResult> Map<TResult>(
+        public IValidation<TResult> Select<TResult>(
             Func<T, TResult> operation)
         {
             return _errorMessage.ToInvalid<TResult>();
         }
 
-        public IValidation<TResult> FlatMap<TResult>(
+        public IValidation<TResult> SelectMany<TResult>(
             Func<T, IValidation<TResult>> operation)
+        {
+            return _errorMessage.ToInvalid<TResult>();
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public IValidation<TResult> SelectMany<T2, TResult>(
+            Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer)
         {
             return _errorMessage.ToInvalid<TResult>();
         }

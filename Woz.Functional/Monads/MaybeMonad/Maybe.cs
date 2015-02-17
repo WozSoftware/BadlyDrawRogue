@@ -24,4 +24,28 @@ namespace Woz.Functional.Monads.MaybeMonad
     {
         public static readonly IMaybe<T> Nothing = default(Nothing<T>);
     }
+
+    public static class Maybe
+    {
+        public static IMaybe<T> ToSome<T>(this T value)
+        {
+            return new Some<T>(value);
+        }
+
+        public static IMaybe<T> ToMaybe<T>(this T? value)
+            where T : struct
+        {
+            return value.HasValue ? new Some<T>(value.Value) : Maybe<T>.Nothing;
+        }
+
+        public static IMaybe<T> ToMaybe<T>(this T value)
+        {
+            return value == null ? Maybe<T>.Nothing : new Some<T>(value);
+        }
+
+        public static IMaybe<T> Collapse<T>(this IMaybe<IMaybe<T>> doubleMaybe)
+        {
+            return doubleMaybe.OrElse(Maybe<T>.Nothing);
+        }
+    }
 }

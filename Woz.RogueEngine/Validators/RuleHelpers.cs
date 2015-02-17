@@ -24,7 +24,7 @@ using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
-namespace Woz.RogueEngine.Validation
+namespace Woz.RogueEngine.Validators
 {
     public static class RuleHelpers
     {

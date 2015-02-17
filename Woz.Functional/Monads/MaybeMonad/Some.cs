@@ -41,14 +41,30 @@ namespace Woz.Functional.Monads.MaybeMonad
             get { return _value; }
         }
 
-        public IMaybe<TResult> Map<TResult>(Func<T, TResult> operation)
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public IMaybe<TResult> Select<TResult>(Func<T, TResult> operation)
         {
             return operation(_value).ToMaybe();
         }
 
-        public IMaybe<TResult> FlatMap<TResult>(Func<T, IMaybe<TResult>> operation)
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public IMaybe<TResult> SelectMany<TResult>(Func<T, IMaybe<TResult>> operation)
         {
             return operation(_value);
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public IMaybe<TResult> SelectMany<T2, TResult>(
+            Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer)
+        {
+            var value1 = _value; // Capture for closure
+            return transform(value1)
+                .SelectMany(value2 => composer(value1, value2).ToMaybe());
+        }
+
+        public IMaybe<T> Where(Func<T, bool> predicate)
+        {
+            return predicate(_value) ? this : Maybe<T>.Nothing;
         }
 
         public T OrElseDefault()

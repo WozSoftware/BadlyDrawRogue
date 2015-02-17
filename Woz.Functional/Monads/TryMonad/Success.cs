@@ -50,28 +50,28 @@ namespace Woz.Functional.Monads.TryMonad
             }
         }
 
-        public ITry<TResult> Map<TResult>(Func<T, TResult> operation)
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public ITry<TResult> Select<TResult>(Func<T, TResult> operation)
         {
-            try
-            {
-                return operation(_value).ToSuccess();
-            }
-            catch (Exception ex)
-            {
-                return ex.ToException<TResult>();
-            }
+            var value = _value; // Capture for closure
+            return Try.Catcher(() => operation(value).ToSuccess());
         }
 
-        public ITry<TResult> FlatMap<TResult>(Func<T, ITry<TResult>> operation)
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public ITry<TResult> SelectMany<TResult>(
+            Func<T, ITry<TResult>> operation)
         {
-            try
-            {
-                return operation(_value);
-            }
-            catch (Exception ex)
-            {
-                return ex.ToException<TResult>();
-            }
+            var value = _value; // Capture for closure
+            return Try.Catcher(() => operation(value));
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public ITry<TResult> SelectMany<T2, TResult>(
+            Func<T, ITry<T2>> transform, Func<T, T2, TResult> composer)
+        {
+            return SelectMany(x =>
+                transform(x).SelectMany(y =>
+                    composer(x, y).ToSuccess()));
         }
 
         public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)

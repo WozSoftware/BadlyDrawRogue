@@ -55,16 +55,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MonadsTests\IOMonadTests\IOTests.cs" />
-    <Compile Include="MonadsTests\IOMonadTests\IOLinqTests.cs" />
     <Compile Include="MonadsTests\MaybeMonadTests\MaybeTests.cs" />
-    <Compile Include="MonadsTests\TryMonadTests\TryConversionsTests.cs" />
     <Compile Include="MonadsTests\TryMonadTests\TryTests.cs" />
-    <Compile Include="MonadsTests\TryMonadTests\TryLinqTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
     <Compile Include="MonadsTests\MaybeMonadTests\MaybeDictionaryLookupTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MonadsTests\ValidationMonadTests\ValidationConversionsTests.cs" />
-    <Compile Include="MonadsTests\ValidationMonadTests\ValidationLinqTests.cs" />
     <Compile Include="MonadsTests\ValidationMonadTests\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>

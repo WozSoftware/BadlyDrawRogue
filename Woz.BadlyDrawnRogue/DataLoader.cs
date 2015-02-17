@@ -19,8 +19,8 @@
 #endregion
 
 using System;
+using System.Xml.Linq;
 using Woz.Functional.Monads.IOMonad;
-using Woz.Linq.Xml;
 using Woz.RogueEngine.Definitions;
 using Woz.RogueEngine.Entities;
 
@@ -30,7 +30,9 @@ namespace Woz.BadlyDrawnRogue
     {
         public static IEntityFactory LoadEntityFactory(string uri)
         {
-            return XDocumentIO.Load(uri)
+            return IO
+                .BuildFor(uri) 
+                .Select(XDocument.Load)
                 .Select(document => document.Root.ReadEntities())
                 .Select(EntityFactory.Build)
                 .Run()

@@ -50,16 +50,27 @@ namespace Woz.Functional.Monads.ValidationMonad
             }
         }
 
-        public IValidation<TResult> Map<TResult>(
+        // M<T> -> Func<T, TResult> -> M<TResult>
+        public IValidation<TResult> Select<TResult>(
             Func<T, TResult> operation)
         {
             return operation(_value).ToValid();
         }
 
-        public IValidation<TResult> FlatMap<TResult>(
+        // M<T> -> Func<T, M<TResult>> -> M<TResult>
+        public IValidation<TResult> SelectMany<TResult>(
             Func<T, IValidation<TResult>> operation)
         {
             return operation(_value);
+        }
+
+        // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
+        public IValidation<TResult> SelectMany<T2, TResult>(
+            Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer)
+        {
+            var value1 = _value; // Capture for closure
+            return transform(value1)
+                .SelectMany(value2 => composer(value1, value2).ToValid());
         }
 
         public IValidation<T> ThrowOnError(
