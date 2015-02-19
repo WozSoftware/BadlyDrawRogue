@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Functional.Monads.IOMonad;
 
@@ -60,6 +61,19 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
         }
 
         [TestMethod]
+        public void SelectManyIsLazy()
+        {
+            IO<string> io1 = () => "hello";
+            IO<string> io2 =
+                () =>
+                {
+                    throw new Exception("Bang");
+                };
+
+            io1.SelectMany(x => io2);
+        }
+
+        [TestMethod]
         public void RunWhenOk()
         {
             IO<string> io = () => "hello";
@@ -75,14 +89,17 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
         [TestMethod]
         public void RunWhenException()
         {
-
-            IO<string> func1 =
+            IO<string> io1 =
                 () =>
                 {
                     throw new Exception("Bang");
                 };
+            IO<string> io2 = () => "hello";
 
-            var boundIo = func1.Select(value => value + "world");
+            var boundIo =
+                from value1 in io1
+                from value2 in io2
+                select value1 + value2;
 
             var runResults = boundIo.Run();
 

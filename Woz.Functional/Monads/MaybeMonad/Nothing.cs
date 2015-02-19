@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.MaybeMonad
 {
-    public struct Nothing<T> : IMaybe<T>
+    internal struct Nothing<T> : IMaybe<T>
     {
         public bool HasValue
         {

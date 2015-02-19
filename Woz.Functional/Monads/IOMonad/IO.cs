@@ -43,7 +43,7 @@ namespace Woz.Functional.Monads.IOMonad
         public static IO<TResult> SelectMany<T, TResult>(
             this IO<T> io, Func<T, IO<TResult>> operation)
         {
-            return () => operation(io())();
+            return operation(io());
         }
 
         // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
@@ -52,9 +52,12 @@ namespace Woz.Functional.Monads.IOMonad
             Func<T1, IO<T2>> transform,
             Func<T1, T2, TResult> composer)
         {
-            return io.SelectMany(x =>
-                transform(x).SelectMany(y =>
-                    new IO<TResult>(() => composer(x, y))));
+            return
+                () =>
+                {
+                    var ioResult = io();
+                    return composer(ioResult, transform(ioResult)());
+                };
         }
 
         public static ITry<T> Run<T>(this IO<T> operation)
