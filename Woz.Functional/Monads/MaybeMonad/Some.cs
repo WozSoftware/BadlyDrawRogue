@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.MaybeMonad
 {
-    internal struct Some<T> : IMaybe<T>
+    internal class Some<T> : IMaybe<T>
     {
         private readonly T _value;
 
@@ -89,17 +89,16 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         public bool Equals(IMaybe<T> other)
         {
-            return other.HasValue && _value.Equals(other.Value);
+            return 
+                other != null && 
+                other.HasValue && 
+                _value.Equals(other.Value);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return obj is Some<T> && Equals((Some<T>)obj);
+            var some = obj as Some<T>;
+            return some != null && Equals(some);
         }
 
         public override int GetHashCode()

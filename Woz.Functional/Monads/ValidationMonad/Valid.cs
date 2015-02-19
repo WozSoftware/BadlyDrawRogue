@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
-    internal struct Valid<T> : IValidation<T>
+    internal class Valid<T> : IValidation<T>
     {
         private readonly T _value;
 
@@ -86,17 +86,16 @@ namespace Woz.Functional.Monads.ValidationMonad
 
         public bool Equals(IValidation<T> other)
         {
-            return other.IsValid && _value.Equals(other.Value);
+            return 
+                other != null && 
+                other.IsValid && 
+                _value.Equals(other.Value);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return obj is Valid<T> && Equals((Valid<T>)obj);
+            var valid = obj as Valid<T>;
+            return valid != null && Equals(valid);
         }
 
         public override int GetHashCode()

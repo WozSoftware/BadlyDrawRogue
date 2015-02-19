@@ -22,7 +22,7 @@ namespace Woz.Functional.Monads.MaybeMonad
 {
     public static class Maybe<T>
     {
-        public static readonly IMaybe<T> Nothing = default(Nothing<T>);
+        public static readonly IMaybe<T> Nothing = new Nothing<T>();
     }
 
     public static class Maybe

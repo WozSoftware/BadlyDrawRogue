@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.MaybeMonad
 {
-    internal struct Nothing<T> : IMaybe<T>
+    internal class Nothing<T> : IMaybe<T>
     {
         public bool HasValue
         {
@@ -37,20 +37,20 @@ namespace Woz.Functional.Monads.MaybeMonad
         // M<T> -> Func<T, TResult> -> M<TResult>
         public IMaybe<TResult> Select<TResult>(Func<T, TResult> operation)
         {
-            return new Nothing<TResult>();
+            return Maybe<TResult>.Nothing;
         }
 
         // M<T> -> Func<T, M<TResult>> -> M<TResult>
         public IMaybe<TResult> SelectMany<TResult>(Func<T, IMaybe<TResult>> operation)
         {
-            return new Nothing<TResult>();
+            return Maybe<TResult>.Nothing;
         }
 
         // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
         public IMaybe<TResult> SelectMany<T2, TResult>(
             Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer)
         {
-            return new Nothing<TResult>();
+            return Maybe<TResult>.Nothing;
         }
 
         public IMaybe<T> Where(Func<T, bool> predicate)
@@ -80,12 +80,13 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         public bool Equals(IMaybe<T> other)
         {
-            return !other.HasValue;
+            return other != null && !other.HasValue;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is Nothing<T>;
+            var nothing = obj as Nothing<T>;
+            return nothing != null && Equals(nothing);
         }
 
         public override int GetHashCode()

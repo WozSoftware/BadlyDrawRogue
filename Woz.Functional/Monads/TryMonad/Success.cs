@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.TryMonad
 {
-    internal struct Success<T> : ITry<T>
+    internal class Success<T> : ITry<T>
     {
         private readonly T _value;
 
@@ -96,17 +96,16 @@ namespace Woz.Functional.Monads.TryMonad
 
         public bool Equals(ITry<T> other)
         {
-            return other.IsValid && _value.Equals(other.Value);
+            return 
+                other != null && 
+                other.IsValid && 
+                _value.Equals(other.Value);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return obj is Success<T> && Equals((Success<T>)obj);
+            var successs = obj as Success<T>;
+            return successs != null && Equals(successs);
         }
 
         public override int GetHashCode()

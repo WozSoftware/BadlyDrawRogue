@@ -44,8 +44,5 @@ namespace Woz.Functional.Monads.TryMonad
         
         T OrElse(Func<Exception, Exception> exceptionBuilder);
         T OrElseException();
-
-        bool Equals(object obj);
-        int GetHashCode();
     }
 }

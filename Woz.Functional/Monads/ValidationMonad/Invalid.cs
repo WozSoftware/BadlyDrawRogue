@@ -22,7 +22,7 @@ using System;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
-    internal struct Invalid<T> : IValidation<T>
+    internal class Invalid<T> : IValidation<T>
     {
         private readonly string _errorMessage;
 
@@ -83,17 +83,16 @@ namespace Woz.Functional.Monads.ValidationMonad
 
         public bool Equals(IValidation<T> other)
         {
-            return !other.IsValid && _errorMessage.Equals(other.ErrorMessage);
+            return
+                other != null &&
+                !other.IsValid && 
+                _errorMessage.Equals(other.ErrorMessage);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return obj is Invalid<T> && Equals((Invalid<T>)obj);
+            var invalid = obj as Invalid<T>;
+            return invalid != null && Equals(invalid);
         }
 
         public override int GetHashCode()

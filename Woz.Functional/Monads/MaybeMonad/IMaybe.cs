@@ -44,8 +44,5 @@ namespace Woz.Functional.Monads.MaybeMonad
         T OrElse(T defaultValue);
         T OrElse(Func<T> builder);
         T OrElse(Func<Exception> builder);
-        
-        bool Equals(object obj);
-        int GetHashCode();
     }
 }

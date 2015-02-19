@@ -43,8 +43,5 @@ namespace Woz.Functional.Monads.ValidationMonad
         IValidation<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
         
         T OrElse(Func<string, Exception> exceptionBuilder);
-
-        bool Equals(object obj);
-        int GetHashCode();
     }
 }
