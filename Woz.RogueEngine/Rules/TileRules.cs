@@ -22,17 +22,10 @@ using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
-namespace Woz.RogueEngine.Validators
+namespace Woz.RogueEngine.Rules
 {
     public static class TileRules
     {
-        public static IValidation<IEntity> RuleIsTile(this IEntity entity)
-        {
-            return entity.EntityType == EntityType.Tile
-                ? entity.ToValid()
-                : "Entity is not a tile".ToInvalid<IEntity>();
-        }
-
         public static IValidation<IEntity> RuleIsTileType(this IEntity entity, TileTypes tileType)
         {
             return entity.RuleAttributeHasEnumValue(
@@ -41,18 +34,18 @@ namespace Woz.RogueEngine.Validators
                 () => string.Format("Entity is not a {0}", tileType));
         }
 
-        public static IValidation<IEntity> RuleCanOpenDoor(this IEntity entity)
-        {
-            return entity.HasFlagSet(EntityFlags.IsOpen)
-                ? entity.ToValid()
-                : "The door is already open".ToInvalid<IEntity>();
-        }
-
-        public static IValidation<IEntity> RuleCanCloseDoor(this IEntity entity)
+        public static IValidation<IEntity> RuleIsDoorOpen(this IEntity entity)
         {
             return !entity.HasFlagSet(EntityFlags.IsOpen)
                 ? entity.ToValid()
-                : "The door is already closed".ToInvalid<IEntity>();
+                : "The door is closed".ToInvalid<IEntity>();
+        }
+
+        public static IValidation<IEntity> RuleIsDoorClosed(this IEntity entity)
+        {
+            return entity.HasFlagSet(EntityFlags.IsOpen)
+                ? entity.ToValid()
+                : "The door is open".ToInvalid<IEntity>();
         }
     }
 }

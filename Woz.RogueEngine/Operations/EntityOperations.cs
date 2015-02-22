@@ -40,7 +40,7 @@ namespace Woz.RogueEngine.Operations
             this IEntity entity,
             Func<IImmutableDictionary<long, IEntity>, IImmutableDictionary<long, IEntity>> childEditor)
         {
-            return entity.Set(children: childEditor(entity.Children));
+            return entity.With(children: childEditor(entity.Children));
         }
     }
 }

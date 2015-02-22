@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,32 +17,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
+using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 
-namespace Woz.RogueEngine.Operations
+namespace Woz.RogueEngine.Rules
 {
-    public static class DoorOperations
+    public static class EntityRules
     {
-        public static IEntity OpenDoor(this IEntity entity)
+        public static IValidation<IEntity> RuleIs(this IEntity entity, EntityType entityType)
         {
-            return entity.UpdateDoor(true);
-        }
-
-        public static IEntity CloseDoor(this IEntity entity)
-        {
-            return entity.UpdateDoor(false);
-        }
-
-        private static IEntity UpdateDoor(this IEntity entity, bool isOpen)
-        {
-            var newFlags = entity
-                .Flags
-                .SetItem(EntityFlags.IsOpen, isOpen)
-                .SetItem(EntityFlags.BlocksMovement, !isOpen)
-                .SetItem(EntityFlags.BlocksLineOfSight, !isOpen);
-
-            return entity.With(flags: newFlags);
+            return entity.EntityType == entityType
+                ? entity.ToValid()
+                : string
+                    .Format("Entity is not {0}", entityType)
+                    .ToInvalid<IEntity>();
         }
     }
 }

@@ -51,10 +51,11 @@
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
+    <Compile Include="Levels\IActorState.cs" />
     <Compile Include="Levels\ILevel.cs" />
     <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Operations\EntityOperations.cs" />
-    <Compile Include="Operations\TileOperations.cs" />
+    <Compile Include="Operations\LevelOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Entities\EntityFlags.cs" />
@@ -64,8 +65,11 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\NavigationQueries.cs" />
-    <Compile Include="Validators\RuleHelpers.cs" />
-    <Compile Include="Validators\TileRules.cs" />
+    <Compile Include="Rules\ActorRules.cs" />
+    <Compile Include="Rules\EntityRules.cs" />
+    <Compile Include="Rules\LevelRules.cs" />
+    <Compile Include="Rules\RuleHelpers.cs" />
+    <Compile Include="Rules\TileRules.cs" />
     <Compile Include="Validators\TileValidators.cs" />
   </ItemGroup>
   <ItemGroup>

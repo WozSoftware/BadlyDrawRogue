@@ -19,12 +19,11 @@
 #endregion
 
 using System;
-using Woz.Functional.Monads.MaybeMonad;
 using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
 
-namespace Woz.RogueEngine.Validators
+namespace Woz.RogueEngine.Rules
 {
     public static class RuleHelpers
     {

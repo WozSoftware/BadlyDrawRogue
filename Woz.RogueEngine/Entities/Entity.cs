@@ -22,22 +22,26 @@ using System.Collections.Immutable;
 
 namespace Woz.RogueEngine.Entities
 {
+    using AttributeStore = IImmutableDictionary<EntityAttributes, int>;
+    using FlagStore = IImmutableDictionary<EntityFlags, bool>;
+    using ChildStore = IImmutableDictionary<long, IEntity>;
+
     public class Entity : IEntity
     {
         private readonly long _id;
         private readonly EntityType _entityType;
         private readonly string _name;
-        private readonly IImmutableDictionary<EntityAttributes, int> _attributes;
-        private readonly IImmutableDictionary<EntityFlags, bool> _flags;
-        private readonly IImmutableDictionary<long, IEntity> _children;
+        private readonly AttributeStore _attributes;
+        private readonly FlagStore _flags;
+        private readonly ChildStore _children;
 
         private Entity(
             long id,
             EntityType entityType,
             string name,
-            IImmutableDictionary<EntityAttributes, int> attributes,
-            IImmutableDictionary<EntityFlags, bool> flags,
-            IImmutableDictionary<long, IEntity> children)
+            AttributeStore attributes,
+            FlagStore flags,
+            ChildStore children)
         {
             _id = id;
             _entityType = entityType;
@@ -62,17 +66,17 @@ namespace Woz.RogueEngine.Entities
             get { return _name; } 
         }
 
-        public IImmutableDictionary<EntityAttributes, int> Attributes
+        public AttributeStore Attributes
         {
             get { return _attributes; }
         }
 
-        public IImmutableDictionary<EntityFlags, bool> Flags
+        public FlagStore Flags
         {
             get { return _flags; }
         }
 
-        public IImmutableDictionary<long, IEntity> Children
+        public ChildStore Children
         {
             get { return _children; }
         }
@@ -92,17 +96,17 @@ namespace Woz.RogueEngine.Entities
             long id,
             EntityType entityType,
             string name,
-            IImmutableDictionary<EntityAttributes, int> attributes,
-            IImmutableDictionary<EntityFlags, bool> flags,
-            IImmutableDictionary<long, IEntity> children)
+            AttributeStore attributes,
+            FlagStore flags,
+            ChildStore children)
         {
             return new Entity(id, entityType, name, attributes, flags, children);
         }
 
-        public IEntity Set(
-            IImmutableDictionary<EntityAttributes, int> attributes = null,
-            IImmutableDictionary<EntityFlags, bool> flags = null,
-            IImmutableDictionary<long, IEntity> children = null)
+        public IEntity With(
+            AttributeStore attributes = null,
+            FlagStore flags = null,
+            ChildStore children = null)
         {
             return attributes == null && flags == null && children == null
                 ? this // Minimise object churn

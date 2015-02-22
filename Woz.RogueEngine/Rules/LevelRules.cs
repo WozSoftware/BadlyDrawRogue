@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,31 +18,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.RogueEngine.Entities;
+using System;
+using System.Drawing;
+using Woz.Functional.Monads.ValidationMonad;
+using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Operations
+namespace Woz.RogueEngine.Rules
 {
-    public static class DoorOperations
+    public static class LevelRules
     {
-        public static IEntity OpenDoor(this IEntity entity)
+        public static IValidation<ILevel> RuleIsValidCoordinate(
+            this ILevel level, Point location)
         {
-            return entity.UpdateDoor(true);
-        }
-
-        public static IEntity CloseDoor(this IEntity entity)
-        {
-            return entity.UpdateDoor(false);
-        }
-
-        private static IEntity UpdateDoor(this IEntity entity, bool isOpen)
-        {
-            var newFlags = entity
-                .Flags
-                .SetItem(EntityFlags.IsOpen, isOpen)
-                .SetItem(EntityFlags.BlocksMovement, !isOpen)
-                .SetItem(EntityFlags.BlocksLineOfSight, !isOpen);
-
-            return entity.With(flags: newFlags);
+            Func<int, int, bool> isValid = 
+                (max, value) => value > 0 && value <= max;
+  
+            return isValid(level.Width, location.X) && isValid(level.Height, location.Y)
+                ? level.ToValid()
+                : string
+                    .Format(
+                        "Location ({0},{1} is outside the level boundary of (1,1 -> {2},{3})", 
+                        location.X, location.Y, level.Width, level.Height)
+                    .ToInvalid<ILevel>();
         }
     }
 }

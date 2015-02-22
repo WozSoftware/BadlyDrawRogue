@@ -63,7 +63,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         {
             var newAttributes = _entity.Attributes.SetItem(EntityAttributes.Luck, 1);
 
-            var newEntity = _entity.Set(attributes: newAttributes);
+            var newEntity = _entity.With(attributes: newAttributes);
 
             CollectionAssert.AreEquivalent(
                 newAttributes.Values.ToArray(), 
@@ -75,7 +75,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         {
             var newFlags = _entity.Flags.SetItem(EntityFlags.BlocksLineOfSight, true);
 
-            var newEntity = _entity.Set(flags: newFlags);
+            var newEntity = _entity.With(flags: newFlags);
 
             CollectionAssert.AreEquivalent(
                 newFlags.Values.ToArray(),
@@ -89,7 +89,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
  
             var newChildren = _entity.Children.SetItem(child.Id, child);
 
-            var newEntity = _entity.Set(children: newChildren);
+            var newEntity = _entity.With(children: newChildren);
 
             CollectionAssert.AreEquivalent(
                 newChildren.ToArray(),

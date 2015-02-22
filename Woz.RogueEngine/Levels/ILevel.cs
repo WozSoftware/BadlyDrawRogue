@@ -19,26 +19,22 @@
 #endregion
 
 using System.Collections.Immutable;
-using System.Drawing;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
+    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using ActorStore = IImmutableDictionary<long, IActorState>;
+
     public interface ILevel
     {
         int Width { get; }
         int Height { get; }
-        IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> Tiles { get; }
-        IImmutableDictionary<long, ActorState> Actors { get; }
+        TileStore Tiles { get; }
+        ActorStore ActorStates { get; }
 
-        Point GetActorLocation(long actorId);
-        IEntity GetActor(long actorId);
-        ILevel MoveActor(long actorId, Point newLocation);
-
-        IEntity GetTile(Point location);
-        ILevel SetTile(Point location, IEntity tile);
-
-        ILevel AddToTile(Point location, IEntity thing);
-        ILevel RemoveFromTile(Point location, long thingId);
+        ILevel With(
+            TileStore tiles = null,
+            ActorStore actorStates = null);
     }
 }

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,31 +18,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.RogueEngine.Entities;
-
-namespace Woz.RogueEngine.Operations
+namespace Woz.RogueEngine.Rules
 {
-    public static class DoorOperations
+    public static class ActorRules
     {
-        public static IEntity OpenDoor(this IEntity entity)
-        {
-            return entity.UpdateDoor(true);
-        }
-
-        public static IEntity CloseDoor(this IEntity entity)
-        {
-            return entity.UpdateDoor(false);
-        }
-
-        private static IEntity UpdateDoor(this IEntity entity, bool isOpen)
-        {
-            var newFlags = entity
-                .Flags
-                .SetItem(EntityFlags.IsOpen, isOpen)
-                .SetItem(EntityFlags.BlocksMovement, !isOpen)
-                .SetItem(EntityFlags.BlocksLineOfSight, !isOpen);
-
-            return entity.With(flags: newFlags);
-        }
     }
 }
