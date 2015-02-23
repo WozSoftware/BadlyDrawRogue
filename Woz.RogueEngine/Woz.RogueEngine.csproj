@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Definitions\EntityParser.cs" />
     <Compile Include="Definitions\XmlAttributes.cs" />
     <Compile Include="Definitions\XmlNames.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="Entities\TileTypes.cs" />
     <Compile Include="Levels\IActorState.cs" />
     <Compile Include="Levels\ILevel.cs" />
-    <Compile Include="Operations\DoorOperations.cs" />
     <Compile Include="Operations\EntityOperations.cs" />
     <Compile Include="Operations\LevelOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />

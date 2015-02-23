@@ -19,7 +19,6 @@
 #endregion
 
 using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Functional.Monads.IOMonad;
 

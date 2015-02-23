@@ -26,8 +26,12 @@ using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Operations
 {
+    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using ActorStore = IImmutableDictionary<long, IActorState>;
+
     public static class LevelOperations
     {
+        #region Operations
         public static IEntity GetTile(
             this ILevel level, Point location)
         {
@@ -41,14 +45,110 @@ namespace Woz.RogueEngine.Operations
         public static ILevel SetTile(
             this ILevel level, Point location, IEntity tile)
         {
-            return level.With(tiles: level.Tiles.ReplaceTile(location, tile));
+            return level.With(tiles: level.Tiles.SetTile(location, tile));
         }
 
-        private static IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>
-            ReplaceTile(
-            this IImmutableDictionary<int, IImmutableDictionary<int, IEntity>> tiles,
-            Point location,
-            IEntity tile)
+        public static ILevel OpenDoor(
+            this ILevel level, Point location)
+        {
+            return level.UpdateDoor(location, true);
+        }
+
+        public static ILevel CloseDoor(
+            this ILevel level, Point location)
+        {
+            return level.UpdateDoor(location, false);
+        }
+
+        public static ILevel ActorSpawn(
+            this ILevel level, Point location, IEntity actor)
+        {
+            var actorState = ActorState.Build(actor, location);
+
+            return level.SetActorState(actorState);
+        }
+
+        public static ILevel ActorMove(
+            this ILevel level, long actorId, Point newLocation)
+        {
+            var newActorState = level
+                .ActorStates[actorId]
+                .With(location: newLocation);
+
+            return level.SetActorState(newActorState);
+        }
+
+        public static ILevel ActorTakeItem(
+            this ILevel level, long actorId, Point itemLocation, long itemId)
+        {
+            // Remove Item from tile
+            var itemTile = level.GetTile(itemLocation);
+            var item = itemTile.Children[itemId];
+            var newTile = itemTile.RemoveChild(itemId);
+            var newTiles = level
+                .Tiles
+                .SetTile(itemLocation, newTile);
+
+            // Add item to actor
+            var actorState = level.ActorStates[actorId];
+            var newActor = actorState.Actor.AddChild(item);
+            var newActorState = actorState.With(actor: newActor);
+            var newActorStates = level
+                .ActorStates
+                .SetActorState(newActorState);
+
+            return level.With(actorStates: newActorStates, tiles: newTiles);
+        }
+
+        public static ILevel ActorDropItem(
+            this ILevel level, long actorId, long itemId)
+        {
+            // Remove item from actor
+            var actorState = level.ActorStates[actorId];
+            var item = actorState.Actor.Children[itemId];
+            var newActor = actorState.Actor.RemoveChild(itemId);
+            var newActorState = actorState.With(actor: newActor);
+            var newActorStates = level
+                .ActorStates
+                .SetActorState(newActorState);
+
+            // Add item to tile
+            var actorLocation = newActorState.Location;
+            var itemTile = level.GetTile(actorLocation);
+            var newTile = itemTile.AddChild(item);
+            var newTiles = level
+                .Tiles
+                .SetTile(actorLocation, newTile);
+
+            return level.With(actorStates: newActorStates, tiles: newTiles);
+        }
+
+        public static ILevel ItemSpawn(
+            this ILevel level, Point location, IEntity item)
+        {
+            var newTile = level.GetTile(location).AddChild(item);
+
+            return level.SetTile(location, newTile);
+        }
+        #endregion
+
+        #region Helpers
+        public static ILevel SetActorState(
+            this ILevel level, IActorState actorState)
+        {
+            var newActorStates = level.ActorStates.SetActorState(actorState);
+            return level.With(actorStates: newActorStates);
+        }
+
+        private static ActorStore SetActorState(
+            this ActorStore actorStates, IActorState actorState)
+        {
+            return actorStates
+                .SetItem(actorState.Actor.Id, actorState);
+        }
+
+        private static TileStore SetTile(
+            this TileStore tiles, Point location, IEntity tile)
         {
             return tiles
                 .SetItem(
@@ -56,35 +156,21 @@ namespace Woz.RogueEngine.Operations
                     tiles[location.X].SetItem(location.Y, tile));
         }
 
-        //public ILevel MoveActor(long actorId, Point newLocation)
-        //{
-        //    var actorState = _actors[actorId];
-        //    var oldLocation = actorState.Location;
-        //    var oldlocationTile = GetTile(oldLocation);
-        //    var actor = oldlocationTile.Children[actorId];
+        public static ILevel UpdateDoor(
+            this ILevel level, Point location, bool isOpen)
+        {
+            var doorTile = level.GetTile(location);
 
-        //    var editedOldlocationTile = GetTile(oldLocation).RemoveChild(actorId);
-        //    var editedNewLocationTile = GetTile(newLocation).AddChild(actor);
+            var newFlags = doorTile
+                .Flags
+                .SetItem(EntityFlags.IsOpen, isOpen)
+                .SetItem(EntityFlags.BlocksMovement, !isOpen)
+                .SetItem(EntityFlags.BlocksLineOfSight, !isOpen);
 
-        //    return new Level(
-        //        _width,
-        //        _height,
-        //        _tiles
-        //            .ReplaceTile(oldLocation, editedOldlocationTile)
-        //            .ReplaceTile(newLocation, editedNewLocationTile),
-        //        _actors
-        //            .SetItem(actorId, actorState.Set(newLocation)));
-        //}
+            var newDoorTile = doorTile.With(flags: newFlags);
 
-        //public ILevel AddToTile(Point location, IEntity thing)
-        //{
-        //    return SetTile(location, GetTile(location).AddChild(thing));
-        //}
-
-        //public ILevel RemoveFromTile(Point location, long thingId)
-        //{
-        //    return SetTile(location, GetTile(location).RemoveChild(thingId));
-        //}
-         
+            return level.SetTile(location, newDoorTile);
+        }
+        #endregion
     }
 }
