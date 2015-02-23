@@ -24,11 +24,19 @@ using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Operations
 {
+    using ChildStore = IImmutableDictionary<long, IEntity>;
+
     public static class EntityOperations
     {
         public static IEntity AddChild(this IEntity entity, IEntity thing)
         {
             return entity.EditChild(x => x.Add(thing.Id, thing));
+        }
+
+        public static IEntity UpdateChild(this IEntity entity, IEntity thing)
+        {
+            return entity.EditChild(x => x.SetItem(thing.Id, thing));
+            
         }
 
         public static IEntity RemoveChild(this IEntity entity, long thingId)
@@ -37,8 +45,7 @@ namespace Woz.RogueEngine.Operations
         }
 
         public static IEntity EditChild(
-            this IEntity entity,
-            Func<IImmutableDictionary<long, IEntity>, IImmutableDictionary<long, IEntity>> childEditor)
+            this IEntity entity, Func<ChildStore, ChildStore> childEditor)
         {
             return entity.With(children: childEditor(entity.Children));
         }

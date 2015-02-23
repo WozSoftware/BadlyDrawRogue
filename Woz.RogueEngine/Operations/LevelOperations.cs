@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Immutable;
 using System.Drawing;
 using Woz.Functional.Monads.MaybeMonad;
@@ -45,7 +46,7 @@ namespace Woz.RogueEngine.Operations
         public static ILevel SetTile(
             this ILevel level, Point location, IEntity tile)
         {
-            return level.With(tiles: level.Tiles.SetTile(location, tile));
+            return level.With(tiles: level.Tiles.UpdateTile(location, tile));
         }
 
         public static ILevel OpenDoor(
@@ -81,44 +82,37 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorTakeItem(
             this ILevel level, long actorId, Point itemLocation, long itemId)
         {
-            // Remove Item from tile
             var itemTile = level.GetTile(itemLocation);
             var item = itemTile.Children[itemId];
-            var newTile = itemTile.RemoveChild(itemId);
+
+            // Remove Item from tile
             var newTiles = level
                 .Tiles
-                .SetTile(itemLocation, newTile);
+                .UpdateTile(itemLocation, itemTile.RemoveChild(itemId));
 
             // Add item to actor
-            var actorState = level.ActorStates[actorId];
-            var newActor = actorState.Actor.AddChild(item);
-            var newActorState = actorState.With(actor: newActor);
             var newActorStates = level
                 .ActorStates
-                .SetActorState(newActorState);
+                .UpdateActor(actorId, actor => actor.AddChild(item));
 
             return level.With(actorStates: newActorStates, tiles: newTiles);
         }
 
         public static ILevel ActorDropItem(
-            this ILevel level, long actorId, long itemId)
+            this ILevel level, long actorId, Point itemLocation, long itemId)
         {
+            var item = level.ActorStates[actorId].Actor.Children[itemId];
+
             // Remove item from actor
-            var actorState = level.ActorStates[actorId];
-            var item = actorState.Actor.Children[itemId];
-            var newActor = actorState.Actor.RemoveChild(itemId);
-            var newActorState = actorState.With(actor: newActor);
             var newActorStates = level
                 .ActorStates
-                .SetActorState(newActorState);
+                .UpdateActor(actorId, actor => actor.RemoveChild(itemId));
 
             // Add item to tile
-            var actorLocation = newActorState.Location;
-            var itemTile = level.GetTile(actorLocation);
-            var newTile = itemTile.AddChild(item);
+            var itemTile = level.GetTile(itemLocation);
             var newTiles = level
                 .Tiles
-                .SetTile(actorLocation, newTile);
+                .UpdateTile(itemLocation, itemTile.AddChild(item));
 
             return level.With(actorStates: newActorStates, tiles: newTiles);
         }
@@ -126,9 +120,9 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ItemSpawn(
             this ILevel level, Point location, IEntity item)
         {
-            var newTile = level.GetTile(location).AddChild(item);
-
-            return level.SetTile(location, newTile);
+            return level.SetTile(
+                location,
+                level.GetTile(location).AddChild(item));
         }
         #endregion
 
@@ -147,7 +141,18 @@ namespace Woz.RogueEngine.Operations
                 .SetItem(actorState.Actor.Id, actorState);
         }
 
-        private static TileStore SetTile(
+        private static ActorStore UpdateActor(
+            this ActorStore actorStates,
+            long actorId,
+            Func<IEntity, IEntity> actorEditor)
+        {
+            var actorState = actorStates[actorId];
+            var newActor = actorEditor(actorState.Actor);
+            var newActorState = actorState.With(actor: newActor);
+            return actorStates.SetActorState(newActorState);
+        }
+
+        private static TileStore UpdateTile(
             this TileStore tiles, Point location, IEntity tile)
         {
             return tiles
