@@ -18,11 +18,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
+    using ConcreteTileColumn = ImmutableDictionary<int, IEntity>;
+    using ConcreteTileStore = ImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using ConcreteActorStore = ImmutableDictionary<long, IActorState>;
+    using TileColumn = IImmutableDictionary<int, IEntity>;
     using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
     using ActorStore = IImmutableDictionary<long, IActorState>;
 
@@ -64,11 +70,13 @@ namespace Woz.RogueEngine.Levels
 
         public static ILevel Build(int width, int height)
         {
-            return
-                new Level(
-                    width, height,
-                    ImmutableDictionary<int, IImmutableDictionary<int, IEntity>>.Empty, 
-                    ImmutableDictionary<long, IActorState>.Empty);
+            // Populate all the X columns to save the need for on the fly creation
+            var tileColumns = Enumerable
+                .Range(1, width)
+                .Select(x => new KeyValuePair<int, TileColumn>(x, ConcreteTileColumn.Empty));
+            var tileStore = ConcreteTileStore.Empty.SetItems(tileColumns);
+
+            return new Level(width, height, tileStore, ConcreteActorStore.Empty);
         }
 
         public ILevel With(
@@ -76,7 +84,11 @@ namespace Woz.RogueEngine.Levels
         {
             return tiles == null && actorStates == null
                 ? this
-                : new Level(_width, _height, tiles, actorStates);
+                : new Level(
+                    _width, 
+                    _height, 
+                    tiles ?? _tiles, 
+                    actorStates ?? _actorStates);
         }
     }
 }

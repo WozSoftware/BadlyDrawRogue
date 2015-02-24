@@ -21,7 +21,6 @@
 using System;
 using System.Collections.Immutable;
 using System.Drawing;
-using Woz.Functional.Monads.MaybeMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
@@ -32,21 +31,18 @@ namespace Woz.RogueEngine.Operations
 
     public static class LevelOperations
     {
-        #region Operations
-        public static IEntity GetTile(
-            this ILevel level, Point location)
-        {
-            return level
-                .Tiles
-                .Lookup(location.X)
-                .SelectMany(x => x.Lookup(location.Y))
-                .OrElse(EntityFactory.Void);
-        }
-
         public static ILevel SetTile(
             this ILevel level, Point location, IEntity tile)
         {
-            return level.With(tiles: level.Tiles.UpdateTile(location, tile));
+            return level.With(tiles: level.Tiles.SetTile(location, tile));
+        }
+
+        public static ILevel EditTile(
+            this ILevel level,
+            Point location,
+            Func<IEntity, IEntity> tileEditor)
+        {
+            return level.With(tiles: level.Tiles.EditTile(location, tileEditor));
         }
 
         public static ILevel OpenDoor(
@@ -59,6 +55,18 @@ namespace Woz.RogueEngine.Operations
             this ILevel level, Point location)
         {
             return level.UpdateDoor(location, false);
+        }
+
+        private static ILevel UpdateDoor(
+            this ILevel level, Point location, bool isOpen)
+        {
+            return level.EditTile(
+                location,
+                tile => tile.EditFlags(
+                    flags => flags
+                        .SetItem(EntityFlags.IsOpen, isOpen)
+                        .SetItem(EntityFlags.BlocksMovement, !isOpen)
+                        .SetItem(EntityFlags.BlocksLineOfSight, !isOpen)));
         }
 
         public static ILevel ActorSpawn(
@@ -82,13 +90,12 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorTakeItem(
             this ILevel level, long actorId, Point itemLocation, long itemId)
         {
-            var itemTile = level.GetTile(itemLocation);
-            var item = itemTile.Children[itemId];
+            var item = level.Tiles.GetTile(itemLocation).Children[itemId];
 
             // Remove Item from tile
             var newTiles = level
                 .Tiles
-                .UpdateTile(itemLocation, itemTile.RemoveChild(itemId));
+                .EditTile(itemLocation, tile => tile.RemoveChild(itemId));
 
             // Add item to actor
             var newActorStates = level
@@ -109,10 +116,9 @@ namespace Woz.RogueEngine.Operations
                 .UpdateActor(actorId, actor => actor.RemoveChild(itemId));
 
             // Add item to tile
-            var itemTile = level.GetTile(itemLocation);
             var newTiles = level
                 .Tiles
-                .UpdateTile(itemLocation, itemTile.AddChild(item));
+                .EditTile(itemLocation, tile => tile.AddChild(item));
 
             return level.With(actorStates: newActorStates, tiles: newTiles);
         }
@@ -120,13 +126,9 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ItemSpawn(
             this ILevel level, Point location, IEntity item)
         {
-            return level.SetTile(
-                location,
-                level.GetTile(location).AddChild(item));
+            return level.EditTile(location, tile => tile.AddChild(item));
         }
-        #endregion
 
-        #region Helpers
         public static ILevel SetActorState(
             this ILevel level, IActorState actorState)
         {
@@ -151,31 +153,5 @@ namespace Woz.RogueEngine.Operations
             var newActorState = actorState.With(actor: newActor);
             return actorStates.SetActorState(newActorState);
         }
-
-        private static TileStore UpdateTile(
-            this TileStore tiles, Point location, IEntity tile)
-        {
-            return tiles
-                .SetItem(
-                    location.X,
-                    tiles[location.X].SetItem(location.Y, tile));
-        }
-
-        public static ILevel UpdateDoor(
-            this ILevel level, Point location, bool isOpen)
-        {
-            var doorTile = level.GetTile(location);
-
-            var newFlags = doorTile
-                .Flags
-                .SetItem(EntityFlags.IsOpen, isOpen)
-                .SetItem(EntityFlags.BlocksMovement, !isOpen)
-                .SetItem(EntityFlags.BlocksLineOfSight, !isOpen);
-
-            var newDoorTile = doorTile.With(flags: newFlags);
-
-            return level.SetTile(location, newDoorTile);
-        }
-        #endregion
     }
 }

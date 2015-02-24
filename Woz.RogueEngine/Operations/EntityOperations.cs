@@ -24,10 +24,26 @@ using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Operations
 {
+    using AttributeStore = IImmutableDictionary<EntityAttributes, int>;
+    using FlagStore = IImmutableDictionary<EntityFlags, bool>;
     using ChildStore = IImmutableDictionary<long, IEntity>;
 
     public static class EntityOperations
     {
+        public static IEntity EditAttributes(
+            this IEntity entity, 
+            Func<AttributeStore, AttributeStore> attributeEditor)
+        {
+            return entity.With(attributes: attributeEditor(entity.Attributes));
+        }
+
+        public static IEntity EditFlags(
+            this IEntity entity, 
+            Func<FlagStore, FlagStore> flagEditor)
+        {
+            return entity.With(flags: flagEditor(entity.Flags));
+        }
+
         public static IEntity AddChild(this IEntity entity, IEntity thing)
         {
             return entity.EditChild(x => x.Add(thing.Id, thing));
