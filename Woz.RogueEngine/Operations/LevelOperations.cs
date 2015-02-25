@@ -74,17 +74,16 @@ namespace Woz.RogueEngine.Operations
         {
             var actorState = ActorState.Build(actor, location);
 
-            return level.SetActorState(actorState);
+            return level.With(
+                actorStates: level.ActorStates.SetActorState(actorState));
         }
 
         public static ILevel ActorMove(
-            this ILevel level, long actorId, Point newLocation)
+            this ILevel level, long actorId, Point location)
         {
-            var newActorState = level
-                .ActorStates[actorId]
-                .With(location: newLocation);
-
-            return level.SetActorState(newActorState);
+            return level
+                .With(actorStates: 
+                    level.ActorStates.SetActorLocation(actorId, location));
         }
 
         public static ILevel ActorTakeItem(
@@ -100,7 +99,7 @@ namespace Woz.RogueEngine.Operations
             // Add item to actor
             var newActorStates = level
                 .ActorStates
-                .UpdateActor(actorId, actor => actor.AddChild(item));
+                .EditActor(actorId, actor => actor.AddChild(item));
 
             return level.With(actorStates: newActorStates, tiles: newTiles);
         }
@@ -113,7 +112,7 @@ namespace Woz.RogueEngine.Operations
             // Remove item from actor
             var newActorStates = level
                 .ActorStates
-                .UpdateActor(actorId, actor => actor.RemoveChild(itemId));
+                .EditActor(actorId, actor => actor.RemoveChild(itemId));
 
             // Add item to tile
             var newTiles = level
@@ -127,31 +126,6 @@ namespace Woz.RogueEngine.Operations
             this ILevel level, Point location, IEntity item)
         {
             return level.EditTile(location, tile => tile.AddChild(item));
-        }
-
-        public static ILevel SetActorState(
-            this ILevel level, IActorState actorState)
-        {
-            var newActorStates = level.ActorStates.SetActorState(actorState);
-            return level.With(actorStates: newActorStates);
-        }
-
-        private static ActorStore SetActorState(
-            this ActorStore actorStates, IActorState actorState)
-        {
-            return actorStates
-                .SetItem(actorState.Actor.Id, actorState);
-        }
-
-        private static ActorStore UpdateActor(
-            this ActorStore actorStates,
-            long actorId,
-            Func<IEntity, IEntity> actorEditor)
-        {
-            var actorState = actorStates[actorId];
-            var newActor = actorEditor(actorState.Actor);
-            var newActorState = actorState.With(actor: newActor);
-            return actorStates.SetActorState(newActorState);
         }
     }
 }

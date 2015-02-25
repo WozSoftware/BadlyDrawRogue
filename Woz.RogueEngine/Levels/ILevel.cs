@@ -26,6 +26,8 @@ namespace Woz.RogueEngine.Levels
     using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
     using ActorStore = IImmutableDictionary<long, IActorState>;
 
+    // TODO: Refactor actor store to speed up location lookup
+
     public interface ILevel
     {
         int Width { get; }

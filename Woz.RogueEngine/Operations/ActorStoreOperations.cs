@@ -18,7 +18,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Immutable;
+using System.Drawing;
+using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Operations
@@ -27,6 +30,31 @@ namespace Woz.RogueEngine.Operations
 
     public static class ActorStoreOperations
     {
-        
+        public static ActorStore EditActor(
+            this ActorStore actorStore,
+            long actorId,
+            Func<IEntity, IEntity> actorEditor)
+        {
+            var actorState = actorStore[actorId];
+
+            return actorStore
+                .SetActorState(actorState
+                    .With(actor: actorEditor(actorState.Actor)));
+        }
+
+        public static ActorStore SetActorState(
+            this ActorStore actorStore, IActorState actorState)
+        {
+            return actorStore
+                .SetItem(actorState.Actor.Id, actorState);
+        }
+
+        public static ActorStore SetActorLocation(
+            this ActorStore actorStore, long actorId, Point location)
+        {
+            return actorStore.SetActorState(
+                actorStore[actorId].With(location: location));
+        }
+
     }
 }
