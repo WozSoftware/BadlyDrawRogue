@@ -18,6 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
+
 namespace Woz.Functional.Monads.MaybeMonad
 {
     public static class Maybe<T>
@@ -45,6 +47,8 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         public static IMaybe<T> Collapse<T>(this IMaybe<IMaybe<T>> doubleMaybe)
         {
+            Debug.Assert(doubleMaybe != null);
+
             return doubleMaybe.OrElse(Maybe<T>.Nothing);
         }
     }

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="DebugHelpers\DebugAssertHelpers.cs" />
     <Compile Include="Definitions\EntityParser.cs" />
     <Compile Include="Definitions\XmlAttributes.cs" />
     <Compile Include="Definitions\XmlNames.cs" />

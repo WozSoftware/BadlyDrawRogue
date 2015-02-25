@@ -19,12 +19,13 @@
 #endregion
 
 using System.Collections.Immutable;
+using System.Drawing;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
-    using ActorStore = IImmutableDictionary<long, IActorState>;
+    using ITileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using IActorStore = IImmutableDictionary<long, IActorState>;
 
     // TODO: Refactor actor store to speed up location lookup
 
@@ -32,11 +33,12 @@ namespace Woz.RogueEngine.Levels
     {
         int Width { get; }
         int Height { get; }
-        TileStore Tiles { get; }
-        ActorStore ActorStates { get; }
+        Rectangle Bounds { get; }
+        ITileStore Tiles { get; }
+        IActorStore ActorStates { get; }
 
         ILevel With(
-            TileStore tiles = null,
-            ActorStore actorStates = null);
+            ITileStore tiles = null,
+            IActorStore actorStates = null);
     }
 }

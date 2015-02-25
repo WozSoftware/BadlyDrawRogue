@@ -20,6 +20,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using Woz.Core.Conversion;
@@ -33,6 +34,8 @@ namespace Woz.RogueEngine.Definitions
         public static IEnumerable<IEntity> ReadEntities(
             this XElement entitiesElement)
         {
+            Debug.Assert(entitiesElement != null);
+
             return entitiesElement
                 .Elements(XmlElements.Entity)
                 .Select(ReadEntity);
@@ -40,6 +43,8 @@ namespace Woz.RogueEngine.Definitions
 
         public static IEntity ReadEntity(this XElement entityElement)
         {
+            Debug.Assert(entityElement != null);
+
             var id = entityElement
                 .MaybeAttribute(XmlAttributes.Id)
                 .Select(x => x.Value.ParseAs<long>())
@@ -59,6 +64,8 @@ namespace Woz.RogueEngine.Definitions
         public static IImmutableDictionary<EntityAttributes, int>
             ReadAttributes(this XElement attributesElement)
         {
+            Debug.Assert(attributesElement != null);
+
             return attributesElement
                 .Elements(XmlElements.Attribute)
                 .ToImmutableDictionary(
@@ -69,6 +76,8 @@ namespace Woz.RogueEngine.Definitions
         public static IImmutableDictionary<EntityFlags, bool>
             ReadFlags(this XElement flagsElement)
         {
+            Debug.Assert(flagsElement != null);
+
             return flagsElement
                 .Elements(XmlElements.Flag)
                 .ToImmutableDictionary(

@@ -20,21 +20,26 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Drawing;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Operations
 {
-    using ActorStore = IImmutableDictionary<long, IActorState>;
+    using IActorStore = IImmutableDictionary<long, IActorState>;
 
     public static class ActorStoreOperations
     {
-        public static ActorStore EditActor(
-            this ActorStore actorStore,
+        public static IActorStore EditActor(
+            this IActorStore actorStore,
             long actorId,
             Func<IEntity, IEntity> actorEditor)
         {
+            Debug.Assert(actorStore != null);
+            Debug.Assert(actorId > 0);
+            Debug.Assert(actorEditor != null);
+
             var actorState = actorStore[actorId];
 
             return actorStore
@@ -42,16 +47,23 @@ namespace Woz.RogueEngine.Operations
                     .With(actor: actorEditor(actorState.Actor)));
         }
 
-        public static ActorStore SetActorState(
-            this ActorStore actorStore, IActorState actorState)
+        public static IActorStore SetActorState(
+            this IActorStore actorStore, IActorState actorState)
         {
+            Debug.Assert(actorStore != null);
+            Debug.Assert(actorState != null);
+
             return actorStore
                 .SetItem(actorState.Actor.Id, actorState);
         }
 
-        public static ActorStore SetActorLocation(
-            this ActorStore actorStore, long actorId, Point location)
+        public static IActorStore SetActorLocation(
+            this IActorStore actorStore, long actorId, Point location)
         {
+            Debug.Assert(actorStore != null);
+            Debug.Assert(actorId > 0);
+            Debug.Assert(location.X > 0 && location.Y > 0);
+
             return actorStore.SetActorState(
                 actorStore[actorId].With(location: location));
         }

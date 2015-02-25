@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.RoqueEngine.
 //
-// Woz.Functional is free software: you can redistribute it 
+// Woz.RoqueEngine is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -18,28 +18,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
+using Woz.RogueEngine.Entities;
 
-namespace Woz.Functional.Monads.MaybeMonad
+namespace Woz.RogueEngine.DebugHelpers
 {
-    public static class MaybeDictionaryLookup
+    public static class DebugAssertHelpers
     {
-        public static IMaybe<T> Lookup<TKey, T>(
-            this IImmutableDictionary<TKey, T> self, TKey key)
+        public static bool IsValid(this IEntity entity, EntityType entityType)
         {
-            Debug.Assert(self != null);
-
-            return MaybeTryGet.Wrap<TKey, T>(self.TryGetValue, key);
+            return entity != null && entity.EntityType == entityType;
         }
 
-        public static IMaybe<T> Lookup<TKey, T>(
-            this IDictionary<TKey, T> self, TKey key)
+        public static bool IsNot(this IEntity entity, EntityType entityType)
         {
-            Debug.Assert(self != null);
-
-            return MaybeTryGet.Wrap<TKey, T>(self.TryGetValue, key);
+            return entity != null && entity.EntityType != entityType;
         }
     }
 }

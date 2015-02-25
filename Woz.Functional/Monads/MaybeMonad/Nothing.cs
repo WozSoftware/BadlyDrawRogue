@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 
 namespace Woz.Functional.Monads.MaybeMonad
 {
@@ -37,12 +38,16 @@ namespace Woz.Functional.Monads.MaybeMonad
         // M<T> -> Func<T, TResult> -> M<TResult>
         public IMaybe<TResult> Select<TResult>(Func<T, TResult> operation)
         {
+            Debug.Assert(operation != null);
+
             return Maybe<TResult>.Nothing;
         }
 
         // M<T> -> Func<T, M<TResult>> -> M<TResult>
         public IMaybe<TResult> SelectMany<TResult>(Func<T, IMaybe<TResult>> operation)
         {
+            Debug.Assert(operation != null);
+
             return Maybe<TResult>.Nothing;
         }
 
@@ -50,11 +55,16 @@ namespace Woz.Functional.Monads.MaybeMonad
         public IMaybe<TResult> SelectMany<T2, TResult>(
             Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer)
         {
+            Debug.Assert(transform != null);
+            Debug.Assert(composer != null);
+
             return Maybe<TResult>.Nothing;
         }
 
         public IMaybe<T> Where(Func<T, bool> predicate)
         {
+            Debug.Assert(predicate != null);
+
             return this;
         }
 
@@ -70,11 +80,15 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         public T OrElse(Func<T> builder)
         {
+            Debug.Assert(builder != null);
+
             return builder();
         }
 
         public T OrElse(Func<Exception> builder)
         {
+            Debug.Assert(builder != null);
+
             throw builder();
         }
 

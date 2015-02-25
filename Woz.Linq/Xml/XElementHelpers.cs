@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
 using System.Xml;
 using System.Xml.Linq;
 using Woz.Functional.Monads.MaybeMonad;
@@ -29,6 +30,9 @@ namespace Woz.Linq.Xml
         public static XElement 
             ElementOrDefault(this XElement element, string name)
         {
+            Debug.Assert(element != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
+
             return element
                 .MaybeElement(name)
                 .OrElse(new XElement(name));
@@ -37,6 +41,9 @@ namespace Woz.Linq.Xml
         public static XElement 
             RequiredElement(this XElement element, string name)
         {
+            Debug.Assert(element != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
+
             return element
                 .MaybeElement(name)
                 .OrElse(
@@ -49,6 +56,9 @@ namespace Woz.Linq.Xml
         public static IMaybe<XElement> 
             MaybeElement(this XElement element, string name)
         {
+            Debug.Assert(element != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
+
             return element.Element(name).ToMaybe();
         }
     }

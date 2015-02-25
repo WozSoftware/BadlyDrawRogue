@@ -20,28 +20,36 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using ConcreteTileColumn = ImmutableDictionary<int, IEntity>;
-    using ConcreteTileStore = ImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
-    using ConcreteActorStore = ImmutableDictionary<long, IActorState>;
-    using TileColumn = IImmutableDictionary<int, IEntity>;
-    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
-    using ActorStore = IImmutableDictionary<long, IActorState>;
+    using ITileColumn = IImmutableDictionary<int, IEntity>;
+    using ITileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using IActorStore = IImmutableDictionary<long, IActorState>;
+
+    using TileColumn = ImmutableDictionary<int, IEntity>;
+    using TileStore = ImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using ActorStore = ImmutableDictionary<long, IActorState>;
 
     public class Level : ILevel
     {
         private readonly int _width;
         private readonly int _height;
-        private readonly TileStore _tiles;
-        private readonly ActorStore _actorStates;
+        private readonly ITileStore _tiles;
+        private readonly IActorStore _actorStates;
 
         private Level(
-            int width, int height, TileStore tiles, ActorStore actorStates)
+            int width, int height, ITileStore tiles, IActorStore actorStates)
         {
+            Debug.Assert(width > 0);
+            Debug.Assert(height > 0);
+            Debug.Assert(tiles != null);
+            Debug.Assert(actorStates != null);
+
             _width = width;
             _height = height;
             _tiles = tiles;
@@ -58,12 +66,17 @@ namespace Woz.RogueEngine.Levels
             get { return _height; }
         }
 
-        public TileStore Tiles
+        public Rectangle Bounds
+        {
+            get { return new Rectangle(1, 1, _width, _height); }
+        }
+
+        public ITileStore Tiles
         {
             get { return _tiles; }
         }
 
-        public ActorStore ActorStates
+        public IActorStore ActorStates
         {
             get { return _actorStates; }
         }
@@ -73,14 +86,14 @@ namespace Woz.RogueEngine.Levels
             // Populate all the X columns to save the need for on the fly creation
             var tileColumns = Enumerable
                 .Range(1, width)
-                .Select(x => new KeyValuePair<int, TileColumn>(x, ConcreteTileColumn.Empty));
-            var tileStore = ConcreteTileStore.Empty.SetItems(tileColumns);
+                .Select(x => new KeyValuePair<int, ITileColumn>(x, TileColumn.Empty));
+            var tileStore = TileStore.Empty.SetItems(tileColumns);
 
-            return new Level(width, height, tileStore, ConcreteActorStore.Empty);
+            return new Level(width, height, tileStore, ActorStore.Empty);
         }
 
         public ILevel With(
-            TileStore tiles = null, ActorStore actorStates = null)
+            ITileStore tiles = null, IActorStore actorStates = null)
         {
             return tiles == null && actorStates == null
                 ? this

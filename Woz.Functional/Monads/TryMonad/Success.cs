@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 
 namespace Woz.Functional.Monads.TryMonad
 {
@@ -53,6 +54,8 @@ namespace Woz.Functional.Monads.TryMonad
         // M<T> -> Func<T, TResult> -> M<TResult>
         public ITry<TResult> Select<TResult>(Func<T, TResult> operation)
         {
+            Debug.Assert(operation != null);
+
             var value = _value; // Capture for closure
             return Try.Catcher(() => operation(value).ToSuccess());
         }
@@ -61,6 +64,8 @@ namespace Woz.Functional.Monads.TryMonad
         public ITry<TResult> SelectMany<TResult>(
             Func<T, ITry<TResult>> operation)
         {
+            Debug.Assert(operation != null);
+
             var value = _value; // Capture for closure
             return Try.Catcher(() => operation(value));
         }
@@ -69,6 +74,9 @@ namespace Woz.Functional.Monads.TryMonad
         public ITry<TResult> SelectMany<T2, TResult>(
             Func<T, ITry<T2>> transform, Func<T, T2, TResult> composer)
         {
+            Debug.Assert(transform != null);
+            Debug.Assert(composer != null);
+
             return SelectMany(x =>
                 transform(x).SelectMany(y =>
                     composer(x, y).ToSuccess()));
@@ -76,6 +84,8 @@ namespace Woz.Functional.Monads.TryMonad
 
         public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
         {
+            Debug.Assert(exceptionBuilder != null);
+
             return this;
         }
 
@@ -86,6 +96,8 @@ namespace Woz.Functional.Monads.TryMonad
 
         public T OrElse(Func<Exception, Exception> exceptionBuilder)
         {
+            Debug.Assert(exceptionBuilder != null);
+
             return _value;
         }
 

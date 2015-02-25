@@ -20,49 +20,66 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Operations
 {
-    using AttributeStore = IImmutableDictionary<EntityAttributes, int>;
-    using FlagStore = IImmutableDictionary<EntityFlags, bool>;
-    using ChildStore = IImmutableDictionary<long, IEntity>;
+    using IAttributeStore = IImmutableDictionary<EntityAttributes, int>;
+    using IFlagStore = IImmutableDictionary<EntityFlags, bool>;
+    using IChildStore = IImmutableDictionary<long, IEntity>;
 
     public static class EntityOperations
     {
         public static IEntity EditAttributes(
             this IEntity entity, 
-            Func<AttributeStore, AttributeStore> attributeEditor)
+            Func<IAttributeStore, IAttributeStore> attributeEditor)
         {
+            Debug.Assert(entity != null);
+            Debug.Assert(attributeEditor != null);
+
             return entity.With(attributes: attributeEditor(entity.Attributes));
         }
 
         public static IEntity EditFlags(
             this IEntity entity, 
-            Func<FlagStore, FlagStore> flagEditor)
+            Func<IFlagStore, IFlagStore> flagEditor)
         {
+            Debug.Assert(entity != null);
+            Debug.Assert(flagEditor != null);
+
             return entity.With(flags: flagEditor(entity.Flags));
         }
 
-        public static IEntity AddChild(this IEntity entity, IEntity thing)
+        public static IEntity AddChild(this IEntity entity, IEntity child)
         {
-            return entity.EditChild(x => x.Add(thing.Id, thing));
+            Debug.Assert(entity != null);
+            Debug.Assert(child != null);
+
+            return entity.EditChild(x => x.Add(child.Id, child));
         }
 
-        public static IEntity UpdateChild(this IEntity entity, IEntity thing)
+        public static IEntity UpdateChild(this IEntity entity, IEntity child)
         {
-            return entity.EditChild(x => x.SetItem(thing.Id, thing));
-            
+            Debug.Assert(entity != null);
+            Debug.Assert(child != null);
+
+            return entity.EditChild(x => x.SetItem(child.Id, child));
         }
 
-        public static IEntity RemoveChild(this IEntity entity, long thingId)
+        public static IEntity RemoveChild(this IEntity entity, long childId)
         {
-            return entity.EditChild(x => x.Remove(thingId));
+            Debug.Assert(entity != null);
+
+            return entity.EditChild(x => x.Remove(childId));
         }
 
         public static IEntity EditChild(
-            this IEntity entity, Func<ChildStore, ChildStore> childEditor)
+            this IEntity entity, Func<IChildStore, IChildStore> childEditor)
         {
+            Debug.Assert(entity != null);
+            Debug.Assert(childEditor != null);
+
             return entity.With(children: childEditor(entity.Children));
         }
     }

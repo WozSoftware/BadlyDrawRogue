@@ -18,31 +18,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Woz.RogueEngine.Entities
 {
-    using AttributeStore = IImmutableDictionary<EntityAttributes, int>;
-    using FlagStore = IImmutableDictionary<EntityFlags, bool>;
-    using ChildStore = IImmutableDictionary<long, IEntity>;
+    using IAttributeStore = IImmutableDictionary<EntityAttributes, int>;
+    using IFlagStore = IImmutableDictionary<EntityFlags, bool>;
+    using IChildStore = IImmutableDictionary<long, IEntity>;
 
     public class Entity : IEntity
     {
         private readonly long _id;
         private readonly EntityType _entityType;
         private readonly string _name;
-        private readonly AttributeStore _attributes;
-        private readonly FlagStore _flags;
-        private readonly ChildStore _children;
+        private readonly IAttributeStore _attributes;
+        private readonly IFlagStore _flags;
+        private readonly IChildStore _children;
 
         private Entity(
             long id,
             EntityType entityType,
             string name,
-            AttributeStore attributes,
-            FlagStore flags,
-            ChildStore children)
+            IAttributeStore attributes,
+            IFlagStore flags,
+            IChildStore children)
         {
+            Debug.Assert(Enum.IsDefined(typeof(EntityType), entityType));
+            Debug.Assert(!string.IsNullOrEmpty(name));
+            Debug.Assert(attributes != null);
+            Debug.Assert(flags != null);
+            Debug.Assert(children != null);
+
             _id = id;
             _entityType = entityType;
             _name = name;
@@ -66,17 +74,17 @@ namespace Woz.RogueEngine.Entities
             get { return _name; } 
         }
 
-        public AttributeStore Attributes
+        public IAttributeStore Attributes
         {
             get { return _attributes; }
         }
 
-        public FlagStore Flags
+        public IFlagStore Flags
         {
             get { return _flags; }
         }
 
-        public ChildStore Children
+        public IChildStore Children
         {
             get { return _children; }
         }
@@ -96,17 +104,17 @@ namespace Woz.RogueEngine.Entities
             long id,
             EntityType entityType,
             string name,
-            AttributeStore attributes,
-            FlagStore flags,
-            ChildStore children)
+            IAttributeStore attributes,
+            IFlagStore flags,
+            IChildStore children)
         {
             return new Entity(id, entityType, name, attributes, flags, children);
         }
 
         public IEntity With(
-            AttributeStore attributes = null,
-            FlagStore flags = null,
-            ChildStore children = null)
+            IAttributeStore attributes = null,
+            IFlagStore flags = null,
+            IChildStore children = null)
         {
             return attributes == null && flags == null && children == null
                 ? this // Minimise object churn

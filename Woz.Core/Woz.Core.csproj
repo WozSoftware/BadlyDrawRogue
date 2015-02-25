@@ -32,10 +32,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conversion\EnumConversions.cs" />
     <Compile Include="Conversion\StringConversion.cs" />
+    <Compile Include="Drawing\PointExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
   </ItemGroup>

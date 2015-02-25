@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 
 namespace Woz.Functional.Monads.TryMonad
 {
@@ -36,6 +37,8 @@ namespace Woz.Functional.Monads.TryMonad
 
         public static ITry<T> Catcher<T>(this Func<ITry<T>> operation)
         {
+            Debug.Assert(operation != null);
+
             try
             {
                 return operation();

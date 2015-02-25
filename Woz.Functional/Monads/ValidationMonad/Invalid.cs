@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
@@ -28,6 +29,8 @@ namespace Woz.Functional.Monads.ValidationMonad
 
         internal Invalid(string errorMessage)
         {
+            Debug.Assert(!string.IsNullOrEmpty(errorMessage));
+
             _errorMessage = errorMessage;
         }
 
@@ -54,12 +57,16 @@ namespace Woz.Functional.Monads.ValidationMonad
         public IValidation<TResult> Select<TResult>(
             Func<T, TResult> operation)
         {
+            Debug.Assert(operation != null);
+
             return _errorMessage.ToInvalid<TResult>();
         }
 
         public IValidation<TResult> SelectMany<TResult>(
             Func<T, IValidation<TResult>> operation)
         {
+            Debug.Assert(operation != null);
+
             return _errorMessage.ToInvalid<TResult>();
         }
 
@@ -67,17 +74,24 @@ namespace Woz.Functional.Monads.ValidationMonad
         public IValidation<TResult> SelectMany<T2, TResult>(
             Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer)
         {
+            Debug.Assert(transform != null);
+            Debug.Assert(composer != null);
+
             return _errorMessage.ToInvalid<TResult>();
         }
 
         public IValidation<T> ThrowOnError(
             Func<string, Exception> exceptionBuilder)
         {
+            Debug.Assert(exceptionBuilder != null);
+
             throw exceptionBuilder(_errorMessage);
         }
 
         public T OrElse(Func<string, Exception> exceptionBuilder)
         {
+            Debug.Assert(exceptionBuilder != null);
+
             throw exceptionBuilder(_errorMessage);
         }
 

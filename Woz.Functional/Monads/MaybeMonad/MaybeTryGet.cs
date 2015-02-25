@@ -18,6 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
+
 namespace Woz.Functional.Monads.MaybeMonad
 {
     public static class MaybeTryGet
@@ -26,6 +28,8 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         public static IMaybe<TR> Wrap<T, TR>(TryGet<T, TR> tryer, T value)
         {
+            Debug.Assert(tryer != null);
+
             TR result;
             return tryer(value, out result)
                 ? result.ToMaybe()

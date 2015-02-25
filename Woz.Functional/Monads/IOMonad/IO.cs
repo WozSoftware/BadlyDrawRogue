@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using Woz.Functional.Monads.TryMonad;
 
 namespace Woz.Functional.Monads.IOMonad
@@ -36,6 +37,9 @@ namespace Woz.Functional.Monads.IOMonad
         public static IO<TResult> Select<T, TResult>(
             this IO<T> io, Func<T, TResult> operation)
         {
+            Debug.Assert(io != null);
+            Debug.Assert(operation != null);
+
             return () => operation(io());
         }
 
@@ -43,6 +47,9 @@ namespace Woz.Functional.Monads.IOMonad
         public static IO<TResult> SelectMany<T, TResult>(
             this IO<T> io, Func<T, IO<TResult>> operation)
         {
+            Debug.Assert(io != null);
+            Debug.Assert(operation != null);
+
             return operation(io());
         }
 
@@ -52,6 +59,10 @@ namespace Woz.Functional.Monads.IOMonad
             Func<T1, IO<T2>> transform,
             Func<T1, T2, TResult> composer)
         {
+            Debug.Assert(io != null);
+            Debug.Assert(transform != null);
+            Debug.Assert(composer != null);
+
             return
                 () =>
                 {
@@ -60,9 +71,11 @@ namespace Woz.Functional.Monads.IOMonad
                 };
         }
 
-        public static ITry<T> Run<T>(this IO<T> operation)
+        public static ITry<T> Run<T>(this IO<T> io)
         {
-            return Try.Catcher(() => operation().ToSuccess());
+            Debug.Assert(io != null);
+
+            return Try.Catcher(() => io().ToSuccess());
         }
     }
 }

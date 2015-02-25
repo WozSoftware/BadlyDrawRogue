@@ -20,20 +20,26 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Drawing;
+using Woz.RogueEngine.DebugHelpers;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Operations
 {
-    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
-    using ActorStore = IImmutableDictionary<long, IActorState>;
+    using ITileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using IActorStore = IImmutableDictionary<long, IActorState>;
 
     public static class LevelOperations
     {
         public static ILevel SetTile(
             this ILevel level, Point location, IEntity tile)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+            Debug.Assert(tile.IsValid(EntityType.Tile));
+
             return level.With(tiles: level.Tiles.SetTile(location, tile));
         }
 
@@ -42,18 +48,28 @@ namespace Woz.RogueEngine.Operations
             Point location,
             Func<IEntity, IEntity> tileEditor)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+            Debug.Assert(tileEditor != null);
+
             return level.With(tiles: level.Tiles.EditTile(location, tileEditor));
         }
 
         public static ILevel OpenDoor(
             this ILevel level, Point location)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+
             return level.UpdateDoor(location, true);
         }
 
         public static ILevel CloseDoor(
             this ILevel level, Point location)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+
             return level.UpdateDoor(location, false);
         }
 
@@ -72,6 +88,10 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorSpawn(
             this ILevel level, Point location, IEntity actor)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+            Debug.Assert(actor.IsValid(EntityType.Actor));
+
             var actorState = ActorState.Build(actor, location);
 
             return level.With(
@@ -81,6 +101,9 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorMove(
             this ILevel level, long actorId, Point location)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+
             return level
                 .With(actorStates: 
                     level.ActorStates.SetActorLocation(actorId, location));
@@ -89,7 +112,12 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorTakeItem(
             this ILevel level, long actorId, Point itemLocation, long itemId)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(itemLocation));
+
             var item = level.Tiles.GetTile(itemLocation).Children[itemId];
+
+            Debug.Assert(item.IsValid(EntityType.Item));
 
             // Remove Item from tile
             var newTiles = level
@@ -107,7 +135,12 @@ namespace Woz.RogueEngine.Operations
         public static ILevel ActorDropItem(
             this ILevel level, long actorId, Point itemLocation, long itemId)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(itemLocation));
+
             var item = level.ActorStates[actorId].Actor.Children[itemId];
+
+            Debug.Assert(item.IsValid(EntityType.Item));
 
             // Remove item from actor
             var newActorStates = level
@@ -122,9 +155,13 @@ namespace Woz.RogueEngine.Operations
             return level.With(actorStates: newActorStates, tiles: newTiles);
         }
 
-        public static ILevel ItemSpawn(
+        public static ILevel ItemThing(
             this ILevel level, Point location, IEntity item)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(level.Bounds.Contains(location));
+            Debug.Assert(item.IsNot(EntityType.Void));
+
             return level.EditTile(location, tile => tile.AddChild(item));
         }
     }

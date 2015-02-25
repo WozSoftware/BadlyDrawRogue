@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
@@ -54,6 +55,8 @@ namespace Woz.Functional.Monads.ValidationMonad
         public IValidation<TResult> Select<TResult>(
             Func<T, TResult> operation)
         {
+            Debug.Assert(operation != null);
+
             return operation(_value).ToValid();
         }
 
@@ -61,6 +64,8 @@ namespace Woz.Functional.Monads.ValidationMonad
         public IValidation<TResult> SelectMany<TResult>(
             Func<T, IValidation<TResult>> operation)
         {
+            Debug.Assert(operation != null);
+
             return operation(_value);
         }
 
@@ -68,6 +73,9 @@ namespace Woz.Functional.Monads.ValidationMonad
         public IValidation<TResult> SelectMany<T2, TResult>(
             Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer)
         {
+            Debug.Assert(transform != null);
+            Debug.Assert(composer != null);
+
             var value1 = _value; // Capture for closure
             return transform(value1)
                 .SelectMany(value2 => composer(value1, value2).ToValid());
@@ -81,6 +89,8 @@ namespace Woz.Functional.Monads.ValidationMonad
 
         public T OrElse(Func<string, Exception> exceptionBuilder)
         {
+            Debug.Assert(exceptionBuilder != null);
+
             return _value;
         }
 

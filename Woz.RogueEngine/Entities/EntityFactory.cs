@@ -21,17 +21,20 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using Woz.Functional.Generators;
 
 namespace Woz.RogueEngine.Entities
 {
+    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<IEntity>>;
+
     public class EntityFactory : IEntityFactory
     {
         public static readonly IEntity Void;
 
         private readonly Func<long> _idGenerator;
-        private readonly IImmutableDictionary<EntityType, IImmutableList<IEntity>> _templates;
+        private readonly ITemplateStore _templates;
 
         static EntityFactory()
         {
@@ -40,6 +43,8 @@ namespace Woz.RogueEngine.Entities
 
         private EntityFactory(IEnumerable<IEntity> entities)
         {
+            Debug.Assert(entities != null);
+
             _idGenerator = IdGenerator.Build();
             _templates = entities
                 .GroupBy(x => x.EntityType)
@@ -48,7 +53,7 @@ namespace Woz.RogueEngine.Entities
                     x => (IImmutableList<IEntity>) x.ToImmutableList());
         }
 
-        public IImmutableDictionary<EntityType, IImmutableList<IEntity>> Templates
+        public ITemplateStore Templates
         {
             get { return _templates; }
         }

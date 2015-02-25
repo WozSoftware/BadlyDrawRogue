@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Woz.Functional.Monads.MaybeMonad
@@ -28,35 +29,50 @@ namespace Woz.Functional.Monads.MaybeMonad
     {
         public static IMaybe<T> FirstMaybe<T>(this IEnumerable<T> self)
         {
+            Debug.Assert(self != null);
+
             return self.FirstOrDefault().ToMaybe();
         }
 
         public static IMaybe<T> FirstMaybe<T>(
             this IEnumerable<T> self, Func<T, bool> predicate)
         {
+            Debug.Assert(self != null);
+            Debug.Assert(predicate != null);
+
             return self.FirstOrDefault(predicate).ToMaybe();
         }
 
         public static IMaybe<T> LastMaybe<T>(this IEnumerable<T> self)
         {
+            Debug.Assert(self != null);
+
             return self.LastOrDefault().ToMaybe();
         }
 
         public static IMaybe<T> LastMaybe<T>(
             this IEnumerable<T> self, Func<T, bool> predicate)
         {
+            Debug.Assert(self != null);
+            Debug.Assert(predicate != null);
+
             return self.LastOrDefault(predicate).ToMaybe();
         }
 
         public static IEnumerable<T> WhereHasValue<T>(
             this IEnumerable<IMaybe<T>> self)
         {
+            Debug.Assert(self != null);
+
             return self.Where(x => x.HasValue).Select(x => x.Value);
         }
 
         public static IEnumerable<IMaybe<TResult>> Select<T, TResult>(
             this IEnumerable<IMaybe<T>> self, Func<T, TResult> selector)
         {
+            Debug.Assert(self != null);
+            Debug.Assert(selector != null);
+
             return self.Select(maybe => maybe.Select(selector));
         }
     }

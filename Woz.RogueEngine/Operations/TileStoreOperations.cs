@@ -19,37 +19,47 @@
 #endregion
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Drawing;
 using Woz.Functional.Monads.MaybeMonad;
+using Woz.RogueEngine.DebugHelpers;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Operations
 {
-    using TileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
+    using ITileStore = IImmutableDictionary<int, IImmutableDictionary<int, IEntity>>;
 
     public static class TileStoreOperations
     {
         public static IEntity GetTile(
-            this TileStore tiles, Point location)
+            this ITileStore tiles, Point location)
         {
+            Debug.Assert(tiles != null);
+
             return tiles
                 .Lookup(location.X)
                 .SelectMany(x => x.Lookup(location.Y))
                 .OrElse(EntityFactory.Void);
         }
 
-        public static TileStore SetTile(
-            this TileStore tiles, Point location, IEntity tile)
+        public static ITileStore SetTile(
+            this ITileStore tiles, Point location, IEntity tile)
         {
+            Debug.Assert(tiles != null);
+            Debug.Assert(tile.IsValid(EntityType.Tile));
+
             return tiles.SetItem(
                 location.X, tiles[location.X].SetItem(location.Y, tile));
         }
 
-        public static TileStore EditTile(
-            this TileStore tiles,
+        public static ITileStore EditTile(
+            this ITileStore tiles,
             Point location,
             Func<IEntity, IEntity> tileEditor)
         {
+            Debug.Assert(tiles != null);
+            Debug.Assert(tileEditor != null);
+
             return tiles.SetTile(
                 location, tileEditor(tiles.GetTile(location)));
         }
