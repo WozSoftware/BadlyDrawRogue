@@ -22,22 +22,22 @@ using System.Collections.Immutable;
 
 namespace Woz.RogueEngine.Entities
 {
-    using AttributeStore = IImmutableDictionary<EntityAttributes, int>;
-    using FlagStore = IImmutableDictionary<EntityFlags, bool>;
-    using ChildStore = IImmutableDictionary<long, IEntity>;
+    using IAttributeStore = IImmutableDictionary<EntityAttributes, int>;
+    using IFlagStore = IImmutableDictionary<EntityFlags, bool>;
+    using IChildStore = IImmutableDictionary<long, IEntity>;
 
     public interface IEntity
     {
         long Id { get; }
         EntityType EntityType { get; }
         string Name { get; }
-        AttributeStore Attributes { get; }
-        FlagStore Flags { get; }
-        ChildStore Children { get; }
+        IAttributeStore Attributes { get; }
+        IFlagStore Flags { get; }
+        IChildStore Children { get; }
 
         IEntity With(
-            AttributeStore attributes = null,
-            FlagStore flags = null,
-            ChildStore children = null);
+            IAttributeStore attributes = null,
+            IFlagStore flags = null,
+            IChildStore children = null);
     }
 }

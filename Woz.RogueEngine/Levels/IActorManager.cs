@@ -18,15 +18,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Woz.RogueEngine.Entities;
+
 namespace Woz.RogueEngine.Levels
 {
-    public interface ILevel
+    public interface IActorManager 
+        : IEnumerable<IActorState>
     {
-        ITileManager Tiles { get; }
-        IActorManager Actors { get; }
+        IActorState GetActorState(long actorId);
+        IActorState GetActorState(Point location);
 
-        ILevel With(
-            ITileManager tiles = null,
-            IActorManager actors = null);
+        IActorManager Add(IActorState actorState);
+        IActorManager Remove(long actorId);
+
+        IActorManager EditActor(
+            long actorId,
+            Func<IEntity, IEntity> actorEditor);
+
+        IActorManager EditActorState(
+            long actorId,
+            Func<IActorState, IActorState> actorStateEditor);
     }
 }

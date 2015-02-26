@@ -18,7 +18,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Drawing;
 using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
@@ -30,15 +29,13 @@ namespace Woz.RogueEngine.Rules
         public static IValidation<ILevel> RuleIsValidCoordinate(
             this ILevel level, Point location)
         {
-            Func<int, int, bool> isValid = 
-                (max, value) => value > 0 && value <= max;
-  
-            return isValid(level.Width, location.X) && isValid(level.Height, location.Y)
+            return level.Tiles.Bounds.Contains(location)
                 ? level.ToValid()
                 : string
                     .Format(
-                        "Location ({0},{1} is outside the level boundary of (1,1 -> {2},{3})", 
-                        location.X, location.Y, level.Width, level.Height)
+                        "Location ({0},{1} is outside the level boundary of (1,1 -> {2},{3})",
+                        location.X, location.Y, 
+                        level.Tiles.Size.Width, level.Tiles.Size.Height)
                     .ToInvalid<ILevel>();
         }
     }
