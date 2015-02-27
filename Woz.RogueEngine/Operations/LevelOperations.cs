@@ -50,11 +50,11 @@ namespace Woz.RogueEngine.Operations
         private static ILevel UpdateDoor(
             this ILevel level, Point location, bool isOpen)
         {
-            return level.With(tiles:
-                level.Tiles.EditTile(
+            return level.With(
+                tiles: level.Tiles.EditTile(
                     location,
-                    tile => tile.EditFlags(
-                        flags => flags
+                    tile => tile.With(
+                        flags: tile.Flags
                             .SetItem(EntityFlags.IsOpen, isOpen)
                             .SetItem(EntityFlags.BlocksMovement, !isOpen)
                             .SetItem(EntityFlags.BlocksLineOfSight, !isOpen))));
@@ -69,8 +69,7 @@ namespace Woz.RogueEngine.Operations
 
             var actorState = ActorState.Build(actor, location);
 
-            return level.With(
-                actors: level.Actors.Add(actorState));
+            return level.With(actors: level.Actors.Add(actorState));
         }
 
         public static ILevel ActorMove(
@@ -79,10 +78,9 @@ namespace Woz.RogueEngine.Operations
             Debug.Assert(level != null);
             Debug.Assert(level.Tiles.Bounds.Contains(location));
 
-            return level
-                .With(actors: level
-                    .Actors
-                    .EditActorState(actorId, x => x.With(location: location)));
+            return level.With(
+                actors: level.Actors.EditActorState(
+                    actorId, x => x.With(location: location)));
         }
 
         public static ILevel ActorTakeItem(
@@ -94,17 +92,12 @@ namespace Woz.RogueEngine.Operations
 
             Debug.Assert(item.IsValid(EntityType.Item));
 
-            // Remove Item from tile
-            var newTiles = level
-                .Tiles
-                .EditTile(itemLocation, tile => tile.RemoveChild(itemId));
-
-            // Add item to actor
-            var newActorStore = level
-                .Actors
-                .EditActor(actorId, actor => actor.AddChild(item));
-
-            return level.With(actors: newActorStore, tiles: newTiles);
+            return level.With(
+                actors: level.Actors.EditActor(
+                    actorId, actor => actor.AddChild(item)),
+                tiles: level.Tiles.EditTile(
+                    itemLocation,
+                    tile => tile.RemoveChild(itemId)));
         }
 
         public static ILevel ActorDropItem(
@@ -141,6 +134,16 @@ namespace Woz.RogueEngine.Operations
 
             return level.With(tiles: 
                 level.Tiles.EditTile(location, tile => tile.AddChild(item)));
+        }
+    
+        private static IEntity AddChild(this IEntity entity, IEntity child)
+        {
+            return entity.With(children: entity.Children.Add(child.Id, child));
+        }
+
+        private static IEntity RemoveChild(this IEntity entity, long childId)
+        {
+            return entity.With(children: entity.Children.Remove(childId));
         }
     }
 }
