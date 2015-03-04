@@ -178,18 +178,18 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseExceptionWhenSome()
+        public void OrElseThrowWhenSome()
         {
             var maybe = 1.ToMaybe();
 
-            Assert.AreEqual(1, maybe.OrElse(() => new Exception()));
+            Assert.AreEqual(1, maybe.OrElseThrow(() => new Exception()));
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void OrElseExceptionWhenNone()
+        public void OrElseThrowWhenNone()
         {
-            Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(() => new Exception()));
+            Assert.AreEqual(5, Maybe<int>.Nothing.OrElseThrow(() => new Exception()));
         }
 
         [TestMethod]

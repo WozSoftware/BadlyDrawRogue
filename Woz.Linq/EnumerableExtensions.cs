@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.RoqueEngine.
+// This file is part of Woz.Linq.
 //
-// Woz.RoqueEngine is free software: you can redistribute it 
+// Woz.Linq is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -17,15 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.RogueEngine.Entities
+
+using System;
+using System.Collections.Generic;
+
+namespace Woz.Linq
 {
-    public enum DamageTypes
+    public static class EnumerableExtensions
     {
-        Slashing = 0,
-        BluntImpact = 1,
-        Piercing = 2,
-        Fire = 3,
-        Acid = 4,
-        Cold = 5
+        public static void ForEach<T>(
+            this IEnumerable<T> self, Action<T> action)
+        {
+            foreach (var item in self)
+            {
+                action(item);
+            }
+        }
     }
 }

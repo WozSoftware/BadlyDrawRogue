@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C394BD3-381E-4A26-9263-7E4057BD3BFF}</ProjectGuid>
+    <ProjectGuid>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Woz.Linq</RootNamespace>
-    <AssemblyName>Woz.Linq</AssemblyName>
+    <RootNamespace>Woz.Immutable</RootNamespace>
+    <AssemblyName>Woz.Immutable</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,23 +32,28 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Collections\IImmutableArray.cs" />
+    <Compile Include="Collections\IImmutableGrid.cs" />
+    <Compile Include="Collections\ImmutableArray.cs" />
+    <Compile Include="Collections\ImmutableGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\XAttributeHelpers.cs" />
-    <Compile Include="Xml\XElementHelpers.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Woz.Linq.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
       <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
       <Name>Woz.Functional</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Woz.Immutable.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

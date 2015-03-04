@@ -70,11 +70,18 @@ namespace Woz.Functional.Monads.MaybeMonad
                 .SelectMany(value2 => composer(value1, value2).ToMaybe());
         }
 
-        public IMaybe<T> Where(Func<T, bool> predicate)
+        public IMaybe<T> Where(Predicate<T> predicate)
         {
             Debug.Assert(predicate != null);
 
             return predicate(_value) ? this : Maybe<T>.Nothing;
+        }
+
+        public void Do(Action<T> operation)
+        {
+            Debug.Assert(operation != null);
+
+            operation(_value);
         }
 
         public T OrElseDefault()
@@ -94,7 +101,7 @@ namespace Woz.Functional.Monads.MaybeMonad
             return _value;
         }
 
-        public T OrElse(Func<Exception> builder)
+        public T OrElseThrow(Func<Exception> builder)
         {
             Debug.Assert(builder != null);
 

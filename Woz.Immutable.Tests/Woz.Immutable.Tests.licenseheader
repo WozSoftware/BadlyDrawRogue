@@ -3,7 +3,7 @@ extensions: .cpp .h
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.Immutable.
 //
 // Woz.Core is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
@@ -23,7 +23,7 @@ extensions: .cs
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.Immutable.
 //
 // Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
@@ -44,7 +44,7 @@ extensions: .aspx .ascx
 Copyright (C) Woz.Software 2015
 [https://github.com/WozSoftware/BadlyDrawRogue]
 
-This file is part of Woz.Functional.
+This file is part of Woz.Immutable.
 
 Woz.Functional is free software: you can redistribute it 
 and/or modify it under the terms of the GNU General Public 
@@ -64,7 +64,7 @@ extensions: .vb
 ' Copyright (C) Woz.Software 2015
 ' [https://github.com/WozSoftware/BadlyDrawRogue]
 ' 
-' This file is part of Woz.Functional.
+' This file is part of Woz.Immutable.
 ' 
 ' Woz.Functional is free software: you can redistribute it 
 ' and/or modify it under the terms of the GNU General Public 
@@ -84,7 +84,7 @@ extensions:  .xml .config .xsd
 Copyright (C) Woz.Software 2015
 [https://github.com/WozSoftware/BadlyDrawRogue]
 
-This file is part of Woz.Functional.
+This file is part of Woz.Immutable.
 
 Woz.Functional is free software: you can redistribute it 
 and/or modify it under the terms of the GNU General Public 

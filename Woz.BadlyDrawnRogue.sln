@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Functional.Tests", "Woz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Linq.Tests", "Woz.Linq.Tests\Woz.Linq.Tests.csproj", "{885A465A-3667-4F17-94EB-3E15C5857398}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Immutable", "Woz.Immutable\Woz.Immutable.csproj", "{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Immutable.Tests", "Woz.Immutable.Tests\Woz.Immutable.Tests.csproj", "{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,14 @@ Global
 		{885A465A-3667-4F17-94EB-3E15C5857398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885A465A-3667-4F17-94EB-3E15C5857398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{885A465A-3667-4F17-94EB-3E15C5857398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

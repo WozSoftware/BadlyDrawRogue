@@ -46,7 +46,7 @@ namespace Woz.Linq.Xml
 
             return element
                 .MaybeElement(name)
-                .OrElse(
+                .OrElseThrow(
                     () => new XmlException(
                         string.Format(
                             "Element {0} missing from Element {1}",

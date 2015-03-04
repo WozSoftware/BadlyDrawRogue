@@ -37,6 +37,6 @@ namespace Woz.RogueEngine.Entities
         IsOpen,
 
         BlocksMovement,
-        BlocksLineOfSight,
+        BlocksLineOfSight
     }
 }

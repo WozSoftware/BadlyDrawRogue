@@ -36,7 +36,7 @@ namespace Woz.Core.Conversion
         {
             return value
                 .ToMaybeEnum<TEnum>()
-                .OrElse(
+                .OrElseThrow(
                     () => new InvalidEnumArgumentException(
                         string.Format(
                             "{0} is not part of {1}", 
@@ -62,7 +62,7 @@ namespace Woz.Core.Conversion
         {
             return value
                 .ToMaybeEnum<TValue, TEnum>()
-                .OrElse(
+                .OrElseThrow(
                     () => new InvalidEnumArgumentException(
                         string.Format(
                             "{0} is not enum in {1}",

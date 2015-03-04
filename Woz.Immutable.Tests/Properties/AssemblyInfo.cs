@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Woz.RogueEngine.Tests")]
+[assembly: AssemblyTitle("Woz.Immutable.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Woz.Software")]
-[assembly: AssemblyProduct("Woz.RogueEngine.Tests")]
+[assembly: AssemblyProduct("Woz.Immutable.Tests")]
 [assembly: AssemblyCopyright("Copyright © Woz.Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a34a5615-9283-4b58-961c-23ccb8309940")]
+[assembly: Guid("665f06d9-7fd8-4a53-a028-a41d1699e655")]
 
 // Version information for an assembly consists of the following four values:
 //

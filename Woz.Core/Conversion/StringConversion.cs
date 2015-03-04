@@ -34,7 +34,7 @@ namespace Woz.Core.Conversion
         {
             return value
                 .ParseAsMaybe<T>()
-                .OrElse(
+                .OrElseThrow(
                     () => new ArgumentException(
                         string.Format(
                             "{0} does not convert to {1}", 

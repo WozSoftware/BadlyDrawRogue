@@ -28,6 +28,6 @@ namespace Woz.RogueEngine.Entities
         Legs = 4,
         Feet = 5,
         Ring = 6,
-        Amulet = 7,
+        Amulet = 7
     }
 }

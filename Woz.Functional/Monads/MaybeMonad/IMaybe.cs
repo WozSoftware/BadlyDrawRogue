@@ -38,11 +38,12 @@ namespace Woz.Functional.Monads.MaybeMonad
         IMaybe<TResult> SelectMany<T2, TResult>(
             Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer);
 
-        IMaybe<T> Where(Func<T, bool> predicate);
-        
+        IMaybe<T> Where(Predicate<T> predicate);
+        void Do(Action<T> operation);
+
         T OrElseDefault();
         T OrElse(T defaultValue);
         T OrElse(Func<T> builder);
-        T OrElse(Func<Exception> builder);
+        T OrElseThrow(Func<Exception> builder);
     }
 }

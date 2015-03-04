@@ -61,11 +61,18 @@ namespace Woz.Functional.Monads.MaybeMonad
             return Maybe<TResult>.Nothing;
         }
 
-        public IMaybe<T> Where(Func<T, bool> predicate)
+        public IMaybe<T> Where(Predicate<T> predicate)
         {
             Debug.Assert(predicate != null);
 
             return this;
+        }
+
+        public void Do(Action<T> operation)
+        {
+            Debug.Assert(operation != null);
+
+            throw new InvalidOperationException("Maybe has no value");
         }
 
         public T OrElseDefault()
@@ -85,7 +92,7 @@ namespace Woz.Functional.Monads.MaybeMonad
             return builder();
         }
 
-        public T OrElse(Func<Exception> builder)
+        public T OrElseThrow(Func<Exception> builder)
         {
             Debug.Assert(builder != null);
 

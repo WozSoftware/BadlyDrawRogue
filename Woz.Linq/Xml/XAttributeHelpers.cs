@@ -35,7 +35,7 @@ namespace Woz.Linq.Xml
 
             return element
                 .MaybeAttribute(name)
-                .OrElse(
+                .OrElseThrow(
                     () => new XmlException(
                         string.Format(
                             "Attribute {0} missing from Element {1}",
