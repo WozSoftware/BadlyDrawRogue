@@ -77,7 +77,7 @@ namespace Woz.Immutable.Collections
                     return _buffer.ToMaybe()
                         .SelectMany(buffer => buffer[x].ToMaybe())
                         .Select(column => column[y])
-                        .OrElse(_source[x][y]);
+                        .OrElse(() => _source[x][y]);
                 }
             }
 
@@ -108,7 +108,7 @@ namespace Woz.Immutable.Collections
                 if (_built)
                 {
                     throw new InvalidOperationException(
-                        "ImmutableArray<T>.Builder already built");
+                        "ImmutableGrid<T>.Builder already built");
                 }
 
                 if (_buffer == null)
@@ -118,7 +118,7 @@ namespace Woz.Immutable.Collections
 
                 if (_buffer[x] == null)
                 {
-                    _buffer[x] = _source[x].ToArray();
+                    _buffer[x] = (T[])_source[x].Clone();
                 }
 
                 _buffer[x][y] = item;
@@ -133,6 +133,12 @@ namespace Woz.Immutable.Collections
 
             public ImmutableGrid<T> Build()
             {
+                if (_built)
+                {
+                    throw new InvalidOperationException(
+                        "ImmutableGrid<T>.Builder already built");
+                }
+
                 _built = true;
 
                 if (_buffer == null)
@@ -184,12 +190,12 @@ namespace Woz.Immutable.Collections
             return new Builder(size);
         }
 
-        T IImmutableGrid<T>.this[int x, int y]
+        public T this[int x, int y]
         {
             get { return _storage[x][y]; }
         }
 
-        T IImmutableGrid<T>.this[Point location]
+        public T this[Point location]
         {
             get { return _storage[location.X][location.Y]; }
         }
@@ -237,7 +243,7 @@ namespace Woz.Immutable.Collections
         public IEnumerator<Tuple<Point, T>> GetEnumerator()
         {
             var query = 
-                from x in Enumerable.Range(0, Height)
+                from x in Enumerable.Range(0, Width)
                 from y in Enumerable.Range(0, Height)
                 select Tuple.Create(new Point(x, y), _storage[x][y]);
 

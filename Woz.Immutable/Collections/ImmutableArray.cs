@@ -110,6 +110,12 @@ namespace Woz.Immutable.Collections
 
             public ImmutableArray<T> Build()
             {
+                if (_built)
+                {
+                    throw new InvalidOperationException(
+                        "ImmutableArray<T>.Builder already built");
+                }
+
                 _built = true;
 
                 return new ImmutableArray<T>(_buffer.OrElse(_source));

@@ -162,8 +162,15 @@ namespace Woz.Immutable.Tests.CollectionsTests
                 BenchmarkHelper(length, i => immutableArray.Set(i, i));
 
             // Use the builder for many updates :)
+            // This looks ugly but still 1/2 time of nested immutable
+            // dictionary
 
-            Assert.IsTrue(immutableArrayTime < arrayTime * 110);
+            var factor = immutableArrayTime / arrayTime;
+#if DEBUG
+            Assert.IsTrue(factor < 50, "Factor was " + factor);
+#else
+            Assert.IsTrue(factor < 40, "Factor was " + factor);
+#endif
         }
 
         [TestMethod]
@@ -180,7 +187,13 @@ namespace Woz.Immutable.Tests.CollectionsTests
             var immutableArrayTime =
                 BenchmarkHelper(length, i => builder.Set(i, i));
 
-            Assert.IsTrue(immutableArrayTime < arrayTime * 10);
+
+            var factor = immutableArrayTime / arrayTime;
+#if DEBUG
+            Assert.IsTrue(factor < 8, "Factor was " + factor);
+#else
+            Assert.IsTrue(factor < 7, "Factor was " + factor);
+#endif
         }
 
         [TestMethod]
@@ -197,26 +210,33 @@ namespace Woz.Immutable.Tests.CollectionsTests
             var immutableArrayTime =
                 BenchmarkHelper(length, i => { var a = immutableArray[i]; });
 
-            Assert.IsTrue(immutableArrayTime < arrayTime * 2.5);
+            var factor = immutableArrayTime / arrayTime;
+#if DEBUG
+            Assert.IsTrue(factor < 2.5, "Factor was " + factor);
+#else
+            Assert.IsTrue(factor < 2, "Factor was " + factor);
+#endif
         }
 
         public double BenchmarkHelper(int length, Action<int> indexOperation)
         {
             const int iterations = 50;
+            double total = 0;
 
-            GC.Collect();
-
-            var stopwatch = Stopwatch.StartNew();
             for (var iteration = 0; iteration < iterations; iteration++)
             {
+                GC.Collect();
+                var stopwatch = Stopwatch.StartNew();
+
                 for (var index = 0; index < length; index++)
                 {
                     indexOperation(index);
                 }
 
+                stopwatch.Stop();
+                total += stopwatch.Elapsed.TotalMilliseconds;
             }
-            stopwatch.Stop();
-            return stopwatch.Elapsed.TotalMilliseconds / iterations;
+            return total / iterations / length;
         }
     }
 }
