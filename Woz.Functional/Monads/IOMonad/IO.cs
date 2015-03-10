@@ -28,7 +28,7 @@ namespace Woz.Functional.Monads.IOMonad
 
     public static class IO
     {
-        public static IO<T> BuildFor<T>(T value)
+        public static IO<T> ToIO<T>(this T value)
         {
             return () => value;
         }

@@ -51,7 +51,7 @@ namespace Woz.RogueEngine.Definitions
                 .OrElse(0);
 
             return
-                Entity.Build(
+                Entity.Create(
                     id,
                     entityElement.RequiredAttribute(XmlAttributes.Type).Value.ToEnum<EntityType>(),
                     entityElement.RequiredAttribute(XmlAttributes.Name).Value,

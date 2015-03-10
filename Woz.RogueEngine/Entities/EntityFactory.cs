@@ -38,14 +38,14 @@ namespace Woz.RogueEngine.Entities
 
         static EntityFactory()
         {
-            Void = BuildVoidEntity();
+            Void = CreateVoidEntity();
         }
 
         private EntityFactory(IEnumerable<IEntity> entities)
         {
             Debug.Assert(entities != null);
 
-            _idGenerator = IdGenerator.Build();
+            _idGenerator = IdGenerator.Create();
             _templates = entities
                 .GroupBy(x => x.EntityType)
                 .ToImmutableDictionary(
@@ -58,20 +58,20 @@ namespace Woz.RogueEngine.Entities
             get { return _templates; }
         }
 
-        public static IEntityFactory Build(IEnumerable<IEntity> entities)
+        public static IEntityFactory Create(IEnumerable<IEntity> entities)
         {
             return new EntityFactory(entities);
         }
 
-        public IEntity Build(IEntity template)
+        public IEntity Create(IEntity template)
         {
-            return Build(template, template.Name);
+            return Create(template, template.Name);
         }
 
-        public IEntity Build(IEntity template, string name)
+        public IEntity Create(IEntity template, string name)
         {
             return 
-                Entity.Build(
+                Entity.Create(
                     _idGenerator(),
                     template.EntityType,
                     name,
@@ -80,11 +80,11 @@ namespace Woz.RogueEngine.Entities
                     template.Children);
         }
 
-        private static IEntity BuildVoidEntity()
+        private static IEntity CreateVoidEntity()
         {
             // Never has an ID. Not expected to be manipulated, just used to
             // mark voids in the map for route finding etc
-            return Entity.Build(
+            return Entity.Create(
                 0,
                 EntityType.Void,
                 "An empty void",

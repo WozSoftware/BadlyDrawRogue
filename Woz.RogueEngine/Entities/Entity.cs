@@ -89,9 +89,9 @@ namespace Woz.RogueEngine.Entities
             get { return _children; }
         }
 
-        public static IEntity Build(long id, EntityType entityType, string name)
+        public static IEntity Create(long id, EntityType entityType, string name)
         {
-            return Build(
+            return Create(
                 id,
                 entityType,
                 name,
@@ -100,7 +100,7 @@ namespace Woz.RogueEngine.Entities
                 ImmutableDictionary<long, IEntity>.Empty);
         }
 
-        public static IEntity Build(
+        public static IEntity Create(
             long id,
             EntityType entityType,
             string name,

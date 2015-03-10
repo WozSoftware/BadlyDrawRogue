@@ -40,8 +40,8 @@ namespace Woz.Functional.Monads.ValidationMonad
         IValidation<TResult> SelectMany<T2, TResult>(
             Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer);
 
-        IValidation<T> ThrowOnError(Func<string, Exception> exceptionBuilder);
+        IValidation<T> ThrowOnError(Func<string, Exception> exceptionFactory);
         
-        T OrElse(Func<string, Exception> exceptionBuilder);
+        T OrElse(Func<string, Exception> exceptionFactory);
     }
 }

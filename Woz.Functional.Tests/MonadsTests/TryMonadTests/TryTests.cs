@@ -110,7 +110,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         }
 
         [TestMethod]
-        public void ThrowOnErrorWithBuilderWhenSuccess()
+        public void ThrowOnErrorWithFactoryWhenSuccess()
         {
             var errorObject = 1.ToSuccess();
             var result = errorObject
@@ -121,7 +121,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void ThrowOnErrorWithBuilderWhenInvalid()
+        public void ThrowOnErrorWithFactoryWhenInvalid()
         {
             var exception = new Exception();
             var errorObject = exception.ToException<int>();
@@ -149,7 +149,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         }
 
         [TestMethod]
-        public void OrElseWithBuilderWhenSuccess()
+        public void OrElseWithFactoryWhenSuccess()
         {
             var errorObject = 1.ToSuccess();
             var result = errorObject
@@ -160,7 +160,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
 
         [TestMethod]
         [ExpectedException(typeof (InvalidOperationException))]
-        public void OrElseWithBuilderWhenInvalid()
+        public void OrElseWithFactoryWhenInvalid()
         {
             var exception = new Exception();
             var errorObject = exception.ToException<int>();

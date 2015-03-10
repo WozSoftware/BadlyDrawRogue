@@ -82,14 +82,14 @@ namespace Woz.Functional.Monads.ValidationMonad
         }
 
         public IValidation<T> ThrowOnError(
-            Func<string, Exception> exceptionBuilder)
+            Func<string, Exception> exceptionFactory)
         {
             return this;
         }
 
-        public T OrElse(Func<string, Exception> exceptionBuilder)
+        public T OrElse(Func<string, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
             return _value;
         }

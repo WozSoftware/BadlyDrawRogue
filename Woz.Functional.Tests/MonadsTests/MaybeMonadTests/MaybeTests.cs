@@ -164,7 +164,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseBuilderWhenSome()
+        public void OrElseFactoryWhenSome()
         {
             var maybe = 1.ToMaybe();
 
@@ -172,7 +172,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void OrElseBuilderWhenNone()
+        public void OrElseFactoryWhenNone()
         {
             Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(() => 5));
         }

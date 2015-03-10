@@ -82,9 +82,9 @@ namespace Woz.Functional.Monads.TryMonad
                     composer(x, y).ToSuccess()));
         }
 
-        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
+        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
             return this;
         }
@@ -94,9 +94,9 @@ namespace Woz.Functional.Monads.TryMonad
             return this;
         }
 
-        public T OrElse(Func<Exception, Exception> exceptionBuilder)
+        public T OrElse(Func<Exception, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
             return _value;
         }

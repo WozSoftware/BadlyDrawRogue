@@ -67,7 +67,7 @@ namespace Woz.RogueEngine.Operations
             Debug.Assert(level.Tiles.Bounds.Contains(location));
             Debug.Assert(actor.IsValid(EntityType.Actor));
 
-            var actorState = ActorState.Build(actor, location);
+            var actorState = ActorState.Create(actor, location);
 
             return level.With(actors: level.Actors.Add(actorState));
         }

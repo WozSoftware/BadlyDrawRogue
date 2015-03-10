@@ -45,7 +45,7 @@ namespace Woz.RogueEngine.Rules
             this IEntity entity,
             EntityAttributes attribute,
             T requiredType,
-            Func<string> messageBuilder)
+            Func<string> messageFactory)
             where T : struct, IConvertible
         {
             return entity
@@ -54,7 +54,7 @@ namespace Woz.RogueEngine.Rules
                 .Select(x => x.Equals(requiredType))
                 .OrElse(false)
                 ? entity.ToValid()
-                : messageBuilder().ToInvalid<IEntity>();
+                : messageFactory().ToInvalid<IEntity>();
         }
     }
 }

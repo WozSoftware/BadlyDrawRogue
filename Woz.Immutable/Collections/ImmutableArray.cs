@@ -27,6 +27,19 @@ using Woz.Functional.Monads.MaybeMonad;
 
 namespace Woz.Immutable.Collections
 {
+    public static class ImmutableArray
+    {
+        public static ImmutableArray<T> Create<T>(IEnumerable<T> items)
+        {
+            return CreateBuilder(items).Build();
+        }
+
+        public static ImmutableArray<T>.Builder CreateBuilder<T>(IEnumerable<T> items)
+        {
+            return new ImmutableArray<T>.Builder(items);
+        }
+    }
+
     public sealed class ImmutableArray<T> : IImmutableArray<T>
     {
         #region Builder
@@ -125,7 +138,7 @@ namespace Woz.Immutable.Collections
 
         private readonly T[] _storage;
 
-        private ImmutableArray(T[] items)
+        internal ImmutableArray(T[] items)
         {
             _storage = items;
         }
@@ -135,19 +148,9 @@ namespace Woz.Immutable.Collections
             return CreateBuilder(length).Build();
         }
 
-        public static ImmutableArray<T> Create(IEnumerable<T> items)
-        {
-            return CreateBuilder(items).Build();
-        }
-
         public static Builder CreateBuilder(int length)
         {
             return new Builder(length);
-        }
-
-        public static Builder CreateBuilder(IEnumerable<T> items)
-        {
-            return new Builder(items);
         }
 
         public T this[int index]

@@ -17,23 +17,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Generators;
-
-namespace Woz.Functional.Tests.GeneratorsTests
+namespace Woz.Functional.Monads.State
 {
-    [TestClass]
-    public class IdGeneratorTests
+    public static class StateResult
     {
-        [TestMethod]
-        public void Create()
+        public static StateResult<TState, TValue>
+            Create<TState, TValue>(TState state, TValue value)
         {
-            var idGenerator = IdGenerator.Create();
+            return new StateResult<TState, TValue>(state, value);
+        }
+    }
 
-            Assert.AreEqual(1, idGenerator());
-            Assert.AreEqual(2, idGenerator());
-            Assert.AreEqual(3, idGenerator());
+    public class StateResult<TState, TValue>
+    {
+        private readonly TState _state;
+        private readonly TValue _value;
+
+        internal StateResult(TState state, TValue value)
+        {
+            _state = state;
+            _value = value;
+        }
+
+        public TState State
+        {
+            get { return _state; }
+        }
+
+        public TValue Value
+        {
+            get { return _value; }
         }
     }
 }

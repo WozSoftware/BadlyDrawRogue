@@ -44,7 +44,7 @@ namespace Woz.RogueEngine.Levels
             get { return _location; }
         }
 
-        public static IActorState Build(IEntity actor, Point location)
+        public static IActorState Create(IEntity actor, Point location)
         {
             return new ActorState(actor, location);
         }

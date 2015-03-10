@@ -94,16 +94,16 @@ namespace Woz.Functional.Monads.MaybeMonad
             return _value;
         }
 
-        public T OrElse(Func<T> builder)
+        public T OrElse(Func<T> valueFactory)
         {
-            Debug.Assert(builder != null);
+            Debug.Assert(valueFactory != null);
 
             return _value;
         }
 
-        public T OrElseThrow(Func<Exception> builder)
+        public T OrElseThrow(Func<Exception> exceptionFactory)
         {
-            Debug.Assert(builder != null);
+            Debug.Assert(exceptionFactory != null);
 
             return _value;
         }

@@ -39,10 +39,10 @@ namespace Woz.Functional.Monads.TryMonad
         ITry<TResult> SelectMany<T2, TResult>(
             Func<T, ITry<T2>> transform, Func<T, T2, TResult> composer);
         
-        ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder);
+        ITry<T> ThrowOnError(Func<Exception, Exception> exceptionFactory);
         ITry<T> ThrowOnError();
         
-        T OrElse(Func<Exception, Exception> exceptionBuilder);
+        T OrElse(Func<Exception, Exception> exceptionFactory);
         T OrElseException();
     }
 }

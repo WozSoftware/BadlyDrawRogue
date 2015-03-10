@@ -43,12 +43,12 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         [TestInitialize]
         public void Setup()
         {
-            _entity = Entity.Build(
+            _entity = Entity.Create(
                 Id, Type, Name, _emptyAttributes, _emptyFlags, _emptyChildren);
         }
             
         [TestMethod]
-        public void Build()
+        public void Create()
         {
             Assert.AreEqual(Id, _entity.Id);
             Assert.AreEqual(Type, _entity.EntityType);
@@ -85,7 +85,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         [TestMethod]
         public void SetWithChildren()
         {
-            var child = Entity.Build(5, EntityType.Item, "A");
+            var child = Entity.Create(5, EntityType.Item, "A");
  
             var newChildren = _entity.Children.SetItem(child.Id, child);
 

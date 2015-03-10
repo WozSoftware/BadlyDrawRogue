@@ -24,7 +24,7 @@ namespace Woz.Functional.Generators
 {
     public static class IdGenerator
     {
-        public static Func<long> Build()
+        public static Func<long> Create()
         {
             long id = 1;
             return () => id++;

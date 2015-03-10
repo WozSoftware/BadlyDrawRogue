@@ -29,13 +29,13 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
     public class EntityFactoryTests
     {
         [TestMethod]
-        public void BuildFactory()
+        public void CreateFactory()
         {
-            var tileEntity1 = Entity.Build(0, EntityType.Tile, "Tile1");
-            var tileEntity2 = Entity.Build(0, EntityType.Tile, "Tile2");
-            var itemEntity1 = Entity.Build(0, EntityType.Item, "Item1");
+            var tileEntity1 = Entity.Create(0, EntityType.Tile, "Tile1");
+            var tileEntity2 = Entity.Create(0, EntityType.Tile, "Tile2");
+            var itemEntity1 = Entity.Create(0, EntityType.Item, "Item1");
 
-            var factory = EntityFactory.Build(new[] {tileEntity1, itemEntity1, tileEntity2});
+            var factory = EntityFactory.Create(new[] {tileEntity1, itemEntity1, tileEntity2});
 
             CollectionAssert.AreEquivalent(
                 new[]{EntityType.Tile, EntityType.Item},
@@ -51,13 +51,13 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         }
 
         [TestMethod]
-        public void BuildFromTemplate()
+        public void CreateFromTemplate()
         {
             const string newName = "NewName";
 
-            var child = Entity.Build(0, EntityType.Spell, "Spell");
+            var child = Entity.Create(0, EntityType.Spell, "Spell");
 
-            var template = Entity.Build(
+            var template = Entity.Create(
                 0,
                 EntityType.Tile,
                 "Tile1",
@@ -65,9 +65,9 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
                 ImmutableDictionary<EntityFlags, bool>.Empty.SetItem(EntityFlags.IsFood, true),
                 ImmutableDictionary<long, IEntity>.Empty.SetItem(child.Id, child));
 
-            var factory = EntityFactory.Build(new IEntity[0]);
+            var factory = EntityFactory.Create(new IEntity[0]);
 
-            var builtEntity1 = factory.Build(template, newName);
+            var builtEntity1 = factory.Create(template, newName);
 
             Assert.AreNotEqual(0, builtEntity1.Id);
             Assert.AreEqual(newName, builtEntity1.Name);
@@ -76,7 +76,7 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
             Assert.AreSame(template.Flags, builtEntity1.Flags);
             Assert.AreSame(template.Children, builtEntity1.Children);
 
-            var builtEntity2 = factory.Build(template, newName);
+            var builtEntity2 = factory.Create(template, newName);
 
             Assert.AreNotEqual(builtEntity1.Id, builtEntity2.Id);
         }

@@ -58,14 +58,14 @@ namespace Woz.RogueEngine.Levels
             _locationMap = locationMap;
         }
 
-        public static IActorManager Build()
+        public static IActorManager Create()
         {
             return new ActorManager(
                 ImmutableDictionary<long, IActorState>.Empty,
                 ImmutableDictionary<Point, long>.Empty);
         }
 
-        public static IActorManager Build(IEnumerable<IActorState> actorStates)
+        public static IActorManager Create(IEnumerable<IActorState> actorStates)
         {
             return new ActorManager(actorStates);
         }

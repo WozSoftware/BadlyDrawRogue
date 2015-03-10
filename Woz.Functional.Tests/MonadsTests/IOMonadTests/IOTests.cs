@@ -28,9 +28,9 @@ namespace Woz.Functional.Tests.MonadsTests.IOMonadTests
     public class IOTests
     {
         [TestMethod]
-        public void BuildFor()
+        public void ToIO()
         {
-            var io = IO.BuildFor("hello");
+            var io = "hello".ToIO();
 
             Assert.AreEqual("hello", io());
         }

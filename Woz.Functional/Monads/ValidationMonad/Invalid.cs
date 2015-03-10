@@ -81,18 +81,18 @@ namespace Woz.Functional.Monads.ValidationMonad
         }
 
         public IValidation<T> ThrowOnError(
-            Func<string, Exception> exceptionBuilder)
+            Func<string, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
-            throw exceptionBuilder(_errorMessage);
+            throw exceptionFactory(_errorMessage);
         }
 
-        public T OrElse(Func<string, Exception> exceptionBuilder)
+        public T OrElse(Func<string, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
-            throw exceptionBuilder(_errorMessage);
+            throw exceptionFactory(_errorMessage);
         }
 
         public bool Equals(IValidation<T> other)

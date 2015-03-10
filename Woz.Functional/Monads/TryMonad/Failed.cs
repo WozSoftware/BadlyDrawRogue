@@ -82,11 +82,11 @@ namespace Woz.Functional.Monads.TryMonad
             return _error.ToException<TResult>();
         }
 
-        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionBuilder)
+        public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
-            throw exceptionBuilder(_error);
+            throw exceptionFactory(_error);
         }
 
         public ITry<T> ThrowOnError()
@@ -94,11 +94,11 @@ namespace Woz.Functional.Monads.TryMonad
             throw _error;
         }
 
-        public T OrElse(Func<Exception, Exception> exceptionBuilder)
+        public T OrElse(Func<Exception, Exception> exceptionFactory)
         {
-            Debug.Assert(exceptionBuilder != null);
+            Debug.Assert(exceptionFactory != null);
 
-            throw exceptionBuilder(_error);
+            throw exceptionFactory(_error);
         }
 
         public T OrElseException()

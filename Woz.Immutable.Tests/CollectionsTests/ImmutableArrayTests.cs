@@ -53,7 +53,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         {
             var source = new[] {1, 4, 5};
 
-            var array = ImmutableArray<int>.Create(source);
+            var array = ImmutableArray.Create(source);
 
             Assert.IsTrue(source.SequenceEqual(array));
         }
@@ -63,7 +63,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         {
             var source = new[] { 1, 4, 5 };
 
-            var array = ImmutableArray<int>.Create(source);
+            var array = ImmutableArray.Create(source);
 
             Enumerable
                 .Range(0, array.Count)
@@ -75,7 +75,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         {
             var source = new[] { 1, 4, 5 };
 
-            var array = ImmutableArray<int>.Create(source);
+            var array = ImmutableArray.Create(source);
 
             Assert.AreEqual(1, array.IndexOf(x => x == 4).Value);
         }
@@ -85,7 +85,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         {
             var source = new[] { 1, 4, 5 };
 
-            var array = ImmutableArray<int>.Create(source);
+            var array = ImmutableArray.Create(source);
 
             Assert.IsFalse(array.IndexOf(x => x == 8).HasValue);
         }
@@ -95,7 +95,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         {
             var source = new[] { 1, 4, 5 };
 
-            var array = ImmutableArray<int>.Create(source).Set(1, 6);
+            var array = ImmutableArray.Create(source).Set(1, 6);
 
             Assert.AreEqual(1, array[0]);
             Assert.AreEqual(6, array[1]);
@@ -135,7 +135,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
         [TestMethod]
         public void ToBuilder()
         {
-            var source = ImmutableArray<int>.Create(new[] { 1, 4, 5 });
+            var source = ImmutableArray.Create(new[] { 1, 4, 5 });
             var array = source.ToBuilder().Set(1, 6).Build();
 
             Assert.AreEqual(1, array[0]);

@@ -30,11 +30,11 @@ namespace Woz.BadlyDrawnRogue
     {
         public static IEntityFactory LoadEntityFactory(string uri)
         {
-            return IO
-                .BuildFor(uri) 
+            return uri
+                .ToIO() 
                 .Select(XDocument.Load)
                 .Select(document => document.Root.ReadEntities())
-                .Select(EntityFactory.Build)
+                .Select(EntityFactory.Create)
                 .Run()
                 .OrElse(
                     ex =>

@@ -68,7 +68,7 @@ namespace Woz.RogueEngine.Levels
             }
         }
 
-        public static ITileManager Build(Size size)
+        public static ITileManager Create(Size size)
         {
             // Populate all the X columns to save the need for on the fly creation
             var tileColumns = Enumerable

@@ -85,18 +85,18 @@ namespace Woz.Functional.Monads.MaybeMonad
             return defaultValue;
         }
 
-        public T OrElse(Func<T> builder)
+        public T OrElse(Func<T> valueFactory)
         {
-            Debug.Assert(builder != null);
+            Debug.Assert(valueFactory != null);
 
-            return builder();
+            return valueFactory();
         }
 
-        public T OrElseThrow(Func<Exception> builder)
+        public T OrElseThrow(Func<Exception> exceptionFactory)
         {
-            Debug.Assert(builder != null);
+            Debug.Assert(exceptionFactory != null);
 
-            throw builder();
+            throw exceptionFactory();
         }
 
         public bool Equals(IMaybe<T> other)

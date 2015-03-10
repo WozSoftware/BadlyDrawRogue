@@ -47,9 +47,9 @@ namespace Woz.RogueEngine.Levels
             get { return _actors; }
         }
 
-        public static ILevel Build(Size size)
+        public static ILevel Create(Size size)
         {
-            return new Level(TileManager.Build(size), ActorManager.Build());
+            return new Level(TileManager.Create(size), ActorManager.Create());
         }
 
         public ILevel With(

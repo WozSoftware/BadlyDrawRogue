@@ -1,10 +1,10 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.RoqueEngine.
+// This file is part of Woz.Functional.
 //
-// Woz.RoqueEngine is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -18,17 +18,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Immutable;
-
-namespace Woz.RogueEngine.Entities
+namespace Woz.Functional
 {
-    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<IEntity>>;
-
-    public interface IEntityFactory
+    public class Unit
     {
-        ITemplateStore Templates { get; }
+        public static readonly Unit Value = new Unit();
 
-        IEntity Create(IEntity template);
-        IEntity Create(IEntity template, string name);
+        private Unit()
+        {
+        }
     }
 }

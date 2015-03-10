@@ -43,7 +43,7 @@ namespace Woz.Functional.Monads.MaybeMonad
 
         T OrElseDefault();
         T OrElse(T defaultValue);
-        T OrElse(Func<T> builder);
-        T OrElseThrow(Func<Exception> builder);
+        T OrElse(Func<T> valueFactory);
+        T OrElseThrow(Func<Exception> exceptionFactory);
     }
 }
