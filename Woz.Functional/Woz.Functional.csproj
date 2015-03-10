@@ -44,8 +44,8 @@
     <Compile Include="Monads\MaybeMonad\MaybeTryGet.cs" />
     <Compile Include="Monads\MaybeMonad\Nothing.cs" />
     <Compile Include="Monads\MaybeMonad\Some.cs" />
-    <Compile Include="Monads\State\State.cs" />
-    <Compile Include="Monads\State\StateResult.cs" />
+    <Compile Include="Monads\StateMonad\State.cs" />
+    <Compile Include="Monads\StateMonad\StateResult.cs" />
     <Compile Include="Monads\TryMonad\Failed.cs" />
     <Compile Include="Monads\TryMonad\Success.cs" />
     <Compile Include="Monads\TryMonad\Try.cs" />

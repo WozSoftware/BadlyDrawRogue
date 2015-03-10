@@ -21,7 +21,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Woz.Functional.Monads.State
+namespace Woz.Functional.Monads.StateMonad
 {
     public delegate StateResult<TState, T> State<TState, T>(TState state);
 
