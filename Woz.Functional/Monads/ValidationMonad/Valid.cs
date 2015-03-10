@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics;
+using Woz.Functional.Monads.TryMonad;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
@@ -81,17 +82,16 @@ namespace Woz.Functional.Monads.ValidationMonad
                 .SelectMany(value2 => composer(value1, value2).ToValid());
         }
 
-        public IValidation<T> ThrowOnError(
-            Func<string, Exception> exceptionFactory)
-        {
-            return this;
-        }
-
         public T OrElse(Func<string, Exception> exceptionFactory)
         {
             Debug.Assert(exceptionFactory != null);
 
             return _value;
+        }
+
+        public ITry<T> ToTry(Func<string, Exception> exceptionFactory)
+        {
+            return Value.ToSuccess();
         }
 
         public bool Equals(IValidation<T> other)

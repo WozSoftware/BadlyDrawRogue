@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using Woz.Functional.Monads.TryMonad;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
@@ -39,9 +40,9 @@ namespace Woz.Functional.Monads.ValidationMonad
         // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
         IValidation<TResult> SelectMany<T2, TResult>(
             Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer);
-
-        IValidation<T> ThrowOnError(Func<string, Exception> exceptionFactory);
         
         T OrElse(Func<string, Exception> exceptionFactory);
+
+        ITry<T> ToTry(Func<string, Exception> exceptionFactory);
     }
 }

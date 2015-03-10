@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics;
+using Woz.Functional.Monads.TryMonad;
 
 namespace Woz.Functional.Monads.ValidationMonad
 {
@@ -80,19 +81,18 @@ namespace Woz.Functional.Monads.ValidationMonad
             return _errorMessage.ToInvalid<TResult>();
         }
 
-        public IValidation<T> ThrowOnError(
-            Func<string, Exception> exceptionFactory)
+        public T OrElse(Func<string, Exception> exceptionFactory)
         {
             Debug.Assert(exceptionFactory != null);
 
             throw exceptionFactory(_errorMessage);
         }
 
-        public T OrElse(Func<string, Exception> exceptionFactory)
+        public ITry<T> ToTry(Func<string, Exception> exceptionFactory)
         {
             Debug.Assert(exceptionFactory != null);
 
-            throw exceptionFactory(_errorMessage);
+            return exceptionFactory(_errorMessage).ToException<T>();
         }
 
         public bool Equals(IValidation<T> other)

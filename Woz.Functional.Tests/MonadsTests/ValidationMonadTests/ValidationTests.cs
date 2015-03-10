@@ -30,10 +30,10 @@ namespace Woz.Functional.Tests.MonadsTests.ValidationMonadTests
         [TestMethod]
         public void ToValid()
         {
-            var errorObject = 1.ToValid();
+            var validObject = 1.ToValid();
 
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(1, errorObject.Value);
+            Assert.IsTrue(validObject.IsValid);
+            Assert.AreEqual(1, validObject.Value);
         }
 
         [TestMethod]
@@ -88,27 +88,28 @@ namespace Woz.Functional.Tests.MonadsTests.ValidationMonadTests
         }
 
         [TestMethod]
-        public void ThrowOnErrorWhenSuccess()
+        public void ToTryWhenSuccess()
         {
-            var errorObject = 1.ToValid();
-            var result = errorObject.ThrowOnError(x => new Exception());
+            var validObject = 1.ToValid();
+            var result = validObject.ToTry(x => new Exception());
 
-            Assert.AreEqual(errorObject, result);
+            Assert.AreEqual(validObject.Value, result.Value);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (Exception))]
-        public void ThrowOnErrorWhenInvalid()
+        public void ToTryWhenInvalid()
         {
             var errorObject = "fail".ToInvalid<int>();
-            errorObject.ThrowOnError(x => new Exception());
+            var tryObject = errorObject.ToTry(x => new Exception());
+
+            Assert.IsFalse(tryObject.IsValid);
         }
 
         [TestMethod]
         public void OrElseWhenSuccess()
         {
-            var errorObject = 1.ToValid();
-            var result = errorObject.OrElse(x => new Exception());
+            var validObject = 1.ToValid();
+            var result = validObject.OrElse(x => new Exception());
 
             Assert.AreEqual(1, result);
         }

@@ -30,10 +30,10 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void ToSuccess()
         {
-            var errorObject = 1.ToSuccess();
+            var successObject = 1.ToSuccess();
 
-            Assert.IsTrue(errorObject.IsValid);
-            Assert.AreEqual(1, errorObject.Value);
+            Assert.IsTrue(successObject.IsValid);
+            Assert.AreEqual(1, successObject.Value);
         }
 
         [TestMethod]
@@ -112,11 +112,11 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void ThrowOnErrorWithFactoryWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject
+            var successObject = 1.ToSuccess();
+            var result = successObject
                 .ThrowOnError(x => new InvalidOperationException());
 
-            Assert.AreEqual(errorObject, result);
+            Assert.AreEqual(successObject, result);
         }
 
         [TestMethod]
@@ -132,10 +132,10 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void ThrowOnErrorWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject.ThrowOnError();
+            var successObject = 1.ToSuccess();
+            var result = successObject.ThrowOnError();
 
-            Assert.AreEqual(errorObject, result);
+            Assert.AreEqual(successObject, result);
         }
 
         [TestMethod]
@@ -151,8 +151,8 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void OrElseWithFactoryWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject
+            var successObject = 1.ToSuccess();
+            var result = successObject
                 .OrElse(s => new InvalidOperationException());
 
             Assert.AreEqual(1, result);
@@ -171,8 +171,8 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void OrElseWhenSuccess()
         {
-            var errorObject = 1.ToSuccess();
-            var result = errorObject.OrElseException();
+            var successObject = 1.ToSuccess();
+            var result = successObject.OrElseException();
 
             Assert.AreEqual(1, result);
         }
