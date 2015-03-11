@@ -37,11 +37,6 @@ namespace Woz.Functional.Monads.StateMonad
             return state => StateResult.Create(state, state);
         }
 
-        public static State<TState, T> Get<TState, T>(Func<TState, T> operation)
-        {
-            return state => StateResult.Create(state, operation(state));
-        }
-
         public static State<TState, Unit> Put<TState>(TState state)
         {
             return _ => StateResult.Create(state, Unit.Value);
@@ -49,7 +44,23 @@ namespace Woz.Functional.Monads.StateMonad
 
         public static State<TState, Unit> Modify<TState>(Func<TState, TState> operation)
         {
+            Debug.Assert(operation != null);
+
             return state => StateResult.Create(operation(state), Unit.Value);
+        }
+
+        public static TState Exec<TState, T>(this State<TState, T> self, TState state)
+        {
+            Debug.Assert(self != null);
+
+            return self(state).State;
+        }
+
+        public static T Eval<TState, T>(this State<TState, T> self, TState state)
+        {
+            Debug.Assert(self != null);
+
+            return self(state).Value;
         }
 
         // M<T> -> Func<T, TResult> -> M<TResult>
