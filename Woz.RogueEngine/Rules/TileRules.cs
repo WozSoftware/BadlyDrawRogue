@@ -26,7 +26,8 @@ namespace Woz.RogueEngine.Rules
 {
     public static class TileRules
     {
-        public static IValidation<IEntity> RuleIsTileType(this IEntity entity, TileTypes tileType)
+        public static IValidation<IEntity> RuleIsTileType(
+            this IEntity entity, TileTypes tileType)
         {
             return entity.RuleAttributeHasEnumValue(
                 EntityAttributes.TileType,

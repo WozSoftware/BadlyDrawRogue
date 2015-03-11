@@ -88,6 +88,42 @@ namespace Woz.Functional.Tests.MonadsTests.ValidationMonadTests
         }
 
         [TestMethod]
+        public void CollapseValidValid()
+        {
+            var parent = "A".ToValid();
+            var child = 5.ToValid();
+
+            var result = parent.Collapse(child);
+
+            Assert.IsTrue(result.IsValid);
+            Assert.AreEqual("A", result.Value);
+        }
+
+        [TestMethod]
+        public void CollapseValidInvalid()
+        {
+            var parent = "A".ToValid();
+            var child = "Fail".ToInvalid<int>();
+
+            var result = parent.Collapse(child);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual("Fail", result.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void CollapseInvalidValid()
+        {
+            var parent = "Fail".ToInvalid<string>();
+            var child = 5.ToValid();
+
+            var result = parent.Collapse(child);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual("Fail", result.ErrorMessage);
+        }
+
+        [TestMethod]
         public void ToTryWhenSuccess()
         {
             var validObject = 1.ToValid();

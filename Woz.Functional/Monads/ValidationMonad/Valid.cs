@@ -82,6 +82,13 @@ namespace Woz.Functional.Monads.ValidationMonad
                 .SelectMany(value2 => composer(value1, value2).ToValid());
         }
 
+        public IValidation<T> Collapse<T2>(IValidation<T2> other)
+        {
+            return other.IsValid
+                ? this
+                : other.ErrorMessage.ToInvalid<T>();
+        }
+
         public T OrElse(Func<string, Exception> exceptionFactory)
         {
             Debug.Assert(exceptionFactory != null);

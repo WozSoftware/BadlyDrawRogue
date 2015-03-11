@@ -81,6 +81,11 @@ namespace Woz.Functional.Monads.ValidationMonad
             return _errorMessage.ToInvalid<TResult>();
         }
 
+        public IValidation<T> Collapse<T2>(IValidation<T2> other)
+        {
+            return this;
+        }
+
         public T OrElse(Func<string, Exception> exceptionFactory)
         {
             Debug.Assert(exceptionFactory != null);
