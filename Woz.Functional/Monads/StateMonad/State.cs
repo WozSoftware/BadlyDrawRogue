@@ -49,6 +49,14 @@ namespace Woz.Functional.Monads.StateMonad
             return state => StateResult.Create(operation(state), Unit.Value);
         }
 
+        public static StateResult<TState, T> 
+            Run<TState, T>(this State<TState, T> self, TState state)
+        {
+            Debug.Assert(self != null);
+
+            return self(state);
+        }
+
         public static TState Exec<TState, T>(this State<TState, T> self, TState state)
         {
             Debug.Assert(self != null);

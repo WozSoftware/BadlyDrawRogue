@@ -29,7 +29,7 @@ namespace Woz.RogueEngine.Rules
         public static IValidation<ILevel> RuleIsValidCoordinate(
             this ILevel level, Point location)
         {
-            return level.Tiles.Bounds.Contains(location)
+            return level.Tiles.Bounds().Contains(location)
                 ? level.ToValid()
                 : string
                     .Format(

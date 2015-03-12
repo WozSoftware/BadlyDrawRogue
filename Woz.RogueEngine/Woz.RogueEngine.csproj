@@ -53,14 +53,11 @@
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
-    <Compile Include="Levels\ActorManager.cs" />
     <Compile Include="Levels\IActorState.cs" />
-    <Compile Include="Levels\IActorManager.cs" />
     <Compile Include="Levels\ILevel.cs" />
-    <Compile Include="Levels\ITileManager.cs" />
-    <Compile Include="Levels\TileManager.cs" />
-    <Compile Include="Operations\EntityOperations.cs" />
-    <Compile Include="Operations\LevelOperations.cs" />
+    <Compile Include="Levels\LevelEdit.cs" />
+    <Compile Include="Levels\LevelStateEdit.cs" />
+    <Compile Include="Levels\TileStore.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Entities\EntityFlags.cs" />
@@ -89,6 +86,10 @@
     <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
       <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
       <Name>Woz.Functional</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
+      <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
+      <Name>Woz.Immutable</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
       <Project>{1c394bd3-381e-4a26-9263-7e4057bd3bff}</Project>

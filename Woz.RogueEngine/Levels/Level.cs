@@ -18,47 +18,55 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Drawing;
+using Woz.Immutable.Collections;
+using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
+    using ITileStore = IImmutableGrid<IEntity>;
+    using IActorStateStore = IImmutableDictionary<long, IActorState>;
+
     public class Level : ILevel
     {
-        private readonly ITileManager _tiles;
-        private readonly IActorManager _actors;
+        private readonly ITileStore _tiles;
+        private readonly IActorStateStore _actorStates;
 
-        private Level(ITileManager tiles, IActorManager actors)
+        private Level(ITileStore tiles, IActorStateStore actorStates)
         {
             Debug.Assert(tiles != null);
-            Debug.Assert(actors != null);
+            Debug.Assert(actorStates != null);
 
             _tiles = tiles;
-            _actors = actors;
+            _actorStates = actorStates;
         }
 
-        public ITileManager Tiles
+        public ITileStore Tiles
         {
             get { return _tiles; }
         }
 
-        public IActorManager Actors
+        public IActorStateStore ActorStates
         {
-            get { return _actors; }
+            get { return _actorStates; }
         }
 
         public static ILevel Create(Size size)
         {
-            return new Level(TileManager.Create(size), ActorManager.Create());
+            return new Level(
+                ImmutableGrid<IEntity>.Create(size),
+                ImmutableDictionary<long, IActorState>.Empty);
         }
 
         public ILevel With(
-            ITileManager tiles = null, 
-            IActorManager actors = null)
+            ITileStore tiles = null,
+            IActorStateStore actors = null)
         {
             return tiles == null && actors == null
                 ? this
-                : new Level(tiles ?? _tiles, actors ?? _actors);
+                : new Level(tiles ?? _tiles, actors ?? _actorStates);
         }
     }
 }

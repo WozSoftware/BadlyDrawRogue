@@ -19,24 +19,23 @@
 #endregion
 
 using System.Drawing;
-using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
     public class ActorState : IActorState
     {
-        private readonly IEntity _actor;
+        private readonly long _actorId;
         private readonly Point _location;
 
-        private ActorState(IEntity actor, Point location)
+        private ActorState(long actorId, Point location)
         {
-            _actor = actor;
+            _actorId  = actorId;
             _location = location;
         }
 
-        public IEntity Actor
+        public long ActorId
         {
-            get { return _actor; }
+            get { return _actorId; }
         }
 
         public Point Location
@@ -44,16 +43,16 @@ namespace Woz.RogueEngine.Levels
             get { return _location; }
         }
 
-        public static IActorState Create(IEntity actor, Point location)
+        public static IActorState Create(long actorId, Point location)
         {
-            return new ActorState(actor, location);
+            return new ActorState(actorId, location);
         }
 
-        public IActorState With(IEntity actor = null, Point? location = null)
+        public IActorState With(long? actorId = null, Point? location = null)
         {
-            return actor == null && location == null
+            return actorId == null && location == null
                 ? this
-                : new ActorState(actor ?? _actor, location ?? _location);
+                : new ActorState(actorId ?? _actorId, location ?? _location);
         }
     }
 }

@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,21 +18,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using Woz.Immutable.Collections;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    public interface ITileManager 
-        : IEnumerable<Tuple<Point, IEntity>>
-    {
-        Size Size { get; }
-        Rectangle Bounds { get; }
-        IEntity this[Point location] { get; }
+    using ITileStore = IImmutableGrid<IEntity>;
 
-        ITileManager SetTile(Point location, IEntity tile);
-        ITileManager EditTile(Point location, Func<IEntity, IEntity> tileEditor);
+    public static class TileStore
+    {
+        public static Rectangle Bounds(this ITileStore tiles)
+        {
+            Debug.Assert(tiles != null);
+
+            return new Rectangle(new Point(), tiles.Size);
+        }
     }
 }

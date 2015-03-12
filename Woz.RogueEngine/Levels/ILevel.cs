@@ -18,15 +18,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Collections.Immutable;
+using Woz.Immutable.Collections;
+using Woz.RogueEngine.Entities;
+
 namespace Woz.RogueEngine.Levels
 {
+    using ITileStore = IImmutableGrid<IEntity>;
+    using IActorStateStore = IImmutableDictionary<long, IActorState>;
+    
     public interface ILevel
     {
-        ITileManager Tiles { get; }
-        IActorManager Actors { get; }
+        ITileStore Tiles { get; }
+        IActorStateStore ActorStates { get; }
 
         ILevel With(
-            ITileManager tiles = null,
-            IActorManager actors = null);
+            ITileStore tiles = null,
+            IActorStateStore actors = null);
     }
 }
