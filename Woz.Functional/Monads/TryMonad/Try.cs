@@ -25,7 +25,7 @@ namespace Woz.Functional.Monads.TryMonad
 {
     public static class Try
     {
-        public static ITry<T> ToSuccess<T>(this T value)
+        public static ITry<T> ToTry<T>(this T value)
         {
             return new Success<T>(value);
         }

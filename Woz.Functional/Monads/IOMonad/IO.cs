@@ -75,7 +75,7 @@ namespace Woz.Functional.Monads.IOMonad
         {
             Debug.Assert(io != null);
 
-            return Try.Catcher(() => io().ToSuccess());
+            return Try.Catcher(() => io().ToTry());
         }
     }
 }

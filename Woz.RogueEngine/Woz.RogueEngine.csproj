@@ -56,7 +56,6 @@
     <Compile Include="Levels\IActorState.cs" />
     <Compile Include="Levels\ILevel.cs" />
     <Compile Include="Levels\LevelEdit.cs" />
-    <Compile Include="Levels\LevelStateEdit.cs" />
     <Compile Include="Levels\TileStore.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />

@@ -57,7 +57,7 @@ namespace Woz.Functional.Monads.TryMonad
             Debug.Assert(operation != null);
 
             var value = _value; // Capture for closure
-            return Try.Catcher(() => operation(value).ToSuccess());
+            return Try.Catcher(() => operation(value).ToTry());
         }
 
         // M<T> -> Func<T, M<TResult>> -> M<TResult>
@@ -79,7 +79,7 @@ namespace Woz.Functional.Monads.TryMonad
 
             return SelectMany(x =>
                 transform(x).SelectMany(y =>
-                    composer(x, y).ToSuccess()));
+                    composer(x, y).ToTry()));
         }
 
         public ITry<T> ThrowOnError(Func<Exception, Exception> exceptionFactory)

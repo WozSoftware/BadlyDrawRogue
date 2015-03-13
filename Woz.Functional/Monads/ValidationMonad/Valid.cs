@@ -98,7 +98,7 @@ namespace Woz.Functional.Monads.ValidationMonad
 
         public ITry<T> ToTry(Func<string, Exception> exceptionFactory)
         {
-            return Value.ToSuccess();
+            return Value.ToTry();
         }
 
         public bool Equals(IValidation<T> other)

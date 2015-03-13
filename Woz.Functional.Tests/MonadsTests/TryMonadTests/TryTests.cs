@@ -28,9 +28,9 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
     public class TryTests
     {
         [TestMethod]
-        public void ToSuccess()
+        public void ToTry()
         {
-            var successObject = 1.ToSuccess();
+            var successObject = 1.ToTry();
 
             Assert.IsTrue(successObject.IsValid);
             Assert.AreEqual(1, successObject.Value);
@@ -49,7 +49,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void SelectWhenSuccess()
         {
-            var result = 1.ToSuccess().Select(x => 2);
+            var result = 1.ToTry().Select(x => 2);
 
             Assert.IsTrue(result.IsValid);
             Assert.AreEqual(2, result.Value);
@@ -61,7 +61,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
             var exception = new Exception();
 
             var result = 1
-                .ToSuccess()
+                .ToTry()
                 .Select<int>(
                     x =>
                     {
@@ -87,8 +87,8 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         public void SelectManyWhenSuccess()
         {
             var result =
-                from a in 1.ToSuccess()
-                from b in 2.ToSuccess()
+                from a in 1.ToTry()
+                from b in 2.ToTry()
                 select a + b;
 
             Assert.IsTrue(result.IsValid);
@@ -101,7 +101,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
             var exception = new Exception();
 
             var result =
-                from a in 1.ToSuccess()
+                from a in 1.ToTry()
                 from b in exception.ToException<int>()
                 select a + b;
 
@@ -112,7 +112,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void ThrowOnErrorWithFactoryWhenSuccess()
         {
-            var successObject = 1.ToSuccess();
+            var successObject = 1.ToTry();
             var result = successObject
                 .ThrowOnError(x => new InvalidOperationException());
 
@@ -132,7 +132,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void ThrowOnErrorWhenSuccess()
         {
-            var successObject = 1.ToSuccess();
+            var successObject = 1.ToTry();
             var result = successObject.ThrowOnError();
 
             Assert.AreEqual(successObject, result);
@@ -151,7 +151,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void OrElseWithFactoryWhenSuccess()
         {
-            var successObject = 1.ToSuccess();
+            var successObject = 1.ToTry();
             var result = successObject
                 .OrElse(s => new InvalidOperationException());
 
@@ -171,7 +171,7 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void OrElseWhenSuccess()
         {
-            var successObject = 1.ToSuccess();
+            var successObject = 1.ToTry();
             var result = successObject.OrElseException();
 
             Assert.AreEqual(1, result);
@@ -190,14 +190,14 @@ namespace Woz.Functional.Tests.MonadsTests.TryMonadTests
         [TestMethod]
         public void Equals()
         {
-            Assert.IsTrue(1.ToSuccess().Equals(1.ToSuccess()));
+            Assert.IsTrue(1.ToTry().Equals(1.ToTry()));
 
             var exception = new Exception();
             Assert.IsTrue(exception.ToException<int>().Equals(exception.ToException<int>()));
 
             Assert.IsFalse(new Exception().ToException<int>().Equals(new Exception().ToException<int>()));
 
-            Assert.IsFalse(1.ToSuccess().Equals(2.ToSuccess()));
+            Assert.IsFalse(1.ToTry().Equals(2.ToTry()));
 
             Assert.IsFalse(new Exception("A").ToException<int>().Equals(new Exception("B").ToException<int>()));
 
