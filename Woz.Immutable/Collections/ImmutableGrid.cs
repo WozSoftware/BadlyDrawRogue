@@ -72,7 +72,7 @@ namespace Woz.Immutable.Collections
             {
                 get
                 {
-                    Debug.Assert(x >= 0 && y >= 0);
+                    Debug.Assert(IsValidLocation(x, y));
 
                     return _buffer.ToMaybe()
                         .SelectMany(buffer => buffer[x].ToMaybe())
@@ -101,9 +101,14 @@ namespace Woz.Immutable.Collections
                 get { return _size; }
             }
 
+            public bool IsValidLocation(int x, int y)
+            {
+                return x >= 0 && x < _size.Width && y >= 0 && y < _size.Height;
+            }
+
             public Builder Set(int x, int y, T item)
             {
-                Debug.Assert(x >= 0 && y >= 0);
+                Debug.Assert(IsValidLocation(x, y));
 
                 if (_built)
                 {
@@ -192,7 +197,12 @@ namespace Woz.Immutable.Collections
 
         public T this[int x, int y]
         {
-            get { return _storage[x][y]; }
+            get
+            {
+                Debug.Assert(IsValidLocation(x, y));
+
+                return _storage[x][y];
+            }
         }
 
         public T this[Point location]
@@ -213,6 +223,16 @@ namespace Woz.Immutable.Collections
         public Size Size
         {
             get { return _size; }
+        }
+
+        public bool IsValidLocation(int x, int y)
+        {
+            return x >= 0 && x < _size.Width && y >= 0 && y < _size.Height;
+        }
+
+        public bool IsValidLocation(Point location)
+        {
+            return IsValidLocation(location.X, location.Y);
         }
 
         public ImmutableGrid<T> Set(int x, int y, T item)

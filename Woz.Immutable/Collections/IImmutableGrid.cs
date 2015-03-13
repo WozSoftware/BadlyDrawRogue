@@ -33,6 +33,9 @@ namespace Woz.Immutable.Collections
         int Height { get; }
         Size Size { get; }
 
+        bool IsValidLocation(int x, int y);
+        bool IsValidLocation(Point location);
+
         IImmutableGrid<T> Set(int x, int y, T item);
         IImmutableGrid<T> Set(Point location, T item);
 

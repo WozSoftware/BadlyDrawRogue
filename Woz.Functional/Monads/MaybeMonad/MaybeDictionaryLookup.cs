@@ -26,6 +26,7 @@ namespace Woz.Functional.Monads.MaybeMonad
 {
     public static class MaybeDictionaryLookup
     {
+        // TODO: Move out so no dependency on BCL
         public static IMaybe<T> Lookup<TKey, T>(
             this IImmutableDictionary<TKey, T> self, TKey key)
         {
