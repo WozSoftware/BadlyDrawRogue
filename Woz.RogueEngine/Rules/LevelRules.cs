@@ -26,16 +26,16 @@ namespace Woz.RogueEngine.Rules
 {
     public static class LevelRules
     {
-        public static IValidation<ILevel> RuleIsValidCoordinate(
+        public static IValidation<ILevel> RuleIsValidLocation(
             this ILevel level, Point location)
         {
-            return level.Tiles.Bounds().Contains(location)
+            return level.Tiles.IsValidLocation(location)
                 ? level.ToValid()
                 : string
                     .Format(
-                        "Location ({0},{1} is outside the level boundary of (1,1 -> {2},{3})",
+                        "Location ({0},{1} is outside the level boundary of (0,0 -> {2},{3})",
                         location.X, location.Y, 
-                        level.Tiles.Size.Width, level.Tiles.Size.Height)
+                        level.Tiles.Size.Width - 1, level.Tiles.Size.Height - 1)
                     .ToInvalid<ILevel>();
         }
     }

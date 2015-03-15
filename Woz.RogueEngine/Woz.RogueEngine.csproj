@@ -55,8 +55,8 @@
     <Compile Include="Entities\TileTypes.cs" />
     <Compile Include="Levels\IActorState.cs" />
     <Compile Include="Levels\ILevel.cs" />
-    <Compile Include="Levels\LevelEdit.cs" />
-    <Compile Include="Levels\TileStore.cs" />
+    <Compile Include="Operations\InteractionTarget.cs" />
+    <Compile Include="Operations\LevelOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
     <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Entities\EntityFlags.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="Rules\LevelRules.cs" />
     <Compile Include="Rules\RuleHelpers.cs" />
     <Compile Include="Rules\TileRules.cs" />
+    <Compile Include="Validators\LevelValidators.cs" />
     <Compile Include="Validators\TileValidators.cs" />
   </ItemGroup>
   <ItemGroup>

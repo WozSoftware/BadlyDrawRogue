@@ -18,6 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Linq;
+using Woz.Functional.Monads.MaybeMonad;
 using Woz.Functional.Monads.ValidationMonad;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Queries;
@@ -26,6 +28,20 @@ namespace Woz.RogueEngine.Rules
 {
     public static class TileRules
     {
+        public static IValidation<IEntity> RuleCanAddActor(this IEntity entity)
+        {
+            var actor = entity
+                .Children
+                .FirstMaybe(x => x.Value.EntityType == EntityType.Actor)
+                .Select(x => x.Value);
+
+            return actor.HasValue
+                ? entity.ToValid()
+                : string.Format(
+                    "The tile contains a {0}", 
+                    actor.Value.Name).ToInvalid<IEntity>();
+        }
+
         public static IValidation<IEntity> RuleIsTileType(
             this IEntity entity, TileTypes tileType)
         {

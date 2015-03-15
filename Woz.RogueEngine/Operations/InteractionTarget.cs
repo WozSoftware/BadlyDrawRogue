@@ -18,22 +18,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Drawing;
-using Woz.Immutable.Collections;
 using Woz.RogueEngine.Entities;
 
-namespace Woz.RogueEngine.Levels
+namespace Woz.RogueEngine.Operations
 {
-    using ITileStore = IImmutableGrid<IEntity>;
-
-    public static class TileStore
+    public class InteractionTarget
     {
-        public static Rectangle Bounds(this ITileStore tiles)
-        {
-            Debug.Assert(tiles != null);
+        private readonly Point _location;
+        private readonly IEnumerable<long> _entityPath;
+        private readonly IEntity _target;
 
-            return new Rectangle(new Point(), tiles.Size);
+        public InteractionTarget(
+            Point location, IEnumerable<long> entityPath, IEntity target)
+        {
+            _location = location;
+            _entityPath = entityPath;
+            _target = target;
+        }
+
+        public Point Location
+        {
+            get { return _location; }
+        }
+
+        public IEnumerable<long> EntityPath
+        {
+            get { return _entityPath; }
+        }
+
+        public IEntity Target
+        {
+            get { return _target; }
         }
     }
 }

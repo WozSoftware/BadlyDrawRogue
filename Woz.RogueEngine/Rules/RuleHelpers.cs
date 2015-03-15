@@ -27,19 +27,13 @@ namespace Woz.RogueEngine.Rules
 {
     public static class RuleHelpers
     {
-        public static IValidation<IEntity> RuleAttributeHasEnumValue<T>(
-            this IEntity entity,
-            EntityAttributes attribute,
-            T requiredType,
-            string message)
-            where T : struct, IConvertible
-        {
-            return entity
-                .RuleAttributeHasEnumValue(
-                    attribute,
-                    requiredType,
-                    () => message);
-        }
+        //public static IValidation<IEntity> RuleContainsChildType(
+        //    this IEntity entity,
+        //    EntityType entityType,
+        //    Func<string> messageFactory)
+        //{
+            
+        //}
 
         public static IValidation<IEntity> RuleAttributeHasEnumValue<T>(
             this IEntity entity,

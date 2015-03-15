@@ -25,13 +25,14 @@ using System.Drawing;
 using Woz.Immutable.Collections;
 using Woz.RogueEngine.DebugHelpers;
 using Woz.RogueEngine.Entities;
+using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Levels
+namespace Woz.RogueEngine.Operations
 {
     using ITileStore = IImmutableGrid<IEntity>;
     using IActorStateStore = IImmutableDictionary<long, IActorState>;
 
-    public static class LevelEdit
+    public static class LevelOperations
     {
         #region Level State Operations
         public static ILevel SpawnActor(
