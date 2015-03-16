@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lenses\Lens.cs" />
     <Compile Include="Monads\IOMonad\IO.cs" />
     <Compile Include="Monads\MaybeMonad\IMaybe.cs" />
     <Compile Include="Monads\MaybeMonad\Maybe.cs" />
