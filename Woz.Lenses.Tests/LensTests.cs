@@ -2,7 +2,7 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.Lenses.
 //
 // Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
@@ -17,34 +17,65 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Lenses;
 
-namespace Woz.Functional.Tests.LensesTests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Woz.Lenses.Tests
 {
     [TestClass]
     public class LensTests
     {
-        // Lenses do not make sense with mutable state but this eases the
-        // scaffolding required for immutable objects and is still a valid 
-        // set of tests
-
-        private class Root
+        public class Root
         {
-            public int Value { get; set; }
-            public Child Child { get; set; }
+            private readonly int _value;
+            private readonly Child _child;
+
+            public Root(int value, Child child)
+            {
+                _value = value;
+                _child = child;
+            }
+
+            public int Value
+            {
+                get { return _value; }
+            }
+
+            public Child Child
+            {
+                get { return _child; }
+            }
+
+            public Root With(int? value = null, Child child = null)
+            {
+                return new Root(value ?? _value, child ?? _child);
+            }
         }
 
         public class Child
         {
-            public int Value { get; set; }
+            private readonly int _value;
+
+            public Child(int value)
+            {
+                _value = value;
+            }
+
+            public int Value
+            {
+                get { return _value; }
+            }
+
+            public Child With(int? value = null)
+            {
+                return new Child(value ?? _value);
+            }
         }
 
         [TestMethod]
         public void Get()
         {
-            var instance = new Root {Value = 5};
+            var instance = new Root(5, null);
 
             Assert.AreEqual(5, instance.Get(RootValue));
         }
@@ -52,7 +83,7 @@ namespace Woz.Functional.Tests.LensesTests
         [TestMethod]
         public void Set()
         {
-            var instance = new Root().Set(RootValue, 5);
+            var instance = new Root(0, null).Set(RootValue, 5);
 
             Assert.AreEqual(5, instance.Value);
         }
@@ -60,7 +91,7 @@ namespace Woz.Functional.Tests.LensesTests
         [TestMethod]
         public void WithGetComposes()
         {
-            var instance = new Root {Child = new Child {Value = 5}};
+            var instance = new Root(0, new Child(5));
 
             Assert.AreEqual(5, instance.Get(RootChildValue));
         }
@@ -68,7 +99,7 @@ namespace Woz.Functional.Tests.LensesTests
         [TestMethod]
         public void WithSetComposes()
         {
-            var instance = new Root { Child = new Child()};
+            var instance = new Root(0, new Child(0));
 
             instance = instance.Set(RootChildValue, 5);
 
@@ -81,11 +112,7 @@ namespace Woz.Functional.Tests.LensesTests
             {
                 return Lens.Create<Root, int>(
                     root => root.Value,
-                    value => root =>
-                    {
-                        root.Value = value;
-                        return root;
-                    });
+                    value => root => root.With(value: value));
             }
         }
 
@@ -96,20 +123,12 @@ namespace Woz.Functional.Tests.LensesTests
                 var rootChild =
                     Lens.Create<Root, Child>(
                         root => root.Child,
-                        child => root =>
-                        {
-                            root.Child = child;
-                            return root;
-                        });
+                        child => root => root.With(child: child));
 
                 var childValue =
                     Lens.Create<Child, int>(
                         child => child.Value,
-                        value => child =>
-                        {
-                            child.Value = value;
-                            return child;
-                        });
+                        value => child => child.With(value: value));
 
                 return rootChild.With(childValue);
             }

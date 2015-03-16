@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Immutable", "Woz.Immuta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Immutable.Tests", "Woz.Immutable.Tests\Woz.Immutable.Tests.csproj", "{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Lenses", "Woz.Lenses\Woz.Lenses.csproj", "{95E4674D-638D-4B89-8732-106F10D27B1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.Lenses.Tests", "Woz.Lenses.Tests\Woz.Lenses.Tests.csproj", "{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,14 @@ Global
 		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70A3A0A2-F7BE-4F22-8992-EE7DA08BF28E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95E4674D-638D-4B89-8732-106F10D27B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E4674D-638D-4B89-8732-106F10D27B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E4674D-638D-4B89-8732-106F10D27B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E4674D-638D-4B89-8732-106F10D27B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

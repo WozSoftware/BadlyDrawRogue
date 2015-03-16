@@ -2,7 +2,7 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Functional.
+// This file is part of Woz.Lenses.
 //
 // Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
@@ -21,7 +21,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Woz.Functional.Lenses
+namespace Woz.Lenses
 {
     public static class Lens
     {
@@ -73,7 +73,7 @@ namespace Woz.Functional.Lenses
         {
             get { return _set; }
         }
-
+    
         private Func<TType, TType> Modify(Func<TValue, TValue> updater)
         {
             Debug.Assert(updater != null);
