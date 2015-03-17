@@ -50,11 +50,11 @@
     <Compile Include="Entities\DamageTypes.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityAttributes.cs" />
-    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\EntityLens.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
     <Compile Include="Levels\IActorState.cs" />
-    <Compile Include="Levels\ILevel.cs" />
+    <Compile Include="Levels\LevelLens.cs" />
     <Compile Include="Operations\InteractionTarget.cs" />
     <Compile Include="Operations\LevelOperations.cs" />
     <Compile Include="Queries\CombatQueries.cs" />
@@ -90,6 +90,10 @@
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
+      <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>
+      <Name>Woz.Lenses</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
       <Project>{1c394bd3-381e-4a26-9263-7e4057bd3bff}</Project>

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -20,20 +20,28 @@
 
 using System.Collections.Immutable;
 using Woz.Immutable.Collections;
+using Woz.Lenses;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using ITileStore = IImmutableGrid<IEntity>;
+    using ITileStore = IImmutableGrid<Entity>;
     using IActorStateStore = IImmutableDictionary<long, IActorState>;
-    
-    public interface ILevel
-    {
-        ITileStore Tiles { get; }
-        IActorStateStore ActorStates { get; }
 
-        ILevel With(
-            ITileStore tiles = null,
-            IActorStateStore actors = null);
+    public static class LevelLens
+    {
+        public static readonly Lens<Level, ITileStore> Tiles;
+        public static readonly Lens<Level, IActorStateStore> ActorStates;
+
+        static LevelLens()
+        {
+            Tiles = Lens.Create<Level, ITileStore>(
+                level => level.Tiles,
+                tile => level => level.With(tiles: tile));
+
+            ActorStates = Lens.Create<Level, IActorStateStore>(
+                level => level.ActorStates,
+                actorStates => level => level.With(actorStates: actorStates));
+        }
     }
 }

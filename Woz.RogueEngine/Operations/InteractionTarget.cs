@@ -28,10 +28,10 @@ namespace Woz.RogueEngine.Operations
     {
         private readonly Point _location;
         private readonly IEnumerable<long> _entityPath;
-        private readonly IEntity _target;
+        private readonly Entity _target;
 
         public InteractionTarget(
-            Point location, IEnumerable<long> entityPath, IEntity target)
+            Point location, IEnumerable<long> entityPath, Entity target)
         {
             _location = location;
             _entityPath = entityPath;
@@ -48,7 +48,7 @@ namespace Woz.RogueEngine.Operations
             get { return _entityPath; }
         }
 
-        public IEntity Target
+        public Entity Target
         {
             get { return _target; }
         }

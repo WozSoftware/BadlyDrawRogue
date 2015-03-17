@@ -83,7 +83,7 @@ namespace Woz.Core.Conversion
             var result = EnumConversionHelper<TValue, TEnum>.Convert(value);
             return Enum.IsDefined(typeof(TEnum), result)
                 ? result.ToMaybe()
-                : Maybe<TEnum>.Nothing;
+                : Maybe<TEnum>.None;
         }
 
         private static class EnumConversionHelper<TValue, TEnum>

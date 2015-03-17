@@ -31,7 +31,7 @@ namespace Woz.RogueEngine.Definitions
 {
     public static class EntityParser
     {
-        public static IEnumerable<IEntity> ReadEntities(
+        public static IEnumerable<Entity> ReadEntities(
             this XElement entitiesElement)
         {
             Debug.Assert(entitiesElement != null);
@@ -41,7 +41,7 @@ namespace Woz.RogueEngine.Definitions
                 .Select(ReadEntity);
         }
 
-        public static IEntity ReadEntity(this XElement entityElement)
+        public static Entity ReadEntity(this XElement entityElement)
         {
             Debug.Assert(entityElement != null);
 

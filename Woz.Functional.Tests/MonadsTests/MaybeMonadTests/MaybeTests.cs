@@ -101,7 +101,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [TestMethod]
         public void SelectWhenNone()
         {
-            var maybe = Maybe<int>.Nothing.Select(x => (x + 1));
+            var maybe = Maybe<int>.None.Select(x => (x + 1));
 
             Assert.IsFalse(maybe.HasValue);
         }
@@ -118,7 +118,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [TestMethod]
         public void SelectManyWhenNone()
         {
-            var maybe = Maybe<int>.Nothing.SelectMany(x => (x + 1).ToMaybe());
+            var maybe = Maybe<int>.None.SelectMany(x => (x + 1).ToMaybe());
 
             Assert.IsFalse(maybe.HasValue);
         }
@@ -146,7 +146,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [TestMethod]
         public void OrElseDefaultWhenNone()
         {
-            Assert.AreEqual(0, Maybe<int>.Nothing.OrElseDefault());
+            Assert.AreEqual(0, Maybe<int>.None.OrElseDefault());
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [TestMethod]
         public void OrElseWhenNone()
         {
-            Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(5));
+            Assert.AreEqual(5, Maybe<int>.None.OrElse(5));
         }
 
         [TestMethod]
@@ -174,7 +174,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [TestMethod]
         public void OrElseFactoryWhenNone()
         {
-            Assert.AreEqual(5, Maybe<int>.Nothing.OrElse(() => 5));
+            Assert.AreEqual(5, Maybe<int>.None.OrElse(() => 5));
         }
 
         [TestMethod]
@@ -189,7 +189,7 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         [ExpectedException(typeof(Exception))]
         public void OrElseThrowWhenNone()
         {
-            Assert.AreEqual(5, Maybe<int>.Nothing.OrElseThrow(() => new Exception()));
+            Assert.AreEqual(5, Maybe<int>.None.OrElseThrow(() => new Exception()));
         }
 
         [TestMethod]
@@ -197,8 +197,8 @@ namespace Woz.Functional.Tests.MonadsTests.MaybeMonadTests
         {
             Assert.IsTrue(1.ToMaybe().Equals(1.ToMaybe()));
             Assert.IsFalse(2.ToMaybe().Equals(1.ToMaybe()));
-            Assert.IsFalse(2.ToMaybe().Equals(Maybe<int>.Nothing));
-            Assert.IsTrue(Maybe<int>.Nothing.Equals(Maybe<int>.Nothing));
+            Assert.IsFalse(2.ToMaybe().Equals(Maybe<int>.None));
+            Assert.IsTrue(Maybe<int>.None.Equals(Maybe<int>.None));
         }
     }
 }

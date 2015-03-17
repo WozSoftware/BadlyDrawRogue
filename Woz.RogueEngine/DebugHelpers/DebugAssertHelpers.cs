@@ -24,14 +24,18 @@ namespace Woz.RogueEngine.DebugHelpers
 {
     public static class DebugAssertHelpers
     {
-        public static bool IsValid(this IEntity entity, EntityType entityType)
+        public static bool IsValid(this Entity entity, EntityType entityType)
         {
-            return entity != null && entity.EntityType == entityType;
+            return 
+                entity != null && 
+                entity.EntityType == entityType;
         }
 
-        public static bool IsNot(this IEntity entity, EntityType entityType)
+        public static bool IsNot(this Entity entity, EntityType entityType)
         {
-            return entity != null && entity.EntityType != entityType;
+            return 
+                entity != null && 
+                entity.EntityType != entityType;
         }
     }
 }

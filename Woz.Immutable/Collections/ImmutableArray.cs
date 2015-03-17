@@ -75,7 +75,7 @@ namespace Woz.Immutable.Collections
             {
                 Debug.Assert(data != null);
 
-                _buffer = Maybe<T[]>.Nothing;
+                _buffer = Maybe<T[]>.None;
                 _source = data;
             }
 

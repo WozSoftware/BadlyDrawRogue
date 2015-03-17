@@ -26,9 +26,9 @@ namespace Woz.RogueEngine.Entities
 {
     using IAttributeStore = IImmutableDictionary<EntityAttributes, int>;
     using IFlagStore = IImmutableDictionary<EntityFlags, bool>;
-    using IChildStore = IImmutableDictionary<long, IEntity>;
+    using IChildStore = IImmutableDictionary<long, Entity>;
 
-    public class Entity : IEntity
+    public class Entity 
     {
         private readonly long _id;
         private readonly EntityType _entityType;
@@ -36,6 +36,7 @@ namespace Woz.RogueEngine.Entities
         private readonly IAttributeStore _attributes;
         private readonly IFlagStore _flags;
         private readonly IChildStore _children;
+
 
         private Entity(
             long id,
@@ -66,12 +67,12 @@ namespace Woz.RogueEngine.Entities
 
         public EntityType EntityType
         {
-            get { return _entityType; }    
+            get { return _entityType; }
         }
 
-        public string Name 
-        { 
-            get { return _name; } 
+        public string Name
+        {
+            get { return _name; }
         }
 
         public IAttributeStore Attributes
@@ -89,7 +90,7 @@ namespace Woz.RogueEngine.Entities
             get { return _children; }
         }
 
-        public static IEntity Create(long id, EntityType entityType, string name)
+        public static Entity Create(long id, EntityType entityType, string name)
         {
             return Create(
                 id,
@@ -97,10 +98,10 @@ namespace Woz.RogueEngine.Entities
                 name,
                 ImmutableDictionary<EntityAttributes, int>.Empty,
                 ImmutableDictionary<EntityFlags, bool>.Empty,
-                ImmutableDictionary<long, IEntity>.Empty);
+                ImmutableDictionary<long, Entity>.Empty);
         }
 
-        public static IEntity Create(
+        public static Entity Create(
             long id,
             EntityType entityType,
             string name,
@@ -111,17 +112,26 @@ namespace Woz.RogueEngine.Entities
             return new Entity(id, entityType, name, attributes, flags, children);
         }
 
-        public IEntity With(
+        public Entity With(
+            long? id = null,
+            EntityType? entityType = null,
+            string name = null,
             IAttributeStore attributes = null,
             IFlagStore flags = null,
             IChildStore children = null)
         {
-            return attributes == null && flags == null && children == null
+            return 
+                !id.HasValue &&
+                !entityType.HasValue &&
+                name == null &
+                attributes == null && 
+                flags == null && 
+                children == null
                 ? this // Minimise object churn
                 : new Entity(
-                    _id,
-                    _entityType,
-                    _name,
+                    id ?? _id,
+                    entityType ?? _entityType,
+                    name ?? _name,
                     attributes ?? _attributes,
                     flags ?? _flags,
                     children ?? _children);

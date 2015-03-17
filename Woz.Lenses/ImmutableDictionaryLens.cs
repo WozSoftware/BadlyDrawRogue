@@ -25,13 +25,30 @@ namespace Woz.Lenses
 {
     public static class ImmutableDictionaryLens
     {
-        public static Lens<
-            IImmutableDictionary<TKey, TValue>, 
-            IMaybe<TValue>> ToLensLookup<TKey, TValue>(
-            this IImmutableDictionary<TKey, TValue> self, TKey key)
+        public static 
+            Lens<IImmutableDictionary<TKey, TValue>, TValue> 
+            ByKey<TKey, TValue>(TKey key)
         {
-            return Lens
-                .Create<IImmutableDictionary<TKey, TValue>, IMaybe<TValue>>(
+            return 
+                Lens.Create<IImmutableDictionary<TKey, TValue>, TValue>(
+                    dictionary => dictionary[key],
+                    value => dictionary => dictionary.SetItem(key, value));
+        }
+
+        public static Lens<TEntity, TValue> 
+            ByKey<TEntity, TKey, TValue>(
+                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
+                TKey key)
+        {
+            return self.With(ByKey<TKey, TValue>(key));
+        }
+
+        public static 
+            Lens<IImmutableDictionary<TKey, TValue>, IMaybe<TValue>> 
+            Lookup<TKey, TValue>(TKey key)
+        {
+            return 
+                Lens.Create<IImmutableDictionary<TKey, TValue>, IMaybe<TValue>>(
                     dictionary => dictionary.Lookup(key),
                     value => dictionary =>
                     {
@@ -39,6 +56,14 @@ namespace Woz.Lenses
                             .Select(x => dictionary.SetItem(key, x))
                             .OrElse(() => dictionary.Remove(key));
                     });
+        }
+
+        public static Lens<TEntity, IMaybe<TValue>> 
+            Lookup<TEntity, TKey, TValue>(
+                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
+                TKey key)
+        {
+            return self.With(Lookup<TKey, TValue>(key));
         }
     }
 }

@@ -26,10 +26,10 @@ using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using ITileStore = IImmutableGrid<IEntity>;
+    using ITileStore = IImmutableGrid<Entity>;
     using IActorStateStore = IImmutableDictionary<long, IActorState>;
 
-    public class Level : ILevel
+    public class Level 
     {
         private readonly ITileStore _tiles;
         private readonly IActorStateStore _actorStates;
@@ -53,20 +53,20 @@ namespace Woz.RogueEngine.Levels
             get { return _actorStates; }
         }
 
-        public static ILevel Create(Size size)
+        public static Level Create(Size size)
         {
             return new Level(
-                ImmutableGrid<IEntity>.Create(size),
+                ImmutableGrid<Entity>.Create(size),
                 ImmutableDictionary<long, IActorState>.Empty);
         }
 
-        public ILevel With(
+        public Level With(
             ITileStore tiles = null,
-            IActorStateStore actors = null)
+            IActorStateStore actorStates = null)
         {
-            return tiles == null && actors == null
+            return tiles == null && actorStates == null
                 ? this
-                : new Level(tiles ?? _tiles, actors ?? _actorStates);
+                : new Level(tiles ?? _tiles, actorStates ?? _actorStates);
         }
     }
 }

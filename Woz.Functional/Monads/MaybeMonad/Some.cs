@@ -74,7 +74,7 @@ namespace Woz.Functional.Monads.MaybeMonad
         {
             Debug.Assert(predicate != null);
 
-            return predicate(_value) ? this : Maybe<T>.Nothing;
+            return predicate(_value) ? this : Maybe<T>.None;
         }
 
         public void Do(Action<T> operation)

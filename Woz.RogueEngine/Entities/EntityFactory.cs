@@ -27,11 +27,11 @@ using Woz.Functional.Generators;
 
 namespace Woz.RogueEngine.Entities
 {
-    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<IEntity>>;
+    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<Entity>>;
 
     public class EntityFactory : IEntityFactory
     {
-        public static readonly IEntity Void;
+        public static readonly Entity Void;
 
         private readonly Func<long> _idGenerator;
         private readonly ITemplateStore _templates;
@@ -41,7 +41,7 @@ namespace Woz.RogueEngine.Entities
             Void = CreateVoidEntity();
         }
 
-        private EntityFactory(IEnumerable<IEntity> entities)
+        private EntityFactory(IEnumerable<Entity> entities)
         {
             Debug.Assert(entities != null);
 
@@ -50,7 +50,7 @@ namespace Woz.RogueEngine.Entities
                 .GroupBy(x => x.EntityType)
                 .ToImmutableDictionary(
                     x => x.Key, 
-                    x => (IImmutableList<IEntity>) x.ToImmutableList());
+                    x => (IImmutableList<Entity>) ImmutableList.ToImmutableList<Entity>(x));
         }
 
         public ITemplateStore Templates
@@ -58,17 +58,17 @@ namespace Woz.RogueEngine.Entities
             get { return _templates; }
         }
 
-        public static IEntityFactory Create(IEnumerable<IEntity> entities)
+        public static IEntityFactory Create(IEnumerable<Entity> entities)
         {
             return new EntityFactory(entities);
         }
 
-        public IEntity Create(IEntity template)
+        public Entity Create(Entity template)
         {
             return Create(template, template.Name);
         }
 
-        public IEntity Create(IEntity template, string name)
+        public Entity Create(Entity template, string name)
         {
             return 
                 Entity.Create(
@@ -80,7 +80,7 @@ namespace Woz.RogueEngine.Entities
                     template.Children);
         }
 
-        private static IEntity CreateVoidEntity()
+        private static Entity CreateVoidEntity()
         {
             // Never has an ID. Not expected to be manipulated, just used to
             // mark voids in the map for route finding etc
@@ -93,7 +93,7 @@ namespace Woz.RogueEngine.Entities
                     .Empty
                     .SetItem(EntityFlags.BlocksMovement, true)
                     .SetItem(EntityFlags.BlocksLineOfSight, true),
-                ImmutableDictionary<long, IEntity>.Empty);
+                ImmutableDictionary<long, Entity>.Empty);
         }
     }
 }

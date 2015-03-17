@@ -54,7 +54,7 @@ namespace Woz.Core.Conversion
             T result;
             return TryParseHelper<T>.TryParse(value, out result)
                 ? result.ToMaybe()
-                : Maybe<T>.Nothing;
+                : Maybe<T>.None;
         }
     
         private static class TryParseHelper<T>

@@ -17,13 +17,123 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Functional.Monads.MaybeMonad;
 
 namespace Woz.Lenses.Tests
 {
     [TestClass]
     public class ImmutableDictionaryLensTests
     {
-        
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void LensByKeyGetWhenNotPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.ByKey<int, string>(2);
+
+            dict.Get(elementLens);
+        }
+
+        [TestMethod]
+        public void ToLensByKeyGetWhenPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.ByKey<int, string>(1);
+
+            Assert.AreSame("A", dict.Get(elementLens));
+        }
+
+        [TestMethod]
+        public void ToLensByKeySetAddsEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.ByKey<int, string>(2);
+
+            var updated = dict.Set(elementLens, "B");
+
+            Assert.AreEqual(2, updated.Count());
+            Assert.AreEqual("A", updated[1]);
+            Assert.AreEqual("B", updated[2]);
+        }
+
+        [TestMethod]
+        public void ToLensByKeySetUpdatesEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.ByKey<int, string>(1);
+
+            var updated = dict.Set(elementLens, "B");
+
+            Assert.AreEqual(1, updated.Count());
+            Assert.AreEqual("B", updated[1]);
+        }
+
+        [TestMethod]
+        public void ToLensLookupGetWhenNotPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup<int, string>(2);
+
+            Assert.AreSame(Maybe<string>.None, dict.Get(elementLens));
+        }
+
+        [TestMethod]
+        public void ToLensLookupGetWhenPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup<int, string>(1);
+
+            Assert.AreSame("A", dict.Get(elementLens).Value);
+        }
+
+        [TestMethod]
+        public void ToLensLookupSetAddsEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup<int, string>(2);
+
+            var updated = dict.Set(elementLens, "B".ToMaybe());
+
+            Assert.AreEqual(2, updated.Count());
+            Assert.AreEqual("A", updated[1]);
+            Assert.AreEqual("B", updated[2]);
+        }
+
+        [TestMethod]
+        public void ToLensLookupSetUpdatesEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup<int, string>(1);
+
+            var updated = dict.Set(elementLens, "B".ToMaybe());
+
+            Assert.AreEqual(1, updated.Count());
+            Assert.AreEqual("B", updated[1]);
+        }
+
+        [TestMethod]
+        public void ToLensLookupSetNothingRemovesEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup<int, string>(1);
+
+            var updated = dict.Set(elementLens, Maybe<string>.None);
+
+            Assert.IsFalse(updated.Any());
+        }
     }
 }

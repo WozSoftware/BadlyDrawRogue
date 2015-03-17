@@ -33,7 +33,7 @@ namespace Woz.Functional.Monads.MaybeMonad
             TR result;
             return tryer(value, out result)
                 ? result.ToMaybe()
-                : Maybe<TR>.Nothing;
+                : Maybe<TR>.None;
         }
     }
 }

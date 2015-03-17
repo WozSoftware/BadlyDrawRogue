@@ -60,6 +60,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
+      <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>
+      <Name>Woz.Lenses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.RogueEngine\Woz.RogueEngine.csproj">
       <Project>{37EF993B-BE7A-4E2E-AC27-7EF8DA5C8493}</Project>
       <Name>Woz.RogueEngine</Name>

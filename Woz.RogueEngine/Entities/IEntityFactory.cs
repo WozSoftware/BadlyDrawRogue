@@ -22,13 +22,13 @@ using System.Collections.Immutable;
 
 namespace Woz.RogueEngine.Entities
 {
-    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<IEntity>>;
+    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<Entity>>;
 
     public interface IEntityFactory
     {
         ITemplateStore Templates { get; }
 
-        IEntity Create(IEntity template);
-        IEntity Create(IEntity template, string name);
+        Entity Create(Entity template);
+        Entity Create(Entity template, string name);
     }
 }

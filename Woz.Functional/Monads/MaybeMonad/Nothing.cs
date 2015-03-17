@@ -40,7 +40,7 @@ namespace Woz.Functional.Monads.MaybeMonad
         {
             Debug.Assert(operation != null);
 
-            return Maybe<TResult>.Nothing;
+            return Maybe<TResult>.None;
         }
 
         // M<T> -> Func<T, M<TResult>> -> M<TResult>
@@ -48,7 +48,7 @@ namespace Woz.Functional.Monads.MaybeMonad
         {
             Debug.Assert(operation != null);
 
-            return Maybe<TResult>.Nothing;
+            return Maybe<TResult>.None;
         }
 
         // M<T1> -> Func<T1, M<T2>> -> Func<T1, T2, TResult> -> M<TResult>
@@ -58,7 +58,7 @@ namespace Woz.Functional.Monads.MaybeMonad
             Debug.Assert(transform != null);
             Debug.Assert(composer != null);
 
-            return Maybe<TResult>.Nothing;
+            return Maybe<TResult>.None;
         }
 
         public IMaybe<T> Where(Predicate<T> predicate)
