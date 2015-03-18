@@ -35,9 +35,11 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\EnumerableExtensions.cs" />
     <Compile Include="Conversion\EnumConversions.cs" />
     <Compile Include="Conversion\StringConversion.cs" />
     <Compile Include="Drawing\PointExtensions.cs" />
+    <Compile Include="Generators\IdGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
   </ItemGroup>
@@ -45,9 +47,9 @@
     <None Include="Woz.Core.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
-      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
-      <Name>Woz.Functional</Name>
+    <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
+      <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
+      <Name>Woz.Monads</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

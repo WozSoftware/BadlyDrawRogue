@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Immutable.Collections
 {

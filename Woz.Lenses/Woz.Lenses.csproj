@@ -53,13 +53,13 @@
     <None Include="Woz.Lenses.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
-      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
-      <Name>Woz.Functional</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
+      <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
+      <Name>Woz.Monads</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

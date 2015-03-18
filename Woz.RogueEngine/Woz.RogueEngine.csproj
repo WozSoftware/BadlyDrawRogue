@@ -53,7 +53,7 @@
     <Compile Include="Entities\EntityLens.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\TileTypes.cs" />
-    <Compile Include="Levels\IActorState.cs" />
+    <Compile Include="Levels\ActorStateLens.cs" />
     <Compile Include="Levels\LevelLens.cs" />
     <Compile Include="Operations\InteractionTarget.cs" />
     <Compile Include="Operations\LevelOperations.cs" />
@@ -83,10 +83,6 @@
       <Project>{e030e5ba-a70a-4023-92d7-d20a7f4102f4}</Project>
       <Name>Woz.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
-      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
-      <Name>Woz.Functional</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
@@ -98,6 +94,10 @@
     <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
       <Project>{1c394bd3-381e-4a26-9263-7e4057bd3bff}</Project>
       <Name>Woz.Linq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
+      <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
+      <Name>Woz.Monads</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

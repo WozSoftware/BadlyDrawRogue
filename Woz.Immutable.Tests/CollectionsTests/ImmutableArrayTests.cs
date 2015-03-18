@@ -22,8 +22,10 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Core.Collections;
 using Woz.Immutable.Collections;
-using Woz.Linq;
+
+// ReSharper disable UnusedVariable
 
 namespace Woz.Immutable.Tests.CollectionsTests
 {

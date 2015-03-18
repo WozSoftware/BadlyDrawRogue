@@ -19,7 +19,7 @@
 #endregion
 
 using System.Collections.Immutable;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Lenses
 {

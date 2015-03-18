@@ -27,7 +27,7 @@ using Woz.RogueEngine.Entities;
 namespace Woz.RogueEngine.Levels
 {
     using ITileStore = IImmutableGrid<Entity>;
-    using IActorStateStore = IImmutableDictionary<long, IActorState>;
+    using IActorStateStore = IImmutableDictionary<long, ActorState>;
 
     public class Level 
     {
@@ -57,7 +57,7 @@ namespace Woz.RogueEngine.Levels
         {
             return new Level(
                 ImmutableGrid<Entity>.Create(size),
-                ImmutableDictionary<long, IActorState>.Empty);
+                ImmutableDictionary<long, ActorState>.Empty);
         }
 
         public Level With(

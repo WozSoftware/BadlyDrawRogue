@@ -20,7 +20,7 @@
 
 using System;
 using System.Xml.Linq;
-using Woz.Functional.Monads.IOMonad;
+using Woz.Monads.IOMonad;
 using Woz.RogueEngine.Definitions;
 using Woz.RogueEngine.Entities;
 

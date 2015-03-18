@@ -26,7 +26,7 @@ using Woz.RogueEngine.Entities;
 namespace Woz.RogueEngine.Levels
 {
     using ITileStore = IImmutableGrid<Entity>;
-    using IActorStateStore = IImmutableDictionary<long, IActorState>;
+    using IActorStateStore = IImmutableDictionary<long, ActorState>;
 
     public static class LevelLens
     {

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Immutable.Collections
 {

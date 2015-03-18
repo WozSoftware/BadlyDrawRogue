@@ -82,13 +82,13 @@
       <Project>{E030E5BA-A70A-4023-92D7-D20A7F4102F4}</Project>
       <Name>Woz.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Woz.Functional\Woz.Functional.csproj">
-      <Project>{2C67B481-A544-4A2B-A2D0-958EC1769F93}</Project>
-      <Name>Woz.Functional</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
       <Project>{1C394BD3-381E-4A26-9263-7E4057BD3BFF}</Project>
       <Name>Woz.Linq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
+      <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
+      <Name>Woz.Monads</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.RogueEngine\Woz.RogueEngine.csproj">
       <Project>{37ef993b-be7a-4e2e-ac27-7ef8da5c8493}</Project>

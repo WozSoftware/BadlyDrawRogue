@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Lenses.Tests
 {

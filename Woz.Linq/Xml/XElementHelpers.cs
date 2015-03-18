@@ -21,7 +21,7 @@
 using System.Diagnostics;
 using System.Xml;
 using System.Xml.Linq;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Linq.Xml
 {

@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using Woz.Functional.Generators;
+using Woz.Core.Generators;
 
 namespace Woz.RogueEngine.Entities
 {

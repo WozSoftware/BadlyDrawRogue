@@ -22,7 +22,7 @@ using System.Drawing;
 
 namespace Woz.RogueEngine.Levels
 {
-    public class ActorState : IActorState
+    public class ActorState 
     {
         private readonly long _actorId;
         private readonly Point _location;
@@ -43,12 +43,12 @@ namespace Woz.RogueEngine.Levels
             get { return _location; }
         }
 
-        public static IActorState Create(long actorId, Point location)
+        public static ActorState Create(long actorId, Point location)
         {
             return new ActorState(actorId, location);
         }
 
-        public IActorState With(long? actorId = null, Point? location = null)
+        public ActorState With(long? actorId = null, Point? location = null)
         {
             return actorId == null && location == null
                 ? this

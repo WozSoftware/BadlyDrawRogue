@@ -21,7 +21,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using Woz.Functional.Monads.MaybeMonad;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Core.Conversion
 {
