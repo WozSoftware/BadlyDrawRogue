@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Immutable;
 using Woz.Monads.MaybeMonad;
 
@@ -64,6 +65,24 @@ namespace Woz.Lenses
                 TKey key)
         {
             return self.With(Lookup<TKey, TValue>(key));
+        }
+
+        public static
+            Lens<IImmutableDictionary<TKey, TValue>, TValue>
+            Lookup<TKey, TValue>(TKey key, Func<TValue> defaultFactory)
+        {
+            return
+                Lens.Create<IImmutableDictionary<TKey, TValue>, TValue>(
+                    dictionary => dictionary.Lookup(key).OrElse(defaultFactory()),
+                    value => dictionary => dictionary.SetItem(key, value));
+        }
+
+        public static Lens<TEntity, TValue>
+            Lookup<TEntity, TKey, TValue>(
+                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
+                TKey key, Func<TValue> defaultFactory)
+        {
+            return self.With(Lookup(key, defaultFactory));
         }
     }
 }

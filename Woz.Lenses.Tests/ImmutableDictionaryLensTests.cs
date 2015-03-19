@@ -31,7 +31,7 @@ namespace Woz.Lenses.Tests
     {
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
-        public void LensByKeyGetWhenNotPresent()
+        public void ByKeyGetWhenNotPresent()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -41,7 +41,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensByKeyGetWhenPresent()
+        public void ByKeyGetWhenPresent()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -51,7 +51,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensByKeySetAddsEntry()
+        public void ByKeySetAddsEntry()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -65,7 +65,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensByKeySetUpdatesEntry()
+        public void ByKeySetUpdatesEntry()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -78,7 +78,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensLookupGetWhenNotPresent()
+        public void LookupGetWhenNotPresent()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -88,7 +88,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensLookupGetWhenPresent()
+        public void LookupGetWhenPresent()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -98,7 +98,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensLookupSetAddsEntry()
+        public void LookupSetAddsEntry()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -112,7 +112,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensLookupSetUpdatesEntry()
+        public void LookupSetUpdatesEntry()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -125,7 +125,7 @@ namespace Woz.Lenses.Tests
         }
 
         [TestMethod]
-        public void ToLensLookupSetNothingRemovesEntry()
+        public void LookupSetNothingRemovesEntry()
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
@@ -134,6 +134,53 @@ namespace Woz.Lenses.Tests
             var updated = dict.Set(elementLens, Maybe<string>.None);
 
             Assert.IsFalse(updated.Any());
+        }
+
+        [TestMethod]
+        public void LookupGetDefaultedWhenNotPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup(2, () => "B");
+
+            Assert.AreSame("B", dict.Get(elementLens));
+        }
+
+        [TestMethod]
+        public void LookupGetDefaultedWhenPresent()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup(1, () => "B");
+
+            Assert.AreSame("A", dict.Get(elementLens));
+        }
+
+        [TestMethod]
+        public void LookupSetDefaultedAddsEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup(2, () => "C");
+
+            var updated = dict.Set(elementLens, "B");
+
+            Assert.AreEqual(2, updated.Count());
+            Assert.AreEqual("A", updated[1]);
+            Assert.AreEqual("B", updated[2]);
+        }
+
+        [TestMethod]
+        public void LookupSetDefaultedUpdatesEntry()
+        {
+            var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
+
+            var elementLens = ImmutableDictionaryLens.Lookup(1, () => "C");
+
+            var updated = dict.Set(elementLens, "B");
+
+            Assert.AreEqual(1, updated.Count());
+            Assert.AreEqual("B", updated[1]);
         }
     }
 }
