@@ -85,7 +85,7 @@
 //        [TestMethod]
 //        public void SetWithChildren()
 //        {
-//            var child = Entity.Create(5, EntityType.Item, "A");
+//            var child = Entity.Create(5, EntityType.OperationItem, "A");
  
 //            var newChildren = _entity.Children.SetItem(child.Id, child);
 

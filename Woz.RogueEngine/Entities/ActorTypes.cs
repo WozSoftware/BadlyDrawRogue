@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,18 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System.Collections.Immutable;
-
 namespace Woz.RogueEngine.Entities
 {
-    using ITemplateStore = IImmutableDictionary<EntityType, IImmutableList<Entity>>;
-
-    public interface IEntityFactory
+    public enum ActorTypes
     {
-        ITemplateStore Templates { get; }
-
-        Entity Create(Entity template);
-        Entity Create(Entity template, string name);
+        Player,
+        Monster,
+        Npc
     }
 }

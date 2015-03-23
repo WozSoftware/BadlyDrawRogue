@@ -18,9 +18,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Drawing;
+using Woz.Core.Drawing;
+
 namespace Woz.RogueEngine.Rules
 {
     public static class ActorRules
     {
+        public static bool IsWithinMovementRange(
+            this Point actorLocation, Point target)
+        {
+            return actorLocation.DistanceFrom(target) <= 1;
+        }
     }
 }

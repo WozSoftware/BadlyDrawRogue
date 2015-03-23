@@ -37,8 +37,8 @@ namespace Woz.BadlyDrawnRogue
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Singleton<IEntityFactory>.Instance = DataLoader
-                .LoadEntityFactory("Definitions/EntityDefinitions.xml");
+//            Singleton<IEntityFactory>.Instance = DataLoader
+//                .LoadEntityFactory("Definitions/EntityDefinitions.xml");
 
             Application.Run(new MainForm());
         }

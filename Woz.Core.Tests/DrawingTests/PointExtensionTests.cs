@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Drawing;
@@ -73,6 +74,28 @@ namespace Woz.Core.Tests.DrawingTests
             Assert.IsFalse(new Point(2, 0).Within(new Point(1, 1), new Point(3, 3)));
             Assert.IsFalse(new Point(0, 4).Within(new Point(1, 1), new Point(3, 3)));
             Assert.IsFalse(new Point(4, 0).Within(new Point(1, 1), new Point(3, 3)));
+        }
+
+        [TestMethod]
+        public void DistanceFrom()
+        {
+            Assert.AreEqual(0, new Point(0, 0).DistanceFrom(new Point(0, 0)));
+            Assert.AreEqual(1, new Point(1, 1).DistanceFrom(new Point(1, 2)));
+            Assert.AreEqual(1, new Point(1, 1).DistanceFrom(new Point(2, 1)));
+            Assert.AreEqual(2, new Point(1, 1).DistanceFrom(new Point(1, 3)));
+            Assert.AreEqual(2, new Point(1, 1).DistanceFrom(new Point(3, 1)));
+            Assert.AreEqual(2, new Point(0, 1).DistanceFrom(new Point(0, -1)));
+            Assert.AreEqual(2, new Point(-1, 0).DistanceFrom(new Point(1, 0)));
+
+            // Sqrt((3 * 3) + (3 * 3))
+            Assert.AreEqual(
+                Math.Sqrt(18), 
+                new Point(1, 1).DistanceFrom(new Point(4, 4)));
+
+            // Sqrt((4 * 4) + (3 * 3))
+            Assert.AreEqual(
+                Math.Sqrt(25),
+                new Point(1, 1).DistanceFrom(new Point(5, 4)));
         }
     }
 }

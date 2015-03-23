@@ -41,7 +41,7 @@ namespace Woz.Monads.ValidationMonad
         IValidation<TResult> SelectMany<T2, TResult>(
             Func<T, IValidation<T2>> transform, Func<T, T2, TResult> composer);
 
-        IValidation<T> Collapse<T2>(IValidation<T2> other); 
+        IValidation<T> WithErrorFrom<T2>(IValidation<T2> other); 
             
         T OrElse(Func<string, Exception> exceptionFactory);
 

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,13 +17,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using System.Diagnostics;
+
 namespace Woz.RogueEngine.Entities
 {
-    public enum TileTypes
+    public sealed class HitPoints
     {
-        Floor = 0,
-        Wall = 1,
-        Door = 2,
-        Window = 3
+        public readonly int Maximum;
+        public readonly int Current;
+
+        private HitPoints(int maximum, int current)
+        {
+            Debug.Assert(maximum > 0);
+            Debug.Assert(current > 0);
+            Debug.Assert(maximum >= current);
+
+            Maximum = maximum;
+            Current = current;
+        }
+
+        public static HitPoints Create(int maximum, int current)
+        {
+            return new HitPoints(maximum, current);
+        }
+
+        public HitPoints With(int? maximum = null, int? current = null)
+        {
+            return maximum == null && current == null
+                ? this
+                : new HitPoints(maximum ?? Maximum, current ?? Current);
+        }
     }
 }

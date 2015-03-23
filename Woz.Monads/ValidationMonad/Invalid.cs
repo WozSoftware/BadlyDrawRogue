@@ -81,7 +81,7 @@ namespace Woz.Monads.ValidationMonad
             return _errorMessage.ToInvalid<TResult>();
         }
 
-        public IValidation<T> Collapse<T2>(IValidation<T2> other)
+        public IValidation<T> WithErrorFrom<T2>(IValidation<T2> other)
         {
             return this;
         }

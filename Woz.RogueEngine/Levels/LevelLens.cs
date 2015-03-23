@@ -21,11 +21,10 @@
 using System.Collections.Immutable;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
-using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using ITileStore = IImmutableGrid<Entity>;
+    using ITileStore = IImmutableGrid<Tile>;
     using IActorStateStore = IImmutableDictionary<long, ActorState>;
 
     public static class LevelLens

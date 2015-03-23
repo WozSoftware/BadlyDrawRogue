@@ -46,6 +46,7 @@
     <Compile Include="ImmutableDictionaryLens.cs" />
     <Compile Include="ImmutableGridLens.cs" />
     <Compile Include="Lens.cs" />
+    <Compile Include="MaybeLens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

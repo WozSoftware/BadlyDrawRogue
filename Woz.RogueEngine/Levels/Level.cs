@@ -21,42 +21,41 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
+using Woz.Core.Collections;
 using Woz.Immutable.Collections;
-using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {
-    using ITileStore = IImmutableGrid<Entity>;
+    using ITileStore = IImmutableGrid<Tile>;
     using IActorStateStore = IImmutableDictionary<long, ActorState>;
 
-    public class Level 
+    public sealed class Level 
     {
-        private readonly ITileStore _tiles;
-        private readonly IActorStateStore _actorStates;
+        public readonly ITileStore Tiles;
+        public readonly IActorStateStore ActorStates;
 
         private Level(ITileStore tiles, IActorStateStore actorStates)
         {
             Debug.Assert(tiles != null);
             Debug.Assert(actorStates != null);
 
-            _tiles = tiles;
-            _actorStates = actorStates;
-        }
-
-        public ITileStore Tiles
-        {
-            get { return _tiles; }
-        }
-
-        public IActorStateStore ActorStates
-        {
-            get { return _actorStates; }
+            Tiles = tiles;
+            ActorStates = actorStates;
         }
 
         public static Level Create(Size size)
         {
+            var walker =
+                from x in Enumerable.Range(0, size.Width)
+                from y in Enumerable.Range(0, size.Height)
+                select new Point(x, y);
+
+            var gridBuilder = ImmutableGrid<Tile>.CreateBuilder(size);
+            walker.ForEach(point => gridBuilder.Set(point, Tile.Void));
+
             return new Level(
-                ImmutableGrid<Entity>.Create(size),
+                gridBuilder.Build(),
                 ImmutableDictionary<long, ActorState>.Empty);
         }
 
@@ -66,7 +65,7 @@ namespace Woz.RogueEngine.Levels
         {
             return tiles == null && actorStates == null
                 ? this
-                : new Level(tiles ?? _tiles, actorStates ?? _actorStates);
+                : new Level(tiles ?? Tiles, actorStates ?? ActorStates);
         }
     }
 }

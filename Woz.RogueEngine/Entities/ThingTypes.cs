@@ -17,25 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using Woz.RogueEngine.Entities;
-
-namespace Woz.RogueEngine.DebugHelpers
+namespace Woz.RogueEngine.Entities
 {
-    public static class DebugAssertHelpers
+    public enum ThingTypes
     {
-        public static bool IsValid(this Entity entity, EntityType entityType)
-        {
-            return 
-                entity != null && 
-                entity.EntityType == entityType;
-        }
-
-        public static bool IsNot(this Entity entity, EntityType entityType)
-        {
-            return 
-                entity != null && 
-                entity.EntityType != entityType;
-        }
+        Item,
+        Chest,
+        Furniture
     }
 }

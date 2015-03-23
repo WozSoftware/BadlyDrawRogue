@@ -1,10 +1,10 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.RoqueEngine.
+// This file is part of Woz.Lenses.
 //
-// Woz.RoqueEngine is free software: you can redistribute it 
+// Woz.Functional is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -17,17 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.RogueEngine.Entities
+using System;
+using Woz.Monads.MaybeMonad;
+
+namespace Woz.Lenses
 {
-    public enum ClothingLocations
+    public static class MaybeLens<T>
     {
-        Hat = 0,
-        Chest = 1,
-        Arms = 2,
-        Hands = 3,
-        Legs = 4,
-        Feet = 5,
-        Ring = 6,
-        Amulet = 7
+        public static readonly Lens<IMaybe<T>, T> ExpectSome;
+
+        static MaybeLens()
+        {
+            ExpectSome = new Lens<IMaybe<T>, T>(
+                maybe => maybe.OrElseThrow(
+                    () => new InvalidOperationException("Some expected")),
+                value => maybe => value.ToSome());
+        }
     }
 }

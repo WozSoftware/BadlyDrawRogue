@@ -17,24 +17,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.RogueEngine.Entities
+namespace Woz.RogueEngine.Levels
 {
-    public enum EntityType
+    public enum TileTypes
     {
         Void,
-
-        Actor,
-        Corpse,
-
-        Item,
-        Furniture,
-
-        Tile,
-
-        Skill,
-        Spell,
-
-        CombatAttributes,
-        Effect
+        Floor,
+        Wall,
+        OpenDoor,
+        ClosedDoor
     }
 }

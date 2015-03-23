@@ -19,10 +19,20 @@
 #endregion
 namespace Woz.RogueEngine.Entities
 {
-    public enum ActorType
+    public enum EquipmentSlots
     {
-        Player,
-        Monster,
-        Npc
+        None,
+        LeftHand,
+        RightHand,
+        BothHands,
+        Head,
+        Torso,
+        Belt,
+        Hands,
+        Legs,
+        Feet,
+        LeftRing,
+        RightRing,
+        Amulet
     }
 }

@@ -36,12 +36,12 @@ namespace Woz.Lenses
                     value => dictionary => dictionary.SetItem(key, value));
         }
 
-        public static Lens<TEntity, TValue> 
-            ByKey<TEntity, TKey, TValue>(
-                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
+        public static Lens<TType, TValue> 
+            ByKey<TType, TKey, TValue>(
+                this Lens<TType, IImmutableDictionary<TKey, TValue>> lens,
                 TKey key)
         {
-            return self.With(ByKey<TKey, TValue>(key));
+            return lens.With(ByKey<TKey, TValue>(key));
         }
 
         public static 
@@ -59,30 +59,39 @@ namespace Woz.Lenses
                     });
         }
 
-        public static Lens<TEntity, IMaybe<TValue>> 
-            Lookup<TEntity, TKey, TValue>(
-                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
+        public static Lens<TType, IMaybe<TValue>> 
+            Lookup<TType, TKey, TValue>(
+                this Lens<TType, IImmutableDictionary<TKey, TValue>> lens,
                 TKey key)
         {
-            return self.With(Lookup<TKey, TValue>(key));
+            return lens.With(Lookup<TKey, TValue>(key));
         }
 
         public static
             Lens<IImmutableDictionary<TKey, TValue>, TValue>
-            Lookup<TKey, TValue>(TKey key, Func<TValue> defaultFactory)
+            Lookup<TKey, TValue>(TKey key, Func<TKey, TValue> defaultFactory)
         {
             return
                 Lens.Create<IImmutableDictionary<TKey, TValue>, TValue>(
-                    dictionary => dictionary.Lookup(key).OrElse(defaultFactory()),
+                    dictionary => dictionary.Lookup(key).OrElse(defaultFactory(key)),
+                    // ReSharper disable once ImplicitlyCapturedClosure
                     value => dictionary => dictionary.SetItem(key, value));
         }
 
         public static Lens<TEntity, TValue>
             Lookup<TEntity, TKey, TValue>(
-                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> self,
-                TKey key, Func<TValue> defaultFactory)
+                this Lens<TEntity, IImmutableDictionary<TKey, TValue>> lens,
+                TKey key, Func<TKey, TValue> defaultFactory)
         {
-            return self.With(Lookup(key, defaultFactory));
+            return lens.With(Lookup(key, defaultFactory));
+        }
+
+        public static TEntity RemoveByKey<TEntity, TKey, TValue>(
+            this TEntity instance,
+            Lens<TEntity, IImmutableDictionary<TKey, TValue>> lens,
+            TKey key)
+        {
+            return instance.Set(lens.Lookup(key), Maybe<TValue>.None);
         }
     }
 }

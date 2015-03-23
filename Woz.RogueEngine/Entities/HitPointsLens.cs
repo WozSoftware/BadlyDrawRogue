@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,26 +17,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using Woz.Lenses;
+
 namespace Woz.RogueEngine.Entities
 {
-    public enum EntityFlags
+    public static class HitPointsLens
     {
-        IsHostile,
-        HasSeenPlayer,
+        public static readonly Lens<HitPoints, int> Maximum;
+        public static readonly Lens<HitPoints, int> Current;
 
-        IsHidden,
+        static HitPointsLens()
+        {
+            Maximum = Lens.Create<HitPoints, int>(
+                hitPoints => hitPoints.Maximum,
+                maximum => hitPoints => hitPoints.With(maximum: maximum));
 
-        IsShield,
-        IsWeapon,
-        IsClothing,
-        IsEquiped,
-        IsFood,
-        IsDrink,
-        IsPotion,
-
-        IsOpen,
-
-        BlocksMovement,
-        BlocksLineOfSight
+            Current = Lens.Create<HitPoints, int>(
+                hitPoints => hitPoints.Current,
+                current => hitPoints => hitPoints.With(current: current));
+        }
     }
 }

@@ -141,7 +141,7 @@ namespace Woz.Lenses.Tests
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
-            var elementLens = ImmutableDictionaryLens.Lookup(2, () => "B");
+            var elementLens = ImmutableDictionaryLens.Lookup(2, x => "B");
 
             Assert.AreSame("B", dict.Get(elementLens));
         }
@@ -151,7 +151,7 @@ namespace Woz.Lenses.Tests
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
-            var elementLens = ImmutableDictionaryLens.Lookup(1, () => "B");
+            var elementLens = ImmutableDictionaryLens.Lookup(1, x => "B");
 
             Assert.AreSame("A", dict.Get(elementLens));
         }
@@ -161,7 +161,7 @@ namespace Woz.Lenses.Tests
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
-            var elementLens = ImmutableDictionaryLens.Lookup(2, () => "C");
+            var elementLens = ImmutableDictionaryLens.Lookup(2, x => "C");
 
             var updated = dict.Set(elementLens, "B");
 
@@ -175,7 +175,7 @@ namespace Woz.Lenses.Tests
         {
             var dict = ImmutableDictionary<int, string>.Empty.Add(1, "A");
 
-            var elementLens = ImmutableDictionaryLens.Lookup(1, () => "C");
+            var elementLens = ImmutableDictionaryLens.Lookup(1, x => "C");
 
             var updated = dict.Set(elementLens, "B");
 

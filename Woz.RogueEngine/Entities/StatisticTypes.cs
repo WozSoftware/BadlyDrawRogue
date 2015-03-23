@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -19,29 +19,11 @@
 #endregion
 namespace Woz.RogueEngine.Entities
 {
-    public enum EntityAttributes
+    public enum StatisticTypes
     {
-        TileType,
-
-        MaxHitPoints,
-        HitPoints,
-
-        MaxManaPoints,
-        ManaPoints,
-
         Strength,
         Dexterity,
-        Inteligence,
         Stamina,
-        Luck,
-
-        DamageType,
-        DamageInflicted,
-        DamageAbsorbed,
-        Range,
-
-        ClothingLocation,
-
-        Weight
+        Inteligence
     }
 }

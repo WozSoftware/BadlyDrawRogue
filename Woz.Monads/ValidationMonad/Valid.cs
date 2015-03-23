@@ -82,7 +82,7 @@ namespace Woz.Monads.ValidationMonad
                 .SelectMany(value2 => composer(value1, value2).ToValid());
         }
 
-        public IValidation<T> Collapse<T2>(IValidation<T2> other)
+        public IValidation<T> WithErrorFrom<T2>(IValidation<T2> other)
         {
             return other.IsValid
                 ? this

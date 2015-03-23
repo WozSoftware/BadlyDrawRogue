@@ -17,16 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.RogueEngine.Entities
+
+using System.Collections.Generic;
+using Woz.RogueEngine.Levels;
+
+namespace Woz.RogueEngine.Rules
 {
-    public enum DamageTypes
+    public class TypeGroups
     {
-        Slashing,
-        BluntImpact,
-        Piercing,
-        Fire,
-        Acid,
-        Frost,
-        Shock
+        public static readonly IEnumerable<TileTypes> DoorTypes = 
+            new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};
+
+        public static readonly IEnumerable<TileTypes> BlockMovement = 
+            new[] {TileTypes.Void, TileTypes.Wall, TileTypes.ClosedDoor};
     }
+
 }

@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Drawing;
 
 namespace Woz.Core.Drawing
@@ -48,5 +49,14 @@ namespace Woz.Core.Drawing
         {
             return self.GreaterOrEqualTo(minimum) && self.LessOrEqualTo(maximum);
         }
+
+        public static double DistanceFrom(this Point self, Point target)
+        {
+            var diffX = Math.Abs(self.X - target.X);
+            var diffY = Math.Abs(self.Y - target.Y);
+
+            return Math.Sqrt((diffX * diffX) + (diffY * diffY));
+        }
+
     }
 }
