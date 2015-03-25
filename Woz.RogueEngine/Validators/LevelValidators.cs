@@ -18,27 +18,27 @@ namespace Woz.RogueEngine.Validators
                         actorId).ToInvalid<Level>();
         }
 
-        public static IValidation<Level> ActorStateExists(
+        public static IValidation<ActorState> ActorStateExists(
             this Level level, long actorId)
         {
             return
                 level.HasActorState(actorId)
-                    ? level.ToValid()
+                    ? level.ActorStates[actorId].ToValid()
                     : string.Format(
                         "Unknow actor Id={0}",
-                        actorId).ToInvalid<Level>();
+                        actorId).ToInvalid<ActorState>();
 
         }
 
-        public static IValidation<Level> IsValidLocation(
+        public static IValidation<Tile> IsValidLocation(
             this Level level, Point location)
         {
             return level
                 .Tiles.IsValidLocation(location)
-                    ? level.ToValid()
+                    ? level.Tiles[location].ToValid()
                     : string.Format(
                         "Location {0} is outside the map",
-                        location).ToInvalid<Level>();
+                        location).ToInvalid<Tile>();
         }
     }
 }

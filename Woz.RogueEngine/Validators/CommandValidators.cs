@@ -32,10 +32,8 @@ namespace Woz.RogueEngine.Validators
         {
             return
                 from isNew in level.IsNewActor(actorId)
-                from locationValid in level.IsValidLocation(location)
-                from targetTile in level.Tiles[location].ToValid()
-                from noTargetActor in targetTile.HasNoActor()
-                from validMove in targetTile.IsValidMove()
+                from targetTile in level.IsValidLocation(location)
+                from validMove in targetTile.MoveNotBlocked()
                 select level;
         }
 
@@ -43,14 +41,11 @@ namespace Woz.RogueEngine.Validators
             this Level level, long actorId, Point newLocation)
         {
             return
-                from stateExists in level.ActorStateExists(actorId)
-                from actorLocation in level.ActorStates[actorId].Location.ToValid()
-                from newLocationValid in level.IsValidLocation(newLocation)
-                from actorTile in level.Tiles[actorLocation].ToValid()
-                from newTile in level.Tiles[newLocation].ToValid()
-                from actorInTile in actorTile.HasActor(actorId)
-                from noTargetActor in newTile.HasNoActor()
-                from validMove in newTile.IsValidMove()
+                from actorState in level.ActorStateExists(actorId)
+                from actorTile in level.IsValidLocation(actorState.Location)
+                from targetTile in level.IsValidLocation(newLocation)
+                from actor in actorTile.HasActor(actorId)
+                from validMove in targetTile.MoveNotBlocked()
                 select level;
         }
     }

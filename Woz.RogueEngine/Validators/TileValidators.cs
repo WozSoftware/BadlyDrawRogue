@@ -20,6 +20,7 @@
 
 using System.Linq;
 using Woz.Monads.ValidationMonad;
+using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Rules;
 
@@ -27,7 +28,15 @@ namespace Woz.RogueEngine.Validators
 {
     public static class TileValidators
     {
-        public static IValidation<Tile> IsValidMove(this Tile tile)
+        public static IValidation<bool> MoveNotBlocked(this Tile tile)
+        {
+            return
+                from x in tile.HasNoActor()
+                from y in tile.TileNotBlocked()
+                select true;
+        }
+
+        public static IValidation<Tile> TileNotBlocked(this Tile tile)
         {
             return !TypeGroups.BlockMovement.Contains(tile.TileType)
                 ? tile.ToValid()
@@ -39,28 +48,25 @@ namespace Woz.RogueEngine.Validators
             return tile.Actor.HasValue
                 ? tile.ToValid()
                 : string.Format(
-                    "Tile already contains {0}", 
+                    "Can't move there, blocked by {0}", 
                     tile.Actor.Value.Name).ToInvalid<Tile>();
         }
 
-        public static IValidation<Tile> HasActor(this Tile tile)
+        public static IValidation<Actor> HasActor(this Tile tile)
         {
             return tile.Actor.HasValue
-                ? tile.ToValid()
-                : "No actor present in the tile".ToInvalid<Tile>();
+                ? tile.Actor.Value.ToValid()
+                : "No actor present in the tile".ToInvalid<Actor>();
         }
 
-        public static IValidation<Tile> HasActor(
+        public static IValidation<Actor> HasActor(
             this Tile tile, long actorId)
         {
-            return tile
-                .Actor
-                .Select(x => x.Id == actorId)
-                .OrElse(false)
-                ? tile.ToValid()
+            return tile.Actor.Select(x => x.Id == actorId).OrElse(false)
+                ? tile.Actor.Value.ToValid()
                 : string.Format(
                     "Actor {0} not present in the tile",
-                    actorId).ToInvalid<Tile>();
+                    actorId).ToInvalid<Actor>();
         }
     }
 }
