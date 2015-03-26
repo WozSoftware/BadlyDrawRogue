@@ -18,30 +18,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using Woz.Monads.ValidationMonad;
-using Woz.RogueEngine.Levels;
+using System.Drawing;
+using Woz.RogueEngine.Entities;
+using Woz.RogueEngine.Operations;
+using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.Commands
 {
-    public sealed class Command
+    public static class CommandFactory
     {
-        public readonly Func<Level, IValidation<Level>> Validator;
-        public readonly Func<Level, IValidation<Level>> Operation;
-
-        private Command(
-            Func<Level, IValidation<Level>> validator,
-            Func<Level, IValidation<Level>> operation)
+        public static Command 
+            CreateSpawnActorCommand(Actor actor, Point location)
         {
-            Validator = validator;
-            Operation = operation;
-        }
-
-        public static Command Create(
-            Func<Level, IValidation<Level>> validator,
-            Func<Level, Level> operation)
-        {
-            return new Command(validator, x => validator(x).Select(operation));
+            return Command.Create(
+                level => level.CanSpawnActor(actor.Id, location),
+                level => level.SpawnActor(actor, location));
         }
     }
 }

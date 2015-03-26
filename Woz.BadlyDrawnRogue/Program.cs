@@ -21,8 +21,6 @@
 using System;
 using System.Windows.Forms;
 using Woz.BadlyDrawnRogue.Views;
-using Woz.Core;
-using Woz.RogueEngine.Entities;
 
 namespace Woz.BadlyDrawnRogue
 {
