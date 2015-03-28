@@ -63,12 +63,9 @@
     <Compile Include="Levels\TileTypes.cs" />
     <Compile Include="Operations\InteractionTarget.cs" />
     <Compile Include="Operations\LevelOperations.cs" />
-    <Compile Include="Queries\CombatQueries.cs" />
-    <Compile Include="Queries\EntityQueries.cs" />
     <Compile Include="Levels\ActorState.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\NavigationQueries.cs" />
     <Compile Include="Validators\TypeGroups.cs" />
     <Compile Include="Validators\LevelValidators.cs" />
     <Compile Include="Validators\CommandValidators.cs" />
@@ -100,9 +97,7 @@
       <Name>Woz.Monads</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DebugHelpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
