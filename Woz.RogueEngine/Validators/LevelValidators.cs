@@ -21,7 +21,6 @@
 using System.Drawing;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
-using Woz.RogueEngine.Rules;
 
 namespace Woz.RogueEngine.Validators
 {
@@ -31,7 +30,7 @@ namespace Woz.RogueEngine.Validators
             this Level level, long actorId)
         {
             return
-                !level.HasActorState(actorId)
+                !level.ActorStates.ContainsKey(actorId)
                     ? level.ToValid()
                     : string.Format(
                         "Actor Id={0} already exists",
@@ -42,7 +41,7 @@ namespace Woz.RogueEngine.Validators
             this Level level, long actorId)
         {
             return
-                level.HasActorState(actorId)
+                level.ActorStates.ContainsKey(actorId)
                     ? level.ActorStates[actorId].ToValid()
                     : string.Format(
                         "Unknow actor Id={0}",

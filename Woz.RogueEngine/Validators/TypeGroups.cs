@@ -18,38 +18,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Linq;
+using System.Collections.Generic;
 using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Rules
+namespace Woz.RogueEngine.Validators
 {
-    public static class TileRules
+    public class TypeGroups
     {
-        public static bool HasActor(this Tile tile)
-        {
-            return tile.Actor.HasValue;
-        }
+        public static readonly IEnumerable<TileTypes> DoorTypes = 
+            new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};
 
-        public static bool HasActor(this Tile tile, long actorId)
-        {
-            return tile.Actor
-                .Select(x => x.Id == actorId)
-                .OrElse(false);
-        }
-
-        public static bool IsDoor(this Tile tile)
-        {
-            return TypeGroups.DoorTypes.Contains(tile.TileType);
-        }
-
-        public static bool CanOpenDoor(this Tile tile)
-        {
-            return tile.TileType != TileTypes.OpenDoor;
-        }
-
-        public static bool CanCloseDoor(this Tile tile)
-        {
-            return tile.TileType != TileTypes.ClosedDoor;
-        }
+        public static readonly IEnumerable<TileTypes> BlockMovement = 
+            new[] {TileTypes.Void, TileTypes.Wall, TileTypes.ClosedDoor};
     }
+
 }

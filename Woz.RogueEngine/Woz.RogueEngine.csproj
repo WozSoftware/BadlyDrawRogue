@@ -69,10 +69,7 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\NavigationQueries.cs" />
-    <Compile Include="Rules\ActorRules.cs" />
-    <Compile Include="Rules\LevelRules.cs" />
-    <Compile Include="Rules\TileRules.cs" />
-    <Compile Include="Rules\TypeGroups.cs" />
+    <Compile Include="Validators\TypeGroups.cs" />
     <Compile Include="Validators\LevelValidators.cs" />
     <Compile Include="Validators\CommandValidators.cs" />
     <Compile Include="Validators\TileValidators.cs" />
