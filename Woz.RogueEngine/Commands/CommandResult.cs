@@ -17,40 +17,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System;
-using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Events;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Commands
 {
-    public sealed class Command
+    public sealed class CommandResult
     {
-        public readonly Func<Level, IValidation<Level>> Validator;
-        public readonly Func<Level, IValidation<CommandResult>> Operation;
+        public readonly Level Level;
+        public readonly Event CommandEvent;
 
-        private Command(
-            Func<Level, IValidation<Level>> validator,
-            Func<Level, IValidation<CommandResult>> operation)
+        private CommandResult(Level level, Event commandEvent)
         {
-            Validator = validator;
-            Operation = operation;
+            Level = level;
+            CommandEvent = commandEvent;
         }
 
-        public static Command Create(
-            Func<Level, IValidation<Level>> validator,
-            Func<Level, Level> operation,
-            Func<Level, Event> eventBuilder)
+        public static CommandResult Create(Level level, Event commandEvent)
         {
-            Func<Level, CommandResult> resultBuilder =
-                level => CommandResult.Create(level, eventBuilder(level));
-
-            return new Command(
-                validator, 
-                level => validator(level)
-                    .Select(operation)
-                    .Select(resultBuilder));
+            return new CommandResult(level, commandEvent);
         }
     }
 }

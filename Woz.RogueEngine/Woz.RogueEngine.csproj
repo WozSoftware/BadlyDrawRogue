@@ -42,11 +42,17 @@
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Definitions\EntityParser.cs" />
     <Compile Include="Definitions\XmlAttributes.cs" />
     <Compile Include="Definitions\XmlNames.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\ActorLens.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventFactory.cs" />
+    <Compile Include="Events\EventTarget.cs" />
+    <Compile Include="Events\EventTypes.cs" />
+    <Compile Include="Events\TargetTypes.cs" />
     <Compile Include="Levels\ActorStateLens.cs" />
     <Compile Include="Entities\ActorTypes.cs" />
     <Compile Include="Entities\DamageTypes.cs" />
