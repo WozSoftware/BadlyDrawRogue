@@ -17,7 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using Woz.Monads.MaybeMonad;
+
+using System.Drawing;
 using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
@@ -25,13 +26,13 @@ namespace Woz.RogueEngine.Events
 {
     public static class EventFactory
     {
-        public static Event ActorSpawned(Level level, Actor actor)
+        public static Event ActorSpawned(
+            Level level, Actor actor, Point location)
         {
             return Event.Create(
                 level, 
                 EventTypes.ActorSpawned, 
-                actor.Id.ToSome(), 
-                Maybe<EventTarget>.None);
+                EventDetails.Create(actor.Id, TargetTypes.Tile, location));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Woz.RogueEngine.Commands
             return Command.Create(
                 level => level.CanSpawnActor(actor.Id, location),
                 level => level.SpawnActor(actor, location),
-                level => EventFactory.ActorSpawned(level, actor));
+                level => EventFactory.ActorSpawned(level, actor, location));
         }
     }
 }

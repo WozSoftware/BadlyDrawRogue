@@ -21,6 +21,7 @@ namespace Woz.RogueEngine.Events
 {
     public enum TargetTypes
     {
+        Tile,
         Actor,
         Thing
     }

@@ -22,35 +22,41 @@ using Woz.Monads.MaybeMonad;
 
 namespace Woz.RogueEngine.Events
 {
-    public sealed class EventTarget
+    public sealed class EventDetails
     {
+        public readonly long ActorId;
         public readonly TargetTypes TargetType;
         public readonly Point Location;
         public readonly IMaybe<long> TargetId;
 
-        private EventTarget(
+        private EventDetails(
+            long actorId, 
             TargetTypes targetType, 
             Point location, 
             IMaybe<long> targetId)
         {
+            ActorId = actorId;
             TargetType = targetType;
             Location = location;
             TargetId = targetId;
         }
 
-        public static EventTarget Create(
+        public static EventDetails Create(
+            long actorId,
             TargetTypes targetType,
             Point location)
         {
-            return Create(targetType, location, Maybe<long>.None);
+            return new EventDetails(
+                actorId, targetType, location, Maybe<long>.None);
         }
 
-        public static EventTarget Create(
+        public static EventDetails Create(
+            long actorId,
             TargetTypes targetType,
             Point location,
             IMaybe<long> targetId)
         {
-            return new EventTarget(targetType, location, targetId);
+            return new EventDetails(actorId, targetType, location, targetId);
         }
     }
 }

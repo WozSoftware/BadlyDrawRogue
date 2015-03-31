@@ -50,7 +50,7 @@
     <Compile Include="Entities\ActorLens.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\EventFactory.cs" />
-    <Compile Include="Events\EventTarget.cs" />
+    <Compile Include="Events\EventDetails.cs" />
     <Compile Include="Events\EventTypes.cs" />
     <Compile Include="Events\TargetTypes.cs" />
     <Compile Include="Levels\ActorStateLens.cs" />

@@ -28,50 +28,42 @@ namespace Woz.RogueEngine.Events
     {
         public readonly Level Level;
         public readonly EventTypes EventType;
-        public readonly IMaybe<long> ActorId; 
-        public readonly IMaybe<EventTarget> Target;
+        public readonly IMaybe<EventDetails> Details;
 
         private Event(
             Level level,
-            EventTypes eventType,
-            IMaybe<long> actorId, 
-            IMaybe<EventTarget> target)
+            EventTypes eventType, 
+            IMaybe<EventDetails> details)
         {
+            Debug.Assert(level != null);
+            Debug.Assert(details != null);
+
             Level = level;
             EventType = eventType;
-            ActorId = actorId;
-            Target = target;
+            Details = details;
         }
 
         public static Event Create(
             Level level,
             EventTypes eventType)
         {
-            return Create(
+            return new Event(
+                level,
+                eventType,
+                Maybe<EventDetails>.None);
+        }
+
+        public static Event Create(
+            Level level,
+            EventTypes eventType,
+            EventDetails details)
+        {
+            Debug.Assert(details != null);
+
+            return new Event(
                 level, 
                 eventType, 
-                Maybe<long>.None, 
-                Maybe<EventTarget>.None);
-        }
-
-        public static Event Create(
-            Level level,
-            EventTypes eventType,
-            long actorId,
-            EventTarget target)
-        {
-            Debug.Assert(target != null);
-
-            return new Event(level, eventType, actorId.ToSome(), target.ToSome());
-        }
-
-        public static Event Create(
-            Level level,
-            EventTypes eventType,
-            IMaybe<long> actorId,
-            IMaybe<EventTarget> target)
-        {
-            return new Event(level, eventType, actorId, target);
+                details.ToSome());
         }
     }
 }
