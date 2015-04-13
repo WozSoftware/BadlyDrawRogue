@@ -88,7 +88,7 @@ namespace Woz.RogueEngine.Entities
                 name == null &&
                 statistics == null &&
                 hitPoints == null &&
-                things != null
+                things == null
                     ? this
                     : new Actor(
                         id ?? Id,
