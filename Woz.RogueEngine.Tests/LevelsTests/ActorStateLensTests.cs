@@ -1,5 +1,5 @@
-#region License
-// Copyright (C) Woz.Software 2015
+﻿#region License
+// Copyright � Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
 // This file is part of Woz.RoqueEngine.
@@ -19,30 +19,31 @@
 #endregion
 
 using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Lenses;
+using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Levels
+namespace Woz.RogueEngine.Tests.LevelsTests
 {
-    public sealed class ActorState 
+    [TestClass]
+    public class ActorStateLensTests
     {
-        public readonly long Id;
-        public readonly Point Location;
-
-        private ActorState(long id, Point location)
+        [TestMethod]
+        public void Id()
         {
-            Id  = id;
-            Location = location;
+            var actorState = ActorStateTests.ActorState.Set(ActorStateLens.Id, 2);
+
+            Assert.AreEqual(2, actorState.Get(ActorStateLens.Id));
         }
 
-        public static ActorState Create(long id, Point location)
+        [TestMethod]
+        public void Location()
         {
-            return new ActorState(id, location);
-        }
+            var newLocation = new Point();
+            var actorState = ActorStateTests
+                .ActorState.Set(ActorStateLens.Location, newLocation);
 
-        public ActorState With(long? id = null, Point? location = null)
-        {
-            return id != null || location != null
-                ? new ActorState(id ?? Id, location ?? Location)
-                : this;
+            Assert.AreEqual(newLocation, actorState.Get(ActorStateLens.Location));
         }
     }
 }

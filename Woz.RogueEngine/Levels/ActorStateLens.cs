@@ -25,14 +25,14 @@ namespace Woz.RogueEngine.Levels
 {
     public static class ActorStateLens
     {
-        public static readonly Lens<ActorState, long> ActorId;
+        public static readonly Lens<ActorState, long> Id;
         public static readonly Lens<ActorState, Point> Location;
 
         static ActorStateLens()
         {
-            ActorId = Lens.Create<ActorState, long>(
-                actorState => actorState.ActorId,
-                id => actorState => actorState.With(actorId: id));
+            Id = Lens.Create<ActorState, long>(
+                actorState => actorState.Id,
+                id => actorState => actorState.With(id: id));
 
             Location = Lens.Create<ActorState, Point>(
                 actorState => actorState.Location,
