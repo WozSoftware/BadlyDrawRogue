@@ -17,51 +17,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
 {
     [TestClass]
-    public class ActorStateTests
+    public class HitPointsTests
     {
-        public const int Id = 1;
-        public static readonly Point Location = new Point();
+        public const int Maximum = 10;
+        public const int Current = 8;
 
-        public static readonly ActorState ActorState = 
-            ActorState.Create(Id, Location);
+        public static readonly HitPoints HitPoints = 
+            HitPoints.Create(Maximum, Current);
 
         [TestMethod]
         public void Create()
         {
-            Assert.AreEqual(Id, ActorState.Id);
-            Assert.AreEqual(Location, ActorState.Location);
+            Assert.AreEqual(Maximum, HitPoints.Maximum);
+            Assert.AreEqual(Current, HitPoints.Current);
         }
 
         [TestMethod]
         public void WithNoValues()
         {
-            Assert.AreSame(ActorState, ActorState.With());
+            Assert.AreSame(HitPoints, HitPoints.With());
         }
 
         [TestMethod]
-        public void WithId()
+        public void WithMaximum()
         {
-            var actorState = ActorState.With(id: 2);
+            var hitPoints = HitPoints.With(maximum: Maximum + 1);
 
-            Assert.AreEqual(2, actorState.Id);
-            Assert.AreEqual(Location, actorState.Location);
+            Assert.AreEqual(Maximum + 1, hitPoints.Maximum);
+            Assert.AreEqual(Current, hitPoints.Current);
         }
 
         [TestMethod]
-        public void WithLocation()
+        public void WithCurrent()
         {
-            var newLocation = new Point();
-            var actorState = ActorState.With(location: newLocation);
+            var hitPoints = HitPoints.With(current: Current + 1);
 
-            Assert.AreEqual(Id, actorState.Id);
-            Assert.AreEqual(newLocation, actorState.Location);
+            Assert.AreEqual(Maximum, hitPoints.Maximum);
+            Assert.AreEqual(Current + 1, hitPoints.Current);
         }
     }
 }

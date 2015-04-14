@@ -17,51 +17,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Lenses;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
 {
     [TestClass]
-    public class ActorStateTests
+    public class HitPointsLensTests
     {
-        public const int Id = 1;
-        public static readonly Point Location = new Point();
-
-        public static readonly ActorState ActorState = 
-            ActorState.Create(Id, Location);
-
         [TestMethod]
-        public void Create()
+        public void Maximum()
         {
-            Assert.AreEqual(Id, ActorState.Id);
-            Assert.AreEqual(Location, ActorState.Location);
+            var hitPoints = 
+                HitPointsTests.HitPoints.Set(HitPointsLens.Maximum, 20);
+
+            Assert.AreEqual(20, hitPoints.Get(HitPointsLens.Maximum));
         }
 
         [TestMethod]
-        public void WithNoValues()
+        public void Current()
         {
-            Assert.AreSame(ActorState, ActorState.With());
-        }
+            var hitPoints =
+                HitPointsTests.HitPoints.Set(HitPointsLens.Current, 5);
 
-        [TestMethod]
-        public void WithId()
-        {
-            var actorState = ActorState.With(id: 2);
-
-            Assert.AreEqual(2, actorState.Id);
-            Assert.AreEqual(Location, actorState.Location);
-        }
-
-        [TestMethod]
-        public void WithLocation()
-        {
-            var newLocation = new Point();
-            var actorState = ActorState.With(location: newLocation);
-
-            Assert.AreEqual(Id, actorState.Id);
-            Assert.AreEqual(newLocation, actorState.Location);
+            Assert.AreEqual(5, hitPoints.Get(HitPointsLens.Current));
         }
     }
 }

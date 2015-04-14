@@ -63,6 +63,8 @@
     <Compile Include="LevelsTests\ActorStateTests.cs" />
     <Compile Include="LevelsTests\ActorTests.cs" />
     <Compile Include="LevelsTests\ActorLensTests.cs" />
+    <Compile Include="LevelsTests\HitPointsLensTests.cs" />
+    <Compile Include="LevelsTests\HitPointsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
