@@ -59,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="LevelsTests\ActorTests.cs" />
+    <Compile Include="LevelsTests\ActorLensTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
