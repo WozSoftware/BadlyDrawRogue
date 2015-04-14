@@ -65,9 +65,18 @@
     <Compile Include="LevelsTests\ActorLensTests.cs" />
     <Compile Include="LevelsTests\HitPointsLensTests.cs" />
     <Compile Include="LevelsTests\HitPointsTests.cs" />
+    <Compile Include="LevelsTests\LevelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">
+      <Project>{E030E5BA-A70A-4023-92D7-D20A7F4102F4}</Project>
+      <Name>Woz.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
+      <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
+      <Name>Woz.Immutable</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
       <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>
       <Name>Woz.Lenses</Name>

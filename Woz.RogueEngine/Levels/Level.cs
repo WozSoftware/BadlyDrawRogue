@@ -59,13 +59,18 @@ namespace Woz.RogueEngine.Levels
                 ImmutableDictionary<long, ActorState>.Empty);
         }
 
+        public static Level Create(ITileStore tiles, IActorStateStore actorStates)
+        {
+            return new Level(tiles, actorStates);
+        }
+
         public Level With(
             ITileStore tiles = null,
             IActorStateStore actorStates = null)
         {
-            return tiles == null && actorStates == null
-                ? this
-                : new Level(tiles ?? Tiles, actorStates ?? ActorStates);
+            return tiles != null || actorStates != null
+                ? new Level(tiles ?? Tiles, actorStates ?? ActorStates)
+                : this;
         }
     }
 }
