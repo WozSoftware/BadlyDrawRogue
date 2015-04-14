@@ -20,7 +20,6 @@
 
 using System.Linq;
 using Woz.Monads.ValidationMonad;
-using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Validators

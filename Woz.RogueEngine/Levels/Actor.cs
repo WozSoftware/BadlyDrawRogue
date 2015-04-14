@@ -21,7 +21,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 
-namespace Woz.RogueEngine.Entities
+namespace Woz.RogueEngine.Levels
 {
     using IStatisticsStore = IImmutableDictionary<StatisticTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;

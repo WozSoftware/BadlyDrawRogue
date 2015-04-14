@@ -21,9 +21,9 @@
 using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Woz.RogueEngine.Entities;
+using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Tests.EntitiesTests
+namespace Woz.RogueEngine.Tests.LevelsTests
 {
     [TestClass]
     public class ActorTests

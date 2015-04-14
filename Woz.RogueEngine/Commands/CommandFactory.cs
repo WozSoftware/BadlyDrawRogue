@@ -19,8 +19,8 @@
 #endregion
 
 using System.Drawing;
-using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Events;
+using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;
 using Woz.RogueEngine.Validators;
 

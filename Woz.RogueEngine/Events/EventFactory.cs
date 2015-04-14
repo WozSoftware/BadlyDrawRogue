@@ -19,7 +19,6 @@
 #endregion
 
 using System.Drawing;
-using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Events

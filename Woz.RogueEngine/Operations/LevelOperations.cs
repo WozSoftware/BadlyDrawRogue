@@ -24,7 +24,6 @@ using System.Drawing;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
 using Woz.Monads.MaybeMonad;
-using Woz.RogueEngine.Entities;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Validators;
 

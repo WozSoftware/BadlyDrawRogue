@@ -22,7 +22,6 @@ using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using Woz.Monads.MaybeMonad;
-using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Levels
 {

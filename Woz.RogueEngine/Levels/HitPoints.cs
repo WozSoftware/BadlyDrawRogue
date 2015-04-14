@@ -20,7 +20,7 @@
 
 using System.Diagnostics;
 
-namespace Woz.RogueEngine.Entities
+namespace Woz.RogueEngine.Levels
 {
     public sealed class HitPoints
     {

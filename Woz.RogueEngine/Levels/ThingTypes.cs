@@ -17,13 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-namespace Woz.RogueEngine.Entities
+namespace Woz.RogueEngine.Levels
 {
-    public enum StatisticTypes
+    public enum ThingTypes
     {
-        Strength,
-        Dexterity,
-        Stamina,
-        Inteligence
+        Item,
+        Chest,
+        Furniture
     }
 }
