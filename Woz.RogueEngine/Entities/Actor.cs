@@ -83,20 +83,20 @@ namespace Woz.RogueEngine.Entities
             IThingStore things = null)
         {
             return
-                !id.HasValue &&
-                !actorType.HasValue &&
-                name == null &&
-                statistics == null &&
-                hitPoints == null &&
-                things == null
-                    ? this
-                    : new Actor(
+                id.HasValue ||
+                actorType.HasValue ||
+                name != null ||
+                statistics != null ||
+                hitPoints != null ||
+                things != null
+                    ? new Actor(
                         id ?? Id,
                         actorType ?? ActorType,
                         name ?? Name,
                         statistics ?? Statistics,
                         hitPoints ?? HitPoints,
-                        things ?? Things);
+                        things ?? Things)
+                    : this;
         }
     }
 }

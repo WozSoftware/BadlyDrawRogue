@@ -20,6 +20,7 @@
 
 using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Woz.RogueEngine.Entities;
 
 namespace Woz.RogueEngine.Tests.EntitiesTests
@@ -31,10 +32,10 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         private const ActorTypes ActorType = ActorTypes.Monster;
         private const string Name = "Name";
         private readonly IImmutableDictionary<StatisticTypes, int> _stats = 
-            ImmutableDictionary<StatisticTypes, int>.Empty;
+            new Mock<IImmutableDictionary<StatisticTypes, int>>().Object;
         private readonly HitPoints _hp = HitPoints.Create(1, 1);
         private readonly IImmutableDictionary<long, Thing> _things = 
-            ImmutableDictionary<long, Thing>.Empty;
+            new Mock<IImmutableDictionary<long, Thing>>().Object;
 
         [TestMethod]
         public void Create()
@@ -105,7 +106,8 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         [TestMethod]
         public void WithStats()
         {
-            var newStats = _stats.Add(StatisticTypes.Dexterity, 5);
+            var newStats = 
+                new Mock<IImmutableDictionary<StatisticTypes, int>>().Object;
 
             var actor = Actor
                 .Create(Id, ActorType, Name, _stats, _hp, _things)
@@ -139,17 +141,8 @@ namespace Woz.RogueEngine.Tests.EntitiesTests
         [TestMethod]
         public void WithThings()
         {
-            var thing = Thing.Create(
-                1,
-                ThingTypes.Item,
-                "A",
-                EquipmentSlots.None,
-                false,
-                ImmutableDictionary<DamageTypes, int>.Empty,
-                ImmutableDictionary<DamageTypes, int>.Empty,
-                ImmutableDictionary<long, Thing>.Empty);
-
-            var newThings = _things.SetItem(thing.Id, thing);
+            var newThings =
+                new Mock<IImmutableDictionary<long, Thing>>().Object;
 
             var actor = Actor
                 .Create(Id, ActorType, Name, _stats, _hp, _things)
