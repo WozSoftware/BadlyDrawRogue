@@ -21,6 +21,7 @@ using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Woz.Lenses;
+using Woz.Lenses.Tests;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
@@ -29,58 +30,49 @@ namespace Woz.RogueEngine.Tests.LevelsTests
     using IThingStore = IImmutableDictionary<long, Thing>;
 
     [TestClass]
-    public class ActorLensTests
+    public class ActorLensTests : BaseLensTests
     {
         [TestMethod]
         public void Id()
         {
-            var actor = ActorTests.Actor.Set(ActorLens.Id, 2);
-
-            Assert.AreEqual(2, actor.Get(ActorLens.Id));
+            TestLensWithAreEqual(ActorTests.Actor, ActorLens.Id, 2L);
         }
 
         [TestMethod]
         public void ActorType()
         {
-            var type = ActorTypes.Monster;
-            var actor = ActorTests.Actor.Set(ActorLens.ActorType, type);
-
-            Assert.AreEqual(type, actor.Get(ActorLens.ActorType));
+            TestLensWithAreEqual(
+                ActorTests.Actor, ActorLens.ActorType, ActorTypes.Monster);
         }
 
         [TestMethod]
         public void Name()
         {
-            var actor = ActorTests.Actor.Set(ActorLens.Name, "A");
-
-            Assert.AreEqual("A", actor.Get(ActorLens.Name));
+            TestLensWithAreEqual(ActorTests.Actor, ActorLens.Name, "A");
         }
 
         [TestMethod]
         public void Statistics()
         {
-            var stats = new Mock<IStatisticsStore>().Object; 
-            var actor = ActorTests.Actor.Set(ActorLens.Statistics, stats);
-
-            Assert.AreEqual(stats, actor.Get(ActorLens.Statistics));
+            TestLensWithAreSame(
+                ActorTests.Actor, ActorLens.Statistics, 
+                new Mock<IStatisticsStore>().Object);
         }
 
         [TestMethod]
         public void HitPoints()
         {
-            var hp = Levels.HitPoints.Create(1, 1);
-            var actor = ActorTests.Actor.Set(ActorLens.HitPoints, hp);
-
-            Assert.AreEqual(hp, actor.Get(ActorLens.HitPoints));
+            TestLensWithAreSame(
+                ActorTests.Actor, ActorLens.HitPoints,
+                Levels.HitPoints.Create(1, 1));
         }
 
         [TestMethod]
         public void Things()
         {
-            var things = new Mock<IThingStore>().Object;
-            var actor = ActorTests.Actor.Set(ActorLens.Things, things);
-
-            Assert.AreEqual(things, actor.Get(ActorLens.Things));
+            TestLensWithAreSame(
+                ActorTests.Actor, ActorLens.Things,
+                new Mock<IThingStore>().Object);
         }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="LevelsTests\HitPointsTests.cs" />
     <Compile Include="LevelsTests\LevelLensTests.cs" />
     <Compile Include="LevelsTests\LevelTests.cs" />
+    <Compile Include="LevelsTests\ThingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Lenses.Tests\Woz.Lenses.Tests.csproj">
+      <Project>{ED5869C9-0973-40EB-B9D7-9AFC1B7C8CE7}</Project>
+      <Name>Woz.Lenses.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
       <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>

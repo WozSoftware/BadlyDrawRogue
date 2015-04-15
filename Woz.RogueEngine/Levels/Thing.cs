@@ -95,16 +95,15 @@ namespace Woz.RogueEngine.Levels
             IThingStore contains = null)
         {
             return
-                !id.HasValue &&
-                !thingType.HasValue &&
-                name == null &&
-                !equipableAs.HasValue &&
-                !equiped.HasValue &&
-                attackDetails != null &&
-                defenseDetails != null &&
+                id.HasValue ||
+                thingType.HasValue ||
+                name != null ||
+                equipableAs.HasValue ||
+                equiped.HasValue ||
+                attackDetails != null ||
+                defenseDetails != null ||
                 contains != null
-                    ? this
-                    : new Thing(
+                    ? new Thing(
                         id ?? Id,
                         thingType ?? ThingType,
                         name ?? Name,
@@ -112,7 +111,8 @@ namespace Woz.RogueEngine.Levels
                         equiped ?? Equiped,
                         attackDetails ?? AttackDetails,
                         defenseDetails ?? DefenseDetails,
-                        contains ?? Contains);
+                        contains ?? Contains)
+                    : this;
         }
     }
 }

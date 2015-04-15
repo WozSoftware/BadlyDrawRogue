@@ -17,11 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Woz.Immutable.Collections;
-using Woz.Lenses;
+using Woz.Lenses.Tests;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
@@ -30,24 +31,22 @@ namespace Woz.RogueEngine.Tests.LevelsTests
     using IActorStateStore = IImmutableDictionary<long, ActorState>;
 
     [TestClass]
-    public class LevelLensTests
+    public class LevelLensTests : BaseLensTests
     {
         [TestMethod]
         public void Tiles()
         {
-            var newTiles = new Mock<ITileStore>().Object;
-            var level = LevelTests.Level.Set(LevelLens.Tiles, newTiles);
-
-            Assert.AreSame(newTiles, level.Get(LevelLens.Tiles));
+            TestLensWithAreSame(
+                LevelTests.Level, LevelLens.Tiles, 
+                new Mock<ITileStore>().Object);
         }
 
         [TestMethod]
         public void ActorStates()
         {
-            var states = new Mock<IActorStateStore>().Object;
-            var level = LevelTests.Level.Set(LevelLens.ActorStates, states);
-
-            Assert.AreSame(states, level.Get(LevelLens.ActorStates));
+            TestLensWithAreSame(
+                LevelTests.Level, LevelLens.ActorStates,
+                new Mock<IActorStateStore>().Object);
         }
     }
 }

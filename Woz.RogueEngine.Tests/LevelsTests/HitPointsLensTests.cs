@@ -19,29 +19,26 @@
 #endregion
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Lenses;
+using Woz.Lenses.Tests;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
 {
     [TestClass]
-    public class HitPointsLensTests
+    public class HitPointsLensTests : BaseLensTests
     {
         [TestMethod]
         public void Maximum()
         {
-            var hitPoints = 
-                HitPointsTests.HitPoints.Set(HitPointsLens.Maximum, 20);
-
-            Assert.AreEqual(20, hitPoints.Get(HitPointsLens.Maximum));
+            TestLensWithAreEqual(
+                HitPointsTests.HitPoints, HitPointsLens.Maximum, 20);
         }
 
         [TestMethod]
         public void Current()
         {
-            var hitPoints =
-                HitPointsTests.HitPoints.Set(HitPointsLens.Current, 5);
-
-            Assert.AreEqual(5, hitPoints.Get(HitPointsLens.Current));
+            TestLensWithAreEqual(
+                HitPointsTests.HitPoints, HitPointsLens.Current, 5);
         }
     }
 }

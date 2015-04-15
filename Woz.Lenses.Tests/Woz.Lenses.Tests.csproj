@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseLensTests.cs" />
     <Compile Include="ImmutableDictionaryLensTests.cs" />
     <Compile Include="LensTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
