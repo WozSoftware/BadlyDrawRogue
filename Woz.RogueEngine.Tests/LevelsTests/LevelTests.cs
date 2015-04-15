@@ -47,6 +47,15 @@ namespace Woz.RogueEngine.Tests.LevelsTests
 
         public static readonly Level Level = Level.Create(Tiles, ActorStates);
 
+        private static void Validate(
+            Level instance,
+            ITileStore tiles = null,
+            IActorStateStore actorStates = null)
+        {
+            Assert.AreSame(tiles ?? Tiles, instance.Tiles);
+            Assert.AreSame(actorStates ?? ActorStates, instance.ActorStates);
+        }
+
         [TestMethod]
         public void CreateBySize()
         {
@@ -66,8 +75,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void CreateByParams()
         {
-            Assert.AreSame(Tiles, Level.Tiles);
-            Assert.AreSame(ActorStates, Level.ActorStates);
+            Validate(Level);
         }
 
         [TestMethod]
@@ -81,10 +89,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         {
             var newTiles = new Mock<ITileStore>().Object;
 
-            var level = Level.With(tiles: newTiles);
-
-            Assert.AreSame(newTiles, level.Tiles);
-            Assert.AreSame(ActorStates, level.ActorStates);
+            Validate(Level.With(tiles: newTiles), tiles: newTiles);
         }
 
         [TestMethod]
@@ -92,10 +97,9 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         {
             var newActorStates = new Mock<IActorStateStore>().Object;
 
-            var level = Level.With(actorStates: newActorStates);
-
-            Assert.AreSame(Tiles, level.Tiles);
-            Assert.AreSame(newActorStates, level.ActorStates);
+            Validate(
+                Level.With(actorStates: newActorStates),
+                actorStates: newActorStates);
         }
     }
 }

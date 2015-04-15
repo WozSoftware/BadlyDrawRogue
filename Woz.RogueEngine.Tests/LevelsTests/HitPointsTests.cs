@@ -32,11 +32,17 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         public static readonly HitPoints HitPoints = 
             HitPoints.Create(Maximum, Current);
 
+        private static void Validate(
+            HitPoints instance, int? maximum = null, int? current = null)
+        {
+            Assert.AreEqual(maximum ?? Maximum, instance.Maximum);
+            Assert.AreEqual(current ?? Current, instance.Current);
+        }
+
         [TestMethod]
         public void Create()
         {
-            Assert.AreEqual(Maximum, HitPoints.Maximum);
-            Assert.AreEqual(Current, HitPoints.Current);
+            Validate(HitPoints);
         }
 
         [TestMethod]
@@ -48,19 +54,13 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void WithMaximum()
         {
-            var hitPoints = HitPoints.With(maximum: Maximum + 1);
-
-            Assert.AreEqual(Maximum + 1, hitPoints.Maximum);
-            Assert.AreEqual(Current, hitPoints.Current);
+            Validate(HitPoints.With(maximum: 20), maximum: 20);
         }
 
         [TestMethod]
         public void WithCurrent()
         {
-            var hitPoints = HitPoints.With(current: Current + 1);
-
-            Assert.AreEqual(Maximum, hitPoints.Maximum);
-            Assert.AreEqual(Current + 1, hitPoints.Current);
+            Validate(HitPoints.With(current: 1), current: 1);
         }
     }
 }

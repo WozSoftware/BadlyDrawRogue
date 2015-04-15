@@ -41,15 +41,27 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         public static readonly Actor Actor =
             Actor.Create(Id, ActorType, Name, Stats, Hp, Things);
 
+        private static void Validate(
+            Actor instance,
+            long? id = null,
+            ActorTypes? actorType = null,
+            string name = null,
+            IStatisticsStore stats = null,
+            HitPoints hp = null,
+            IThingStore things = null)
+        {
+            Assert.AreEqual(id ?? Id, instance.Id);
+            Assert.AreEqual(actorType ?? ActorType, instance.ActorType);
+            Assert.AreEqual(name ?? Name, instance.Name);
+            Assert.AreSame(stats ?? Stats, instance.Statistics);
+            Assert.AreSame(hp ?? Hp, instance.HitPoints);
+            Assert.AreSame(things ?? Things, instance.Things);
+        }
+
         [TestMethod]
         public void Create()
         {
-            Assert.AreEqual(Id, Actor.Id);
-            Assert.AreEqual(ActorType, Actor.ActorType);
-            Assert.AreEqual(Name, Actor.Name);
-            Assert.AreSame(Stats, Actor.Statistics);
-            Assert.AreSame(Hp, Actor.HitPoints);
-            Assert.AreSame(Things, Actor.Things);
+            Validate(Actor);
         }
 
         [TestMethod]
@@ -61,40 +73,21 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void WithId()
         {
-            var actor = Actor.With(id: 2);
-
-            Assert.AreEqual(2, actor.Id);
-            Assert.AreEqual(ActorType, actor.ActorType);
-            Assert.AreEqual(Name, actor.Name);
-            Assert.AreSame(Stats, actor.Statistics);
-            Assert.AreSame(Hp, actor.HitPoints);
-            Assert.AreSame(Things, actor.Things);
+            Validate(Actor.With(id: 2), id: 2);
         }
 
         [TestMethod]
         public void WithType()
         {
-            var actor = Actor.With(actorType: ActorTypes.Player);
-
-            Assert.AreEqual(Id, actor.Id);
-            Assert.AreEqual(ActorTypes.Player, actor.ActorType);
-            Assert.AreEqual(Name, actor.Name);
-            Assert.AreSame(Stats, actor.Statistics);
-            Assert.AreSame(Hp, actor.HitPoints);
-            Assert.AreSame(Things, actor.Things);
+            Validate(
+                Actor.With(actorType: ActorTypes.Player), 
+                actorType: ActorTypes.Player);
         }
 
         [TestMethod]
         public void WithName()
         {
-            var actor = Actor.With(name: "A");
-
-            Assert.AreEqual(Id, actor.Id);
-            Assert.AreEqual(ActorType, actor.ActorType);
-            Assert.AreEqual("A", actor.Name);
-            Assert.AreSame(Stats, actor.Statistics);
-            Assert.AreSame(Hp, actor.HitPoints);
-            Assert.AreSame(Things, actor.Things);
+            Validate(Actor.With(name: "A"), name: "A");
         }
 
         [TestMethod]
@@ -102,14 +95,9 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         {
             var newStats = new Mock<IStatisticsStore>().Object;
 
-            var actor = Actor.With(statistics: newStats);
-
-            Assert.AreEqual(Id, actor.Id);
-            Assert.AreEqual(ActorType, actor.ActorType);
-            Assert.AreEqual(Name, actor.Name);
-            Assert.AreSame(newStats, actor.Statistics);
-            Assert.AreSame(Hp, actor.HitPoints);
-            Assert.AreSame(Things, actor.Things);
+            Validate(
+                Actor.With(statistics: newStats),
+                stats: newStats);
         }
 
         [TestMethod]
@@ -117,14 +105,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         {
             var newHp = HitPoints.Create(2, 2);
 
-            var actor = Actor.With(hitPoints: newHp);
-
-            Assert.AreEqual(Id, actor.Id);
-            Assert.AreEqual(ActorType, actor.ActorType);
-            Assert.AreEqual(Name, actor.Name);
-            Assert.AreSame(Stats, actor.Statistics);
-            Assert.AreSame(newHp, actor.HitPoints);
-            Assert.AreSame(Things, actor.Things);
+            Validate(Actor.With(hitPoints: newHp), hp: newHp);
         }
 
         [TestMethod]
@@ -132,14 +113,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         {
             var newThings = new Mock<IThingStore>().Object;
 
-            var actor = Actor.With(things: newThings);
-
-            Assert.AreEqual(Id, actor.Id);
-            Assert.AreEqual(ActorType, actor.ActorType);
-            Assert.AreEqual(Name, actor.Name);
-            Assert.AreSame(Stats, actor.Statistics);
-            Assert.AreSame(Hp, actor.HitPoints);
-            Assert.AreSame(newThings, actor.Things);
+            Validate(Actor.With(things: newThings), things: newThings);
         }
     }
 }

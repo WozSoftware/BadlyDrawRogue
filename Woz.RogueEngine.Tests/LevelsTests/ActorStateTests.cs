@@ -33,11 +33,17 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         public static readonly ActorState ActorState = 
             ActorState.Create(Id, Location);
 
+        private static void Validate(
+            ActorState instance, long? id = null, Point? location = null)
+        {
+            Assert.AreEqual(id ?? Id, instance.Id);
+            Assert.AreEqual(location ?? Location, instance.Location);
+        }
+
         [TestMethod]
         public void Create()
         {
-            Assert.AreEqual(Id, ActorState.Id);
-            Assert.AreEqual(Location, ActorState.Location);
+            Validate(ActorState);
         }
 
         [TestMethod]
@@ -49,20 +55,16 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void WithId()
         {
-            var actorState = ActorState.With(id: 2);
-
-            Assert.AreEqual(2, actorState.Id);
-            Assert.AreEqual(Location, actorState.Location);
+            Validate(ActorState.With(id: 2), id: 2);
         }
 
         [TestMethod]
         public void WithLocation()
         {
             var newLocation = new Point();
-            var actorState = ActorState.With(location: newLocation);
-
-            Assert.AreEqual(Id, actorState.Id);
-            Assert.AreEqual(newLocation, actorState.Location);
+            Validate(
+                ActorState.With(location: newLocation), 
+                location: newLocation);
         }
     }
 }
