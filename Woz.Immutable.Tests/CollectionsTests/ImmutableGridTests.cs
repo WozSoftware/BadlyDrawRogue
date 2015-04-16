@@ -160,7 +160,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
 
             var factor = immutableGridTime / gridTime;
 #if DEBUG
-            Assert.IsTrue(factor < 3, "Factor was " + factor);
+            Assert.IsTrue(factor < 5, "Factor was " + factor);
 #else
             Assert.IsTrue(factor < 2, "Factor was " + factor);
 #endif

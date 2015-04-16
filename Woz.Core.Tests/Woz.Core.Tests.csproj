@@ -58,6 +58,7 @@
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingletonTests.cs" />
+    <Compile Include="EnumUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Woz.Core.Tests.licenseheader" />

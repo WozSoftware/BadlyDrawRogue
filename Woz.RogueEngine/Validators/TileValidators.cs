@@ -26,15 +26,15 @@ namespace Woz.RogueEngine.Validators
 {
     public static class TileValidators
     {
-        public static IValidation<bool> MoveNotBlocked(this Tile tile)
+        public static IValidation<bool> IsValidMove(this Tile tile)
         {
             return
                 from x in tile.HasNoActor()
-                from y in tile.TileNotBlocked()
+                from y in tile.TileTypeAllowsMove()
                 select true;
         }
 
-        public static IValidation<Tile> TileNotBlocked(this Tile tile)
+        public static IValidation<Tile> TileTypeAllowsMove(this Tile tile)
         {
             return !TypeGroups.BlockMovement.Contains(tile.TileType)
                 ? tile.ToValid()
@@ -43,7 +43,7 @@ namespace Woz.RogueEngine.Validators
 
         public static IValidation<Tile> HasNoActor(this Tile tile)
         {
-            return tile.Actor.HasValue
+            return !tile.Actor.HasValue
                 ? tile.ToValid()
                 : string.Format(
                     "Can't move there, blocked by {0}", 
