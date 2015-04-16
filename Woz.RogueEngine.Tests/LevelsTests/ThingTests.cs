@@ -56,23 +56,98 @@ namespace Woz.RogueEngine.Tests.LevelsTests
             DefenseDetails,
             Contains);
 
+        private static void Validate(
+            Thing instance,
+            long? id = null,
+            ThingTypes? thingType = null,
+            string name = null,
+            EquipmentSlots? equipableAs = null,
+            bool? equiped = null,
+            ICombatStatistics attackDetails = null,
+            ICombatStatistics defenseDetails = null,
+            IThingStore contains = null)
+        {
+            Assert.AreEqual(id ?? Id, instance.Id);
+            Assert.AreEqual(thingType ?? ThingType, instance.ThingType);
+            Assert.AreEqual(name ?? Name, instance.Name);
+            Assert.AreEqual(equipableAs ?? EquipableAs, instance.EquipableAs);
+            Assert.AreEqual(equiped ?? Equiped, instance.Equiped);
+            Assert.AreSame(attackDetails ?? AttackDetails, instance.AttackDetails);
+            Assert.AreSame(defenseDetails ?? DefenseDetails, instance.DefenseDetails);
+            Assert.AreSame(contains ?? Contains, instance.Contains);
+        }
+
         [TestMethod]
         public void Create()
         {
-            Assert.AreEqual(Id, Thing.Id);
-            Assert.AreEqual(ThingType, Thing.ThingType);
-            Assert.AreEqual(Name, Thing.Name);
-            Assert.AreEqual(EquipableAs, Thing.EquipableAs);
-            Assert.AreEqual(Equiped, Thing.Equiped);
-            Assert.AreSame(AttackDetails, Thing.AttackDetails);
-            Assert.AreSame(DefenseDetails, Thing.DefenseDetails);
-            Assert.AreSame(Contains, Thing.Contains);
+            Validate(Thing);
         }
 
         [TestMethod]
         public void WithNoValues()
         {
             Assert.AreSame(Thing, Thing.With());
+        }
+
+        [TestMethod]
+        public void WithId()
+        {
+            Validate(Thing.With(id: 5), id: 5);
+        }
+
+        [TestMethod]
+        public void WithThingType()
+        {
+            Validate(
+                Thing.With(thingType: ThingTypes.Chest), 
+                thingType: ThingTypes.Chest);
+        }
+
+        [TestMethod]
+        public void WithName()
+        {
+            Validate(Thing.With(name: "A"), name: "A");
+        }
+
+        [TestMethod]
+        public void WithEquipableAs()
+        {
+            Validate(
+                Thing.With(equipableAs: EquipmentSlots.Amulet),
+                equipableAs: EquipmentSlots.Amulet);
+        }
+
+        [TestMethod]
+        public void WithEquiped()
+        {
+            Validate(Thing.With(equiped: false), equiped: false);
+        }
+
+        [TestMethod]
+        public void WithAttackDetails()
+        {
+            var details = new Mock<ICombatStatistics>().Object;
+            Validate(
+                Thing.With(attackDetails: details),
+                attackDetails: details);
+        }
+
+        [TestMethod]
+        public void WithDefenseDetails()
+        {
+            var details = new Mock<ICombatStatistics>().Object;
+            Validate(
+                Thing.With(defenseDetails: details),
+                defenseDetails: details);
+        }
+
+        [TestMethod]
+        public void WithContains()
+        {
+            var store = new Mock<IThingStore>().Object;
+            Validate(
+                Thing.With(contains: store),
+                contains: store);
         }
     }
 }

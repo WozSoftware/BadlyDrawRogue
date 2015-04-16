@@ -67,7 +67,9 @@
     <Compile Include="LevelsTests\HitPointsTests.cs" />
     <Compile Include="LevelsTests\LevelLensTests.cs" />
     <Compile Include="LevelsTests\LevelTests.cs" />
+    <Compile Include="LevelsTests\ThingLensTests.cs" />
     <Compile Include="LevelsTests\ThingTests.cs" />
+    <Compile Include="LevelsTests\TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +88,10 @@
     <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
       <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>
       <Name>Woz.Lenses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
+      <Project>{5765091D-856C-41D4-B97E-AA7A3D0ED5BA}</Project>
+      <Name>Woz.Monads</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.RogueEngine\Woz.RogueEngine.csproj">
       <Project>{37EF993B-BE7A-4E2E-AC27-7EF8DA5C8493}</Project>
