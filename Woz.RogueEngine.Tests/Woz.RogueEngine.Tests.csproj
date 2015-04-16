@@ -69,6 +69,7 @@
     <Compile Include="LevelsTests\LevelTests.cs" />
     <Compile Include="LevelsTests\ThingLensTests.cs" />
     <Compile Include="LevelsTests\ThingTests.cs" />
+    <Compile Include="LevelsTests\TileLensTests.cs" />
     <Compile Include="LevelsTests\TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
