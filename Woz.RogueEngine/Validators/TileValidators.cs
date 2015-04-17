@@ -19,6 +19,7 @@
 #endregion
 
 using System.Linq;
+using Woz.Monads.MaybeMonad;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
@@ -29,19 +30,36 @@ namespace Woz.RogueEngine.Validators
         public static IValidation<bool> IsValidMove(this Tile tile)
         {
             return
-                from x in tile.HasNoActor()
-                from y in tile.TileTypeAllowsMove()
+                from x in tile.IsValidMoveTileType()
+                from y in tile.IsValidMoveTileThings()
+                from z in tile.IsValidMoveNoActor()
                 select true;
         }
 
-        public static IValidation<Tile> TileTypeAllowsMove(this Tile tile)
+        public static IValidation<Tile> IsValidMoveTileType(this Tile tile)
         {
-            return !TypeGroups.BlockMovement.Contains(tile.TileType)
+            return !TileTypeGroups.BlockMovement.Contains(tile.TileType)
                 ? tile.ToValid()
                 : "Can't move there".ToInvalid<Tile>();
         }
 
-        public static IValidation<Tile> HasNoActor(this Tile tile)
+        public static IValidation<Tile> IsValidMoveTileThings(this Tile tile)
+        {
+            var validTile = tile.ToValid();
+
+            // Locate the first fail because a thing blocks movement
+            var maybeError = tile.Things.Values
+                .Select(thing => thing.IsValidMoveThingType())
+                .FirstOrDefault(thingValidator => !thingValidator.IsValid)
+                .ToMaybe();
+
+            // Transform to a tile error if possible otherwise we are valid
+            return maybeError
+                .Select(thingError => validTile.WithErrorFrom(thingError))
+                .OrElse(validTile);
+        }
+
+        public static IValidation<Tile> IsValidMoveNoActor(this Tile tile)
         {
             return !tile.Actor.HasValue
                 ? tile.ToValid()

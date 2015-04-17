@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,19 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System.Collections.Generic;
+using System.Linq;
+using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Validators
 {
-    public class TypeGroups
+    public static class ThingValidators
     {
-        public static readonly IEnumerable<TileTypes> DoorTypes = 
-            new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};
-
-        public static readonly IEnumerable<TileTypes> BlockMovement = 
-            new[] {TileTypes.Void, TileTypes.Wall, TileTypes.ClosedDoor};
+        public static IValidation<Thing> IsValidMoveThingType(this Thing thing)
+        {
+            return !ThingTypeGroups.BlockMovement.Contains(thing.ThingType)
+                ? thing.ToValid()
+                : "Can't move there".ToInvalid<Thing>();
+        }
     }
-
 }

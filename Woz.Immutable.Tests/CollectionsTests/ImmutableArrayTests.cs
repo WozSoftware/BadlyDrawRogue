@@ -149,6 +149,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
             Assert.AreEqual(5, source[2]);
         }
 
+#if PerformanceTest
         [TestMethod]
         public void WritePerformanceDirect()
         {
@@ -219,6 +220,7 @@ namespace Woz.Immutable.Tests.CollectionsTests
             Assert.IsTrue(factor < 2, "Factor was " + factor);
 #endif
         }
+#endif
 
         public double BenchmarkHelper(int length, Action<int> indexOperation)
         {

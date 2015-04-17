@@ -17,10 +17,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
+using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Woz.Core;
 using Woz.Core.Collections;
+using Woz.Monads.MaybeMonad;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Tests.LevelsTests;
 using Woz.RogueEngine.Validators;
@@ -30,6 +34,12 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
     [TestClass]
     public class TileValidatorsTests
     {
+        private readonly Tile _tile = Tile.Create(
+            TileTypes.Floor,
+            "Test Tile",
+            Maybe<Actor>.None,
+            ImmutableDictionary<long, Thing>.Empty);
+
         [TestMethod]
         public void TileTypeAllowsMove()
         {
@@ -38,15 +48,29 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                 .ForEach(
                     type =>
                     {
-                        var result = TileTests
-                            .Tile
+                        var result = _tile
                             .With(tileType: type)
-                            .TileTypeAllowsMove();
+                            .IsValidMoveTileType();
 
                         Assert.AreEqual(
-                            !TypeGroups.BlockMovement.Contains(type),
+                            !TileTypeGroups.BlockMovement.Contains(type),
                             result.IsValid);
                     });
+        }
+
+        [TestMethod]
+        public void HasNoActorValidWhenNoActor()
+        {
+            Assert.IsTrue(_tile.IsValidMoveNoActor().IsValid);
+        }
+
+        [TestMethod]
+        public void HasNoActorInvalidWhenActor()
+        {
+            Assert.IsFalse(_tile
+                .With(actor: ActorTests.Actor.ToSome())
+                .IsValidMoveNoActor()
+                .IsValid);
         }
     }
 }
