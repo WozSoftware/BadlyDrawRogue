@@ -25,11 +25,5 @@ namespace Woz.RogueEngine.Validators
 {
     public static class ThingValidators
     {
-        public static IValidation<Thing> IsValidMoveThingType(this Thing thing)
-        {
-            return !ThingTypeGroups.BlockMovement.Contains(thing.ThingType)
-                ? thing.ToValid()
-                : "Can't move there".ToInvalid<Thing>();
-        }
     }
 }

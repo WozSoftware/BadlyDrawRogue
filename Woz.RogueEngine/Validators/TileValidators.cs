@@ -38,34 +38,26 @@ namespace Woz.RogueEngine.Validators
 
         public static IValidation<Tile> IsValidMoveTileType(this Tile tile)
         {
-            return !TileTypeGroups.BlockMovement.Contains(tile.TileType)
-                ? tile.ToValid()
-                : "Can't move there".ToInvalid<Tile>();
+            return TileTypeGroups.BlockMovement.Contains(tile.TileType)
+                ? "Can't move there".ToInvalid<Tile>()
+                : tile.ToValid();
         }
 
         public static IValidation<Tile> IsValidMoveTileThings(this Tile tile)
         {
-            var validTile = tile.ToValid();
-
-            // Locate the first fail because a thing blocks movement
-            var maybeError = tile.Things.Values
-                .Select(thing => thing.IsValidMoveThingType())
-                .FirstOrDefault(thingValidator => !thingValidator.IsValid)
-                .ToMaybe();
-
-            // Transform to a tile error if possible otherwise we are valid
-            return maybeError
-                .Select(thingError => validTile.WithErrorFrom(thingError))
-                .OrElse(validTile);
+            return tile.Things.Values.Any(thing =>
+                    ThingTypeGroups.BlockMovement.Contains(thing.ThingType))
+                ? "Can't move there".ToInvalid<Tile>()
+                : tile.ToValid();
         }
 
         public static IValidation<Tile> IsValidMoveNoActor(this Tile tile)
         {
-            return !tile.Actor.HasValue
-                ? tile.ToValid()
-                : string.Format(
-                    "Can't move there, blocked by {0}", 
-                    tile.Actor.Value.Name).ToInvalid<Tile>();
+            return tile.Actor.HasValue
+                ? string.Format(
+                    "Can't move there, blocked by {0}",
+                    tile.Actor.Value.Name).ToInvalid<Tile>()
+                : tile.ToValid();
         }
 
         public static IValidation<Actor> HasActor(this Tile tile)

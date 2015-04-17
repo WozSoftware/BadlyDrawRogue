@@ -29,35 +29,32 @@ namespace Woz.RogueEngine.Validators
         public static IValidation<Level> IsNewActor(
             this Level level, long actorId)
         {
-            return
-                !level.ActorStates.ContainsKey(actorId)
-                    ? level.ToValid()
-                    : string.Format(
-                        "Actor Id={0} already exists",
-                        actorId).ToInvalid<Level>();
+            return level.ActorStates.ContainsKey(actorId)
+                ? string.Format(
+                    "Actor Id={0} already exists",
+                    actorId).ToInvalid<Level>()
+                : level.ToValid();
         }
 
         public static IValidation<ActorState> ActorStateExists(
             this Level level, long actorId)
         {
-            return
-                level.ActorStates.ContainsKey(actorId)
-                    ? level.ActorStates[actorId].ToValid()
-                    : string.Format(
-                        "Unknow actor Id={0}",
-                        actorId).ToInvalid<ActorState>();
+            return level.ActorStates.ContainsKey(actorId)
+                ? level.ActorStates[actorId].ToValid()
+                : string.Format(
+                    "Unknow actor Id={0}",
+                    actorId).ToInvalid<ActorState>();
 
         }
 
         public static IValidation<Tile> IsValidLocation(
             this Level level, Point location)
         {
-            return level
-                .Tiles.IsValidLocation(location)
-                    ? level.Tiles[location].ToValid()
-                    : string.Format(
-                        "Location {0} is outside the map",
-                        location).ToInvalid<Tile>();
+            return level.Tiles.IsValidLocation(location)
+                ? level.Tiles[location].ToValid()
+                : string.Format(
+                    "Location {0} is outside the map",
+                    location).ToInvalid<Tile>();
         }
     }
 }
