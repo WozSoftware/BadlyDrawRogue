@@ -63,16 +63,26 @@ namespace Woz.RogueEngine.Levels
 
         public static Tile Create(
             TileTypes tileType,
+            string name)
+        {
+            return Create(
+                tileType,
+                name,
+                Maybe<Actor>.None,
+                ImmutableDictionary<long, Thing>.Empty);
+        }
+
+        public static Tile Create(
+            TileTypes tileType,
             string name,
             IMaybe<Actor> actor,
             IThingStore things)
         {
-            return 
-                new Tile(
-                    tileType,
-                    name,
-                    actor,
-                    things);
+            return new Tile(
+                tileType,
+                name,
+                actor,
+                things);
         }
 
         public Tile With(

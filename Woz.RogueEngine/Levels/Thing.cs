@@ -67,21 +67,39 @@ namespace Woz.RogueEngine.Levels
             ThingTypes thingType,
             string name,
             EquipmentSlots equipableAs,
+            bool equiped)
+        {
+            return Create(
+                id,
+                thingType,
+                name,
+                equipableAs,
+                equiped,
+                ImmutableDictionary<DamageTypes, int>.Empty,
+                ImmutableDictionary<DamageTypes, int>.Empty,
+                ImmutableDictionary<long, Thing>.Empty);
+        }
+
+
+        public static Thing Create(
+            long id,
+            ThingTypes thingType,
+            string name,
+            EquipmentSlots equipableAs,
             bool equiped,
             ICombatStatistics attackDetails,
             ICombatStatistics defenseDetails,
             IThingStore contains)
         {
-            return 
-                new Thing(
-                    id, 
-                    thingType,
-                    name,
-                    equipableAs, 
-                    equiped, 
-                    attackDetails, 
-                    defenseDetails, 
-                    contains);
+            return new Thing(
+                id,
+                thingType,
+                name,
+                equipableAs,
+                equiped,
+                attackDetails,
+                defenseDetails,
+                contains);
         }
 
         public Thing With(

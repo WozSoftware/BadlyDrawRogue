@@ -35,10 +35,10 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
     public class TileValidatorsTests
     {
         private readonly Tile _tile = Tile.Create(
-            TileTypes.Floor,
-            "Test Tile",
-            Maybe<Actor>.None,
-            ImmutableDictionary<long, Thing>.Empty);
+            TileTypes.Floor, "Test Tile");
+
+        private readonly Thing _thing = Thing.Create(
+            5, ThingTypes.Item, "Test Thing", EquipmentSlots.None, false);
 
         [TestMethod]
         public void TileTypeAllowsMove()
