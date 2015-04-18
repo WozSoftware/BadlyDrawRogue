@@ -19,7 +19,6 @@
 #endregion
 
 using System.Linq;
-using Woz.Monads.MaybeMonad;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
