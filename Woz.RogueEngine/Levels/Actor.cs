@@ -60,6 +60,22 @@ namespace Woz.RogueEngine.Levels
             long id,
             ActorTypes actorType,
             string name,
+            HitPoints hitPoints)
+        {
+            return
+                new Actor(
+                    id,
+                    actorType,
+                    name,
+                    ImmutableDictionary<StatisticTypes, int>.Empty,
+                    hitPoints,
+                    ImmutableDictionary<long, Thing>.Empty);
+        }
+
+        public static Actor Create(
+            long id,
+            ActorTypes actorType,
+            string name,
             IStatisticsStore statistics,
             HitPoints hitPoints,
             IThingStore things)

@@ -65,7 +65,7 @@ namespace Woz.RogueEngine.Levels
             TileTypes tileType,
             string name)
         {
-            return Create(
+            return new Tile(
                 tileType,
                 name,
                 Maybe<Actor>.None,

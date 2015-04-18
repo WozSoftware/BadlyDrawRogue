@@ -69,7 +69,7 @@ namespace Woz.RogueEngine.Levels
             EquipmentSlots equipableAs,
             bool equiped)
         {
-            return Create(
+            return new Thing(
                 id,
                 thingType,
                 name,

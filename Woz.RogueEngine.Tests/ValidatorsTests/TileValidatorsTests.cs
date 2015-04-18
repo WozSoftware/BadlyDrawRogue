@@ -35,10 +35,10 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
     [TestClass]
     public class TileValidatorsTests
     {
-        private readonly Tile _tile = Tile.Create(
+        public static readonly Tile Tile = Tile.Create(
             TileTypes.Floor, "Test Tile");
 
-        private readonly Thing _thing = Thing.Create(
+        public static readonly Thing Thing = Thing.Create(
             5, ThingTypes.Item, "Test Thing", EquipmentSlots.None, false);
 
         [TestMethod]
@@ -76,13 +76,13 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void HasActorNoActorPresent()
         {
-            Assert.IsFalse(_tile.HasActor().IsValid);
+            Assert.IsFalse(Tile.HasActor().IsValid);
         }
 
         [TestMethod]
         public void HasActorActorPresent()
         {
-            Assert.IsTrue(_tile
+            Assert.IsTrue(Tile
                 .Set(TileLens.Actor, ActorTests.Actor.ToSome())
                 .HasActor()
                 .IsValid);
@@ -91,13 +91,13 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void HasActorByIdNoActorPresent()
         {
-            Assert.IsFalse(_tile.HasActor(1).IsValid);
+            Assert.IsFalse(Tile.HasActor(1).IsValid);
         }
 
         [TestMethod]
         public void HasActorByIdActorPresentWrongId()
         {
-            Assert.IsFalse(_tile
+            Assert.IsFalse(Tile
                 .Set(TileLens.Actor, ActorTests.Actor.ToSome())
                 .HasActor(ActorTests.Actor.Id + 1)
                 .IsValid);
@@ -106,13 +106,13 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void HasActorByIdActorPresentCorrectId()
         {
-            Assert.IsTrue(_tile
+            Assert.IsTrue(Tile
                 .Set(TileLens.Actor, ActorTests.Actor.ToSome())
                 .HasActor(ActorTests.Actor.Id)
                 .IsValid);
         }
 
-        public void TestValidMoveTileTypes<T>(
+        public static void TestValidMoveTileTypes<T>(
             Func<Tile, IValidation<T>> validator)
         {
             EnumUtils
@@ -120,7 +120,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                 .ForEach(
                     type =>
                     {
-                        var tile = _tile.Set(TileLens.TileType, type);
+                        var tile = Tile.Set(TileLens.TileType, type);
                         var result = validator(tile);
 
                         Assert.AreEqual(
@@ -137,8 +137,8 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                 .ForEach(
                     type =>
                     {
-                        var thing = _thing.Set(ThingLens.ThingType, type);
-                        var tile = _tile.Set(TileLens.Things.Lookup(thing.Id), thing.ToSome());
+                        var thing = Thing.Set(ThingLens.ThingType, type);
+                        var tile = Tile.Set(TileLens.Things.Lookup(thing.Id), thing.ToSome());
 
                         var result = validator(tile);
 
@@ -151,14 +151,14 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         public void TestValidMoveNoActor<T>(
             Func<Tile, IValidation<T>> validator)
         {
-            Assert.IsTrue(validator(_tile).IsValid);
+            Assert.IsTrue(validator(Tile).IsValid);
         }
 
         public void TestInvalidMoveActorPresent<T>(
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsFalse(
-                validator(_tile.Set(TileLens.Actor, ActorTests.Actor.ToSome()))
+                validator(Tile.Set(TileLens.Actor, ActorTests.Actor.ToSome()))
                 .IsValid);
         }
     }
