@@ -43,6 +43,7 @@ namespace Woz.RogueEngine.Validators
                 from actorState in level.ActorStateExists(actorId)
                 from actorTile in level.IsValidLocation(actorState.Location)
                 from targetTile in level.IsValidLocation(newLocation)
+                from withinRange in actorState.IsWithinMoveRange(newLocation)
                 from actor in actorTile.HasActor(actorId)
                 from validMove in targetTile.IsValidMove()
                 select level;

@@ -72,6 +72,7 @@
     <Compile Include="Levels\ActorState.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\ActorValidators.cs" />
     <Compile Include="Validators\ThingTypeGroups.cs" />
     <Compile Include="Validators\ThingValidators.cs" />
     <Compile Include="Validators\TileTypeGroups.cs" />
