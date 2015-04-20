@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Validators
     public static class CommandValidators
     {
         public static IValidation<Level> CanSpawnActor(
-            this Level level, long actorId, Point location)
+            this Level level, long actorId, Coordinate location)
         {
             return
                 from isNew in level.IsNewActor(actorId)
@@ -37,7 +37,7 @@ namespace Woz.RogueEngine.Validators
         }
 
         public static IValidation<Level> CanMoveActor(
-            this Level level, long actorId, Point newLocation)
+            this Level level, long actorId, Coordinate newLocation)
         {
             return
                 from actorState in level.ActorStateExists(actorId)

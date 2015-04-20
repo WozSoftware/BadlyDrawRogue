@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using Woz.Core.Collections;
+using Woz.Core.Coordinates;
 using Woz.Immutable.Collections;
 
 namespace Woz.RogueEngine.Levels
@@ -49,10 +50,10 @@ namespace Woz.RogueEngine.Levels
             var walker =
                 from x in Enumerable.Range(0, size.Width)
                 from y in Enumerable.Range(0, size.Height)
-                select new Point(x, y);
+                select new Coordinate(x, y);
 
             var gridBuilder = ImmutableGrid<Tile>.CreateBuilder(size);
-            walker.ForEach(point => gridBuilder.Set(point, Tile.Void));
+            walker.ForEach(location => gridBuilder.Set(location, Tile.Void));
 
             return new Level(
                 gridBuilder.Build(),

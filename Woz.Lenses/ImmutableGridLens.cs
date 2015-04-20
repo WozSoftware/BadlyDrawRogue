@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Immutable.Collections;
 
 namespace Woz.Lenses
@@ -26,13 +26,13 @@ namespace Woz.Lenses
     public static class ImmutableGridLens
     {
         public static Lens<IImmutableGrid<TValue>, TValue> 
-            Location<TValue>(Point location)
+            Location<TValue>(Coordinate location)
         {
             return Location<TValue>(location.X, location.Y);
         }
 
         public static Lens<TEntity, TValue> Location<TEntity, TValue>(
-            this Lens<TEntity, IImmutableGrid<TValue>> self, Point location)
+            this Lens<TEntity, IImmutableGrid<TValue>> self, Coordinate location)
         {
             return self.With(Location<TValue>(location.X, location.Y));
         }

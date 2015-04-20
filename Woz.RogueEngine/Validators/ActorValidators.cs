@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using System.Drawing;
-using Woz.Core.Drawing;
+
+using Woz.Core.Coordinates;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Validators
     public static class ActorValidators
     {
         public static IValidation<bool> IsWithinMoveRange(
-            this ActorState actorState, Point targetLocation)
+            this ActorState actorState, Coordinate targetLocation)
         {
             return actorState.Location.DistanceFrom(targetLocation) > 1
                 ? "Too far to move".ToInvalid<bool>()

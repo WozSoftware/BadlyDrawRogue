@@ -50,6 +50,10 @@
     <None Include="Woz.Immutable.licenseheader" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">
+      <Project>{E030E5BA-A70A-4023-92D7-D20A7F4102F4}</Project>
+      <Name>Woz.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
       <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
       <Name>Woz.Monads</Name>

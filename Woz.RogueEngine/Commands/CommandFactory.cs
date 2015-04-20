@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.RogueEngine.Events;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;
@@ -29,7 +29,7 @@ namespace Woz.RogueEngine.Commands
     public static class CommandFactory
     {
         public static Command 
-            CreateSpawnActorCommand(Actor actor, Point location)
+            CreateSpawnActorCommand(Actor actor, Coordinate location)
         {
             return Command.Create(
                 level => level.CanSpawnActor(actor.Id, location),

@@ -20,27 +20,36 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Coordinates;
-using Woz.Lenses.Tests;
+using Woz.Lenses;
 using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.Operations;
+using Woz.RogueEngine.Tests.TestInstances;
 
-namespace Woz.RogueEngine.Tests.LevelsTests
+namespace Woz.RogueEngine.Tests.OperationsTests
 {
     [TestClass]
-    public class ActorStateLensTests : BaseLensTests
+    public class LevelOperationsTests
     {
         [TestMethod]
-        public void Id()
+        public void SpawnActor()
         {
-            TestLensWithAreEqual(
-                ActorStateTests.ActorState, ActorStateLens.Id, 2L);
+            var location = new Coordinate(0, 0);
+            var monster = SimpleLevel.Monster.Set(ActorLens.Id, 3);
+            var result = SimpleLevel.Level.SpawnActor(monster, location);
+
+            var actorState = result.ActorStates[monster.Id];
+            Assert.AreEqual(monster.Id, actorState.Id);
+            Assert.AreEqual(location, actorState.Location);
+
+            Assert.AreSame(monster, result.Tiles[location].Actor.Value);
         }
 
         [TestMethod]
-        public void Location()
+        public void MoveActor()
         {
-            TestLensWithAreEqual(
-                ActorStateTests.ActorState, ActorStateLens.Location, 
-                new Coordinate());
+            var playerLocation = SimpleLevel.ActorLocation(SimpleLevel.Player);
+            //var result = SimpleLevel.Level.MoveActor(
+            //    SimpleLevel.Player.Id, playerLocation.)
         }
     }
 }

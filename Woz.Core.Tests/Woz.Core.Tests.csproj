@@ -54,7 +54,6 @@
     <Compile Include="CollectionsTests\EnumerableCollectionsTests.cs" />
     <Compile Include="ConversionTests\EnumConversionTests.cs" />
     <Compile Include="ConversionTests\StringConversionTests.cs" />
-    <Compile Include="DrawingTests\PointExtensionTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingletonTests.cs" />

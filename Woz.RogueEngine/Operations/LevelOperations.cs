@@ -20,7 +20,7 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
 using Woz.Monads.MaybeMonad;
@@ -37,7 +37,7 @@ namespace Woz.RogueEngine.Operations
     {
         #region Level State Operations
         public static Level SpawnActor(
-            this Level level, Actor actor, Point location)
+            this Level level, Actor actor, Coordinate location)
         {
             Debug.Assert(level != null);
             Debug.Assert(actor != null);
@@ -51,7 +51,7 @@ namespace Woz.RogueEngine.Operations
         }
 
         public static Level MoveActor(
-            this Level level, long actorId, Point newLocation)
+            this Level level, long actorId, Coordinate newLocation)
         {
             Debug.Assert(level != null);
             Debug.Assert(level.CanMoveActor(actorId, newLocation).IsValid);
@@ -69,7 +69,7 @@ namespace Woz.RogueEngine.Operations
         }
 
         public static Level ActorTakeItem(
-            this Level level, long actorId, long itemId, Point itemLocation)
+            this Level level, long actorId, long itemId, Coordinate itemLocation)
         {
             Debug.Assert(level != null);
 
@@ -84,7 +84,7 @@ namespace Woz.RogueEngine.Operations
         }
 
         //public static ILevel ActorDropItem(
-        //    this ILevel level, long actorId, long itemId, Point dropLocation)
+        //    this ILevel level, long actorId, long itemId, Coordinate dropLocation)
         //{
         //    Debug.Assert(level != null);
         //    Debug.Assert(level.ActorStates.ContainsKey(actorId));
@@ -108,34 +108,34 @@ namespace Woz.RogueEngine.Operations
         #endregion
 
         #region Lenses
-        public static Lens<Level, Tile> TileAt(Point location)
+        public static Lens<Level, Tile> TileAt(Coordinate location)
         {
             return LevelLens.Tiles.Location(location);
         }
 
-        public static Lens<Level, IMaybe<Actor>> ActorLookupAt(Point location)
+        public static Lens<Level, IMaybe<Actor>> ActorLookupAt(Coordinate location)
         {
             return TileAt(location).With(TileLens.Actor);
         }
 
-        public static Lens<Level, Actor> ActorAt(Point location)
+        public static Lens<Level, Actor> ActorAt(Coordinate location)
         {
             return TileAt(location)
                 .With(TileLens.Actor)
                 .With(MaybeLens<Actor>.ExpectSome);
         }
 
-        public static Lens<Level, IThingStore> ActorThingsAt(Point location)
+        public static Lens<Level, IThingStore> ActorThingsAt(Coordinate location)
         {
             return ActorAt(location).With(ActorLens.Things);
         }
 
-        public static Lens<Level, IMaybe<Thing>> ActorThingLookup(Point location, long thingId)
+        public static Lens<Level, IMaybe<Thing>> ActorThingLookup(Coordinate location, long thingId)
         {
             return ActorThingsAt(location).Lookup(thingId);
         }
 
-        public static Lens<Level, Thing> ActorThingByKey(Point location, long thingId)
+        public static Lens<Level, Thing> ActorThingByKey(Coordinate location, long thingId)
         {
             return ActorThingsAt(location).ByKey(thingId);
         }
@@ -150,22 +150,22 @@ namespace Woz.RogueEngine.Operations
             return LevelLens.ActorStates.ByKey(actorId);
         }
 
-        public static Lens<Level, Point> ActorLocationByKey(long actorId)
+        public static Lens<Level, Coordinate> ActorLocationByKey(long actorId)
         {
             return ActorStateByKey(actorId).With(ActorStateLens.Location);
         }
 
-        public static Lens<Level, IThingStore> TileThingsAt(Point location)
+        public static Lens<Level, IThingStore> TileThingsAt(Coordinate location)
         {
             return TileAt(location).With(TileLens.Things);
         }
 
-        public static Lens<Level, IMaybe<Thing>> TileThingLookup(Point location, long thingId)
+        public static Lens<Level, IMaybe<Thing>> TileThingLookup(Coordinate location, long thingId)
         {
             return TileThingsAt(location).Lookup(thingId);
         }
 
-        public static Lens<Level, Thing> TileThingByKey(Point location, long thingId)
+        public static Lens<Level, Thing> TileThingByKey(Coordinate location, long thingId)
         {
             return TileThingsAt(location).ByKey(thingId);
         }

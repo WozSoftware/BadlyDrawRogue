@@ -18,27 +18,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 
 namespace Woz.RogueEngine.Levels
 {
     public sealed class ActorState 
     {
         public readonly long Id;
-        public readonly Point Location;
+        public readonly Coordinate Location;
 
-        private ActorState(long id, Point location)
+        private ActorState(long id, Coordinate location)
         {
             Id  = id;
             Location = location;
         }
 
-        public static ActorState Create(long id, Point location)
+        public static ActorState Create(long id, Coordinate location)
         {
             return new ActorState(id, location);
         }
 
-        public ActorState With(long? id = null, Point? location = null)
+        public ActorState With(long? id = null, Coordinate? location = null)
         {
             return id != null || location != null
                 ? new ActorState(id ?? Id, location ?? Location)

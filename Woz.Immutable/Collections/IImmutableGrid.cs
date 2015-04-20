@@ -21,23 +21,24 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Woz.Core.Coordinates;
 
 namespace Woz.Immutable.Collections
 {
-    public interface IImmutableGrid<T> : IEnumerable<Tuple<Point, T>>
+    public interface IImmutableGrid<T> : IEnumerable<Tuple<Coordinate, T>>
     {
         T this[int x, int y] { get; }
-        T this[Point location] { get; }
+        T this[Coordinate location] { get; }
         
         int Width { get; }
         int Height { get; }
         Size Size { get; }
 
         bool IsValidLocation(int x, int y);
-        bool IsValidLocation(Point location);
+        bool IsValidLocation(Coordinate location);
 
         IImmutableGrid<T> Set(int x, int y, T item);
-        IImmutableGrid<T> Set(Point location, T item);
+        IImmutableGrid<T> Set(Coordinate location, T item);
 
         ImmutableGrid<T>.Builder ToBuilder();
     }

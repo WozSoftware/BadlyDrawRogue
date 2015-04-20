@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.RogueEngine.Events
@@ -27,13 +27,13 @@ namespace Woz.RogueEngine.Events
     {
         public readonly long ActorId;
         public readonly TargetTypes TargetType;
-        public readonly Point Location;
+        public readonly Coordinate Location;
         public readonly IMaybe<long> TargetId;
 
         private EventDetails(
             long actorId, 
             TargetTypes targetType, 
-            Point location, 
+            Coordinate location, 
             IMaybe<long> targetId)
         {
             ActorId = actorId;
@@ -45,7 +45,7 @@ namespace Woz.RogueEngine.Events
         public static EventDetails Create(
             long actorId,
             TargetTypes targetType,
-            Point location)
+            Coordinate location)
         {
             return new EventDetails(
                 actorId, targetType, location, Maybe<long>.None);
@@ -54,7 +54,7 @@ namespace Woz.RogueEngine.Events
         public static EventDetails Create(
             long actorId,
             TargetTypes targetType,
-            Point location,
+            Coordinate location,
             IMaybe<long> targetId)
         {
             return new EventDetails(actorId, targetType, location, targetId);

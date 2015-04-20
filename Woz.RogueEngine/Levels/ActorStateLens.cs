@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Lenses;
 
 namespace Woz.RogueEngine.Levels
@@ -26,7 +26,7 @@ namespace Woz.RogueEngine.Levels
     public static class ActorStateLens
     {
         public static readonly Lens<ActorState, long> Id;
-        public static readonly Lens<ActorState, Point> Location;
+        public static readonly Lens<ActorState, Coordinate> Location;
 
         static ActorStateLens()
         {
@@ -34,7 +34,7 @@ namespace Woz.RogueEngine.Levels
                 actorState => actorState.Id,
                 id => actorState => actorState.With(id: id));
 
-            Location = Lens.Create<ActorState, Point>(
+            Location = Lens.Create<ActorState, Coordinate>(
                 actorState => actorState.Location,
                 location => actorState => actorState.With(location: location));
         }

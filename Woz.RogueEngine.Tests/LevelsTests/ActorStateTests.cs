@@ -18,8 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Core.Coordinates;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests
@@ -28,13 +28,13 @@ namespace Woz.RogueEngine.Tests.LevelsTests
     public class ActorStateTests
     {
         public const int Id = 1;
-        public static readonly Point Location = new Point();
+        public static readonly Coordinate Location = new Coordinate();
 
         public static readonly ActorState ActorState = 
             ActorState.Create(Id, Location);
 
         private static void Validate(
-            ActorState instance, long? id = null, Point? location = null)
+            ActorState instance, long? id = null, Coordinate? location = null)
         {
             Assert.AreEqual(id ?? Id, instance.Id);
             Assert.AreEqual(location ?? Location, instance.Location);
@@ -61,7 +61,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void WithLocation()
         {
-            var newLocation = new Point();
+            var newLocation = new Coordinate();
             Validate(
                 ActorState.With(location: newLocation), 
                 location: newLocation);

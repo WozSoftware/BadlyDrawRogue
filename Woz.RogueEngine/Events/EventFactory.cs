@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Events
@@ -26,7 +26,7 @@ namespace Woz.RogueEngine.Events
     public static class EventFactory
     {
         public static Event ActorSpawned(
-            Level level, Actor actor, Point location)
+            Level level, Actor actor, Coordinate location)
         {
             return Event.Create(
                 level, 

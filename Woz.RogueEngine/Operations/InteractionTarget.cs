@@ -26,19 +26,19 @@
 //{
 //    public class InteractionTarget
 //    {
-//        private readonly Point _location;
+//        private readonly Coordinate _location;
 //        private readonly IEnumerable<long> _entityPath;
 //        private readonly Entity _target;
 
 //        public InteractionTarget(
-//            Point location, IEnumerable<long> entityPath, Entity target)
+//            Coordinate location, IEnumerable<long> entityPath, Entity target)
 //        {
 //            _location = location;
 //            _entityPath = entityPath;
 //            _target = target;
 //        }
 
-//        public Point Location
+//        public Coordinate Location
 //        {
 //            get { return _location; }
 //        }

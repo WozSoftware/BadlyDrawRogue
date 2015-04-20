@@ -24,6 +24,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Woz.Core.Collections;
+using Woz.Core.Coordinates;
 using Woz.Immutable.Collections;
 using Woz.RogueEngine.Levels;
 
@@ -64,10 +65,10 @@ namespace Woz.RogueEngine.Tests.LevelsTests
             var walker =
                 from x in Enumerable.Range(0, Size.Width)
                 from y in Enumerable.Range(0, Size.Height)
-                select new Point(x, y);
+                select new Coordinate(x, y);
 
-            walker.ForEach(point =>
-                Assert.AreSame(Tile.Void, level.Tiles[point]));
+            walker.ForEach(location =>
+                Assert.AreSame(Tile.Void, level.Tiles[location]));
 
             Assert.IsFalse(level.ActorStates.Any());
         }

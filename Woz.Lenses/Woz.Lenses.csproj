@@ -54,6 +54,10 @@
     <None Include="Woz.Lenses.licenseheader" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">
+      <Project>{E030E5BA-A70A-4023-92D7-D20A7F4102F4}</Project>
+      <Name>Woz.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>

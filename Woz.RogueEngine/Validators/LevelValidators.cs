@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using Woz.Core.Coordinates;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
@@ -48,7 +48,7 @@ namespace Woz.RogueEngine.Validators
         }
 
         public static IValidation<Tile> IsValidLocation(
-            this Level level, Point location)
+            this Level level, Coordinate location)
         {
             return level.Tiles.IsValidLocation(location)
                 ? level.Tiles[location].ToValid()
