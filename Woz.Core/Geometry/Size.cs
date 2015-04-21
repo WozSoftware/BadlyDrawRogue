@@ -48,8 +48,7 @@ namespace Woz.Core.Geometry
             return size1.Equals(size2);
         }
 
-        public static bool operator
-            !=(Size size1, Size size2)
+        public static bool operator !=(Size size1, Size size2)
         {
             return !size1.Equals(size2);
         }

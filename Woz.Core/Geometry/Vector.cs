@@ -42,6 +42,11 @@ namespace Woz.Core.Geometry
             DeltaY = deltaY;
         }
 
+        public Vector ScaleBy(int scale)
+        {
+            return new Vector(DeltaX * scale, DeltaY * scale);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Vector && Equals((Vector)obj);
@@ -52,14 +57,12 @@ namespace Woz.Core.Geometry
             return DeltaX == other.DeltaX && DeltaY == other.DeltaY;
         }
 
-        public static bool operator
-            ==(Vector vector1, Vector vector2)
+        public static bool operator ==(Vector vector1, Vector vector2)
         {
             return vector1.Equals(vector2);
         }
 
-        public static bool operator
-            !=(Vector vector1, Vector vector2)
+        public static bool operator !=(Vector vector1, Vector vector2)
         {
             return !vector1.Equals(vector2);
         }
