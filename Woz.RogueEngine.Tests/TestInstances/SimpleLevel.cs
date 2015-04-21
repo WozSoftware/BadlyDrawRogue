@@ -19,8 +19,7 @@
 #endregion
 
 using System.Collections.Immutable;
-using System.Drawing;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;
@@ -58,10 +57,12 @@ namespace Woz.RogueEngine.Tests.TestInstances
             // M = Monster
             // P = Player
             //
-            // .#.M
-            // .C..
-            // ##O#
-            // .#P.
+            // 3|.#P.
+            // 2|##O#
+            // 1|.C..
+            // 0|.#.M
+            //  +----
+            //   0123
 
             var tiles = ImmutableGrid<Tile>
                 .CreateBuilder(new Size(4, 4))

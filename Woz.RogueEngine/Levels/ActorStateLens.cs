@@ -18,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Lenses;
 
 namespace Woz.RogueEngine.Levels

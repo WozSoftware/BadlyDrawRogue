@@ -20,7 +20,7 @@
 
 using System;
 
-namespace Woz.Core.Coordinates
+namespace Woz.Core.Geometry
 {
     public struct Coordinate : IEquatable<Coordinate>
     {
@@ -31,6 +31,11 @@ namespace Woz.Core.Coordinates
         {
             X = x;
             Y = y;
+        }
+
+        public Coordinate Add(Vector vector)
+        {
+            return new Coordinate(X + vector.DeltaX, Y + vector.DeltaY);
         }
 
         public double DistanceFrom(Coordinate target)
@@ -61,38 +66,6 @@ namespace Woz.Core.Coordinates
             !=(Coordinate coordinate1, Coordinate coordinate2)
         {
             return !coordinate1.Equals(coordinate2);
-        }
-
-        public static bool operator
-            <(Coordinate coordinate1, Coordinate coordinate2)
-        {
-            return 
-                coordinate1.X < coordinate2.X && 
-                coordinate1.Y < coordinate2.Y;
-        }
-        
-        public static bool operator
-            >(Coordinate coordinate1, Coordinate coordinate2)
-        {
-            return
-                coordinate1.X > coordinate2.X &&
-                coordinate1.Y > coordinate2.Y;
-        }
-
-        public static bool operator
-            <=(Coordinate coordinate1, Coordinate coordinate2)
-        {
-            return
-                coordinate1.X <= coordinate2.X &&
-                coordinate1.Y <= coordinate2.Y;
-        }
-
-        public static bool operator
-            >=(Coordinate coordinate1, Coordinate coordinate2)
-        {
-            return
-                coordinate1.X >= coordinate2.X &&
-                coordinate1.Y >= coordinate2.Y;
         }
 
         public override int GetHashCode()

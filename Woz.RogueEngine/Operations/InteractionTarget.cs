@@ -19,26 +19,25 @@
 #endregion
 
 //using System.Collections.Generic;
-//using System.Drawing;
 //using Woz.RogueEngine.Entities;
 
 //namespace Woz.RogueEngine.Operations
 //{
 //    public class InteractionTarget
 //    {
-//        private readonly Coordinate _location;
+//        private readonly Location _location;
 //        private readonly IEnumerable<long> _entityPath;
 //        private readonly Entity _target;
 
 //        public InteractionTarget(
-//            Coordinate location, IEnumerable<long> entityPath, Entity target)
+//            Location location, IEnumerable<long> entityPath, Entity target)
 //        {
 //            _location = location;
 //            _entityPath = entityPath;
 //            _target = target;
 //        }
 
-//        public Coordinate Location
+//        public Location Location
 //        {
 //            get { return _location; }
 //        }

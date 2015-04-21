@@ -20,8 +20,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 
 namespace Woz.Immutable.Collections
 {

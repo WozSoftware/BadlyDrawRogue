@@ -20,10 +20,9 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using Woz.Core.Collections;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
 
 namespace Woz.RogueEngine.Levels

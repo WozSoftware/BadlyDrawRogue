@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Validators;
 

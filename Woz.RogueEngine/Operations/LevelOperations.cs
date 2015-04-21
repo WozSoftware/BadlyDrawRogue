@@ -20,7 +20,7 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
 using Woz.Monads.MaybeMonad;
@@ -84,7 +84,7 @@ namespace Woz.RogueEngine.Operations
         }
 
         //public static ILevel ActorDropItem(
-        //    this ILevel level, long actorId, long itemId, Coordinate dropLocation)
+        //    this ILevel level, long actorId, long itemId, Location dropLocation)
         //{
         //    Debug.Assert(level != null);
         //    Debug.Assert(level.ActorStates.ContainsKey(actorId));

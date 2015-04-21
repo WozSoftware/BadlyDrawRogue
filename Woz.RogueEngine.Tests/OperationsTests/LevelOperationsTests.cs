@@ -19,7 +19,7 @@
 #endregion
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Lenses;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;

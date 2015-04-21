@@ -22,9 +22,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using Woz.Core.Coordinates;
+using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.Immutable.Collections
