@@ -25,6 +25,20 @@ namespace Woz.Core.Collections
 {
     public static class EnumerableExtensions
     {
+        public static IEnumerable<T> Select<T>(this IEnumerator<T> enumerator)
+        {
+            return enumerator.Select(x => x);
+        }
+
+        public static IEnumerable<TResult> Select<T, TResult>(
+            this IEnumerator<T> enumerator, Func<T, TResult> selector)
+        {
+            while (enumerator.MoveNext())
+            {
+                yield return selector(enumerator.Current);
+            }
+        }
+
         public static void ForEach<T>(
             this IEnumerable<T> self, Action<T> action)
         {

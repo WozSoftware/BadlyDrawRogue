@@ -19,6 +19,8 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -70,6 +72,24 @@ namespace Woz.Immutable.Tests.CollectionsTests
             Enumerable
                 .Range(0, array.Count)
                 .ForEach(x => Assert.AreEqual(source[x], array[x]));
+        }
+
+        [TestMethod]
+        public void BuilderIndexerReadsSource()
+        {
+            var source = ImmutableArray.Create(new[] { 1, 4, 5 });
+            var builder = source.ToBuilder();
+
+            Assert.AreEqual(1, builder[0]);
+        }
+
+        [TestMethod]
+        public void BuilderCountReadsSource()
+        {
+            var source = ImmutableArray.Create(new[] { 1, 4, 5 });
+            var builder = source.ToBuilder();
+
+            Assert.AreEqual(source.Count, builder.Count);
         }
 
         [TestMethod]
@@ -177,12 +197,6 @@ namespace Woz.Immutable.Tests.CollectionsTests
         }
 
         [TestMethod]
-        public void Build()
-        {
-            
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void BuildAlreadyBuilt()
         {
@@ -190,6 +204,31 @@ namespace Woz.Immutable.Tests.CollectionsTests
 
             builder.Build();
             builder.Build();
+        }
+
+        [TestMethod]
+        public void GetEnumerator()
+        {
+            var data = new[] {1, 4, 5};
+            var source = ImmutableArray.Create(data);
+            var enumerator = source.GetEnumerator();
+
+            CollectionAssert.AreEqual(data, enumerator.Select().ToArray());
+        }
+
+        [TestMethod]
+        public void GetEnumeratorFromIEnumerable()
+        {
+            var data = new[] { 1, 4, 5 };
+            var source = (IEnumerable)ImmutableArray.Create(data);
+            var enumerator = source.GetEnumerator();
+
+            var results = new List<int>();
+            while (enumerator.MoveNext())
+            {
+                results.Add((int)enumerator.Current);
+            }
+            CollectionAssert.AreEqual(data, results);
         }
 
 #if PerformanceTest
