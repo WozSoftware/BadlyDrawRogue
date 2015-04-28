@@ -27,13 +27,13 @@ namespace Woz.RogueEngine.Events
     {
         public readonly long ActorId;
         public readonly TargetTypes TargetType;
-        public readonly Coordinate Location;
+        public readonly Vector Location;
         public readonly IMaybe<long> TargetId;
 
         private EventDetails(
             long actorId, 
-            TargetTypes targetType, 
-            Coordinate location, 
+            TargetTypes targetType,
+            Vector location, 
             IMaybe<long> targetId)
         {
             ActorId = actorId;
@@ -45,7 +45,7 @@ namespace Woz.RogueEngine.Events
         public static EventDetails Create(
             long actorId,
             TargetTypes targetType,
-            Coordinate location)
+            Vector location)
         {
             return new EventDetails(
                 actorId, targetType, location, Maybe<long>.None);
@@ -54,7 +54,7 @@ namespace Woz.RogueEngine.Events
         public static EventDetails Create(
             long actorId,
             TargetTypes targetType,
-            Coordinate location,
+            Vector location,
             IMaybe<long> targetId)
         {
             return new EventDetails(actorId, targetType, location, targetId);

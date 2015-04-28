@@ -86,11 +86,11 @@ namespace Woz.RogueEngine.Tests.TestInstances
 
             Level = Level
                 .Create(tiles, ImmutableDictionary<long, ActorState>.Empty)
-                .SpawnActor(Monster, new Coordinate(0, 3))
-                .SpawnActor(Player, new Coordinate(3, 2));
+                .SpawnActor(Monster, new Vector(0, 3))
+                .SpawnActor(Player, new Vector(3, 2));
         }
 
-        public static Coordinate ActorLocation(Actor actor)
+        public static Vector ActorLocation(Actor actor)
         {
             return Level.ActorStates[actor.Id].Location;
         }

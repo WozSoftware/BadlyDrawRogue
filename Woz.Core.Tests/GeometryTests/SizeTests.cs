@@ -39,6 +39,9 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsTrue(new Size(1, 2).Equals(new Size(1, 2)));
             Assert.IsFalse(new Size(2, 2).Equals(new Size(1, 2)));
             Assert.IsFalse(new Size(1, 1).Equals(new Size(1, 2)));
+
+            // Use object entry point
+            Assert.IsFalse(new Size(1, 1).Equals((object)new Size(1, 2)));
         }
 
         [TestMethod]
@@ -57,6 +60,12 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsFalse(new Size(1, 2) != new Size(1, 2));
             Assert.IsTrue(new Size(2, 2) != new Size(1, 2));
             Assert.IsTrue(new Size(1, 1) != new Size(1, 2));
+        }
+
+        [TestMethod]
+        public void GetHashCodeXorValues()
+        {
+            Assert.AreEqual(10 ^ 11, new Size(10, 11).GetHashCode());
         }
     }
 }

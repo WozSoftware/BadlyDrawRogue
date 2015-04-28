@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
 
@@ -30,16 +31,43 @@ namespace Woz.Core.Tests.GeometryTests
         public void Create()
         {
             var vector = new Vector(1, 2);
-            Assert.AreEqual(1, vector.DeltaX);
-            Assert.AreEqual(2, vector.DeltaY);
+            Assert.AreEqual(1, vector.X);
+            Assert.AreEqual(2, vector.Y);
         }
 
+        [TestMethod]
+        public void DistanceFrom()
+        {
+            Assert.AreEqual(
+                1, new Vector(1, 1).DistanceFrom(new Vector(1, 2)));
+
+            Assert.AreEqual(
+                1, new Vector(1, 1).DistanceFrom(new Vector(2, 1)));
+
+            Assert.AreEqual(
+                1, new Vector(2, 1).DistanceFrom(new Vector(1, 1)));
+
+            Assert.AreEqual(
+                1, new Vector(1, 2).DistanceFrom(new Vector(1, 1)));
+
+            Assert.IsTrue(Math.Abs(
+                new Vector(2, 2).DistanceFrom(new Vector(1, 1)) -
+                1.4142135623731d) < 0.0000000000001d);
+        }
+
+        [TestMethod]
+        public void Add()
+        {
+            var coordinate = new Vector(1, 2).Add(Vector.SouthEast);
+            Assert.AreEqual(2, coordinate.X);
+            Assert.AreEqual(1, coordinate.Y);
+        }
         [TestMethod]
         public void ScaleBy()
         {
             var vector = new Vector(1, 2).ScaleBy(3);
-            Assert.AreEqual(3, vector.DeltaX);
-            Assert.AreEqual(6, vector.DeltaY);
+            Assert.AreEqual(3, vector.X);
+            Assert.AreEqual(6, vector.Y);
         }
 
         [TestMethod]
@@ -48,6 +76,9 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsTrue(new Vector(1, 2).Equals(new Vector(1, 2)));
             Assert.IsFalse(new Vector(2, 2).Equals(new Vector(1, 2)));
             Assert.IsFalse(new Vector(1, 1).Equals(new Vector(1, 2)));
+
+            // Use object entry point
+            Assert.IsFalse(new Vector(1, 1).Equals((object)new Vector(1, 2)));
         }
 
         [TestMethod]
@@ -66,6 +97,12 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsFalse(new Vector(1, 2) != new Vector(1, 2));
             Assert.IsTrue(new Vector(2, 2) != new Vector(1, 2));
             Assert.IsTrue(new Vector(1, 1) != new Vector(1, 2));
+        }
+
+        [TestMethod]
+        public void GetHashCodeXorValues()
+        {
+            Assert.AreEqual(10 ^ 11, new Vector(10, 11).GetHashCode());
         }
     }
 }

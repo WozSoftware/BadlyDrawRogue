@@ -11,10 +11,10 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void IsWithinMoveRange()
         {
-            var actorState = ActorState.Create(1, new Coordinate(1, 1));
+            var actorState = ActorState.Create(1, new Vector(1, 1));
 
-            Assert.IsTrue(actorState.IsWithinMoveRange(new Coordinate(1, 2)).IsValid);
-            Assert.IsFalse(actorState.IsWithinMoveRange(new Coordinate(2, 2)).IsValid);
+            Assert.IsTrue(actorState.IsWithinMoveRange(new Vector(1, 2)).IsValid);
+            Assert.IsFalse(actorState.IsWithinMoveRange(new Vector(2, 2)).IsValid);
         }
         
     }

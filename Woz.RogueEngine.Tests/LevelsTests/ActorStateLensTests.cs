@@ -39,8 +39,8 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         public void Location()
         {
             TestLensWithAreEqual(
-                ActorStateTests.ActorState, ActorStateLens.Location, 
-                new Coordinate());
+                ActorStateTests.ActorState, ActorStateLens.Location,
+                new Vector());
         }
     }
 }

@@ -26,13 +26,13 @@ namespace Woz.Lenses
     public static class ImmutableGridLens
     {
         public static Lens<IImmutableGrid<TValue>, TValue> 
-            Location<TValue>(Coordinate location)
+            Location<TValue>(Vector location)
         {
             return Location<TValue>(location.X, location.Y);
         }
 
         public static Lens<TEntity, TValue> Location<TEntity, TValue>(
-            this Lens<TEntity, IImmutableGrid<TValue>> self, Coordinate location)
+            this Lens<TEntity, IImmutableGrid<TValue>> self, Vector location)
         {
             return self.With(Location<TValue>(location.X, location.Y));
         }

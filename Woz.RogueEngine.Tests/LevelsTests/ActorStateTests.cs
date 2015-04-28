@@ -28,13 +28,13 @@ namespace Woz.RogueEngine.Tests.LevelsTests
     public class ActorStateTests
     {
         public const int Id = 1;
-        public static readonly Coordinate Location = new Coordinate();
+        public static readonly Vector Location = new Vector();
 
         public static readonly ActorState ActorState = 
             ActorState.Create(Id, Location);
 
         private static void Validate(
-            ActorState instance, long? id = null, Coordinate? location = null)
+            ActorState instance, long? id = null, Vector? location = null)
         {
             Assert.AreEqual(id ?? Id, instance.Id);
             Assert.AreEqual(location ?? Location, instance.Location);
@@ -61,7 +61,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
         [TestMethod]
         public void WithLocation()
         {
-            var newLocation = new Coordinate();
+            var newLocation = new Vector();
             Validate(
                 ActorState.With(location: newLocation), 
                 location: newLocation);

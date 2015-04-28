@@ -81,7 +81,7 @@ namespace Woz.Immutable.Collections
                 }
             }
 
-            public T this[Coordinate location]
+            public T this[Vector location]
             {
                 get { return this[location.X, location.Y]; }
             }
@@ -131,7 +131,7 @@ namespace Woz.Immutable.Collections
                 return this;
             }
 
-            public Builder Set(Coordinate location, T item)
+            public Builder Set(Vector location, T item)
             {
                 return Set(location.X, location.Y, item);
             }
@@ -205,7 +205,7 @@ namespace Woz.Immutable.Collections
             }
         }
 
-        public T this[Coordinate location]
+        public T this[Vector location]
         {
             get { return _storage[location.X][location.Y]; }
         }
@@ -230,7 +230,7 @@ namespace Woz.Immutable.Collections
             return x >= 0 && x < _size.Width && y >= 0 && y < _size.Height;
         }
 
-        public bool IsValidLocation(Coordinate location)
+        public bool IsValidLocation(Vector location)
         {
             return IsValidLocation(location.X, location.Y);
         }
@@ -245,12 +245,12 @@ namespace Woz.Immutable.Collections
             return ToBuilder().Set(x, y, item).Build();
         }
 
-        public ImmutableGrid<T> Set(Coordinate location, T item)
+        public ImmutableGrid<T> Set(Vector location, T item)
         {
             return ToBuilder().Set(location.X, location.Y, item).Build();
         }
 
-        IImmutableGrid<T> IImmutableGrid<T>.Set(Coordinate location, T item)
+        IImmutableGrid<T> IImmutableGrid<T>.Set(Vector location, T item)
         {
             return ToBuilder().Set(location.X, location.Y, item).Build();
         }
@@ -260,12 +260,12 @@ namespace Woz.Immutable.Collections
             return new Builder(_storage);
         }
 
-        public IEnumerator<Tuple<Coordinate, T>> GetEnumerator()
+        public IEnumerator<Tuple<Vector, T>> GetEnumerator()
         {
             var query = 
                 from x in Enumerable.Range(0, Width)
                 from y in Enumerable.Range(0, Height)
-                select Tuple.Create(new Coordinate(x, y), _storage[x][y]);
+                select Tuple.Create(new Vector(x, y), _storage[x][y]);
 
             return query.GetEnumerator();
         }

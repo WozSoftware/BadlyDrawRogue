@@ -109,6 +109,23 @@ namespace Woz.Immutable.Tests.CollectionsTests
         }
 
         [TestMethod]
+        public void SetOnInterface()
+        {
+            var source = new[] { 1, 4, 5 };
+
+            IImmutableArray<int> arrayInterface = ImmutableArray.Create(source);
+            arrayInterface = arrayInterface.Set(1, 6);
+
+            Assert.AreEqual(1, arrayInterface[0]);
+            Assert.AreEqual(6, arrayInterface[1]);
+            Assert.AreEqual(5, arrayInterface[2]);
+
+            Assert.AreEqual(1, source[0]);
+            Assert.AreEqual(4, source[1]);
+            Assert.AreEqual(5, source[2]);
+        }
+
+        [TestMethod]
         public void CreateBuilderByLength()
         {
             var builder = ImmutableArray<int>.CreateBuilder(3);
@@ -147,6 +164,32 @@ namespace Woz.Immutable.Tests.CollectionsTests
             Assert.AreEqual(1, source[0]);
             Assert.AreEqual(4, source[1]);
             Assert.AreEqual(5, source[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SetWhenBuilt()
+        {
+            var builder = ImmutableArray<int>.CreateBuilder(4);
+
+            builder.Build();
+            builder.Set(1, 1);
+        }
+
+        [TestMethod]
+        public void Build()
+        {
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void BuildAlreadyBuilt()
+        {
+            var builder = ImmutableArray<int>.CreateBuilder(4);
+
+            builder.Build();
+            builder.Build();
         }
 
 #if PerformanceTest

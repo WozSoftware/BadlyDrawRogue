@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Validators
     public static class CommandValidators
     {
         public static IValidation<Level> CanSpawnActor(
-            this Level level, long actorId, Coordinate location)
+            this Level level, long actorId, Vector location)
         {
             return
                 from isNew in level.IsNewActor(actorId)
@@ -37,7 +37,7 @@ namespace Woz.RogueEngine.Validators
         }
 
         public static IValidation<Level> CanMoveActor(
-            this Level level, long actorId, Coordinate newLocation)
+            this Level level, long actorId, Vector newLocation)
         {
             return
                 from actorState in level.ActorStateExists(actorId)

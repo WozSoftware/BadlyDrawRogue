@@ -48,7 +48,7 @@ namespace Woz.RogueEngine.Validators
         }
 
         public static IValidation<Tile> IsValidLocation(
-            this Level level, Coordinate location)
+            this Level level, Vector location)
         {
             return level.Tiles.IsValidLocation(location)
                 ? level.Tiles[location].ToValid()

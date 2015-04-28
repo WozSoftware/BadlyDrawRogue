@@ -27,7 +27,7 @@ namespace Woz.RogueEngine.Validators
     public static class ActorValidators
     {
         public static IValidation<bool> IsWithinMoveRange(
-            this ActorState actorState, Coordinate targetLocation)
+            this ActorState actorState, Vector targetLocation)
         {
             return actorState.Location.DistanceFrom(targetLocation) > 1
                 ? "Too far to move".ToInvalid<bool>()

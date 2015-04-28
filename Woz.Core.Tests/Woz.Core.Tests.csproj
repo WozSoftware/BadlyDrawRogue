@@ -55,7 +55,6 @@
     <Compile Include="ConversionTests\EnumConversionTests.cs" />
     <Compile Include="ConversionTests\StringConversionTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />
-    <Compile Include="GeometryTests\CoordinateTests.cs" />
     <Compile Include="GeometryTests\SizeTests.cs" />
     <Compile Include="GeometryTests\VectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

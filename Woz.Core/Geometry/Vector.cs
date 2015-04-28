@@ -33,18 +33,31 @@ namespace Woz.Core.Geometry
         public static readonly Vector West = new Vector(-1, 0);
         public static readonly Vector NorthWest = new Vector(-1, 1);
 
-        public readonly int DeltaX;
-        public readonly int DeltaY;
+        public readonly int X;
+        public readonly int Y;
 
-        public Vector(int deltaX, int deltaY)
+        public Vector(int x, int y)
         {
-            DeltaX = deltaX;
-            DeltaY = deltaY;
+            X = x;
+            Y = y;
+        }
+
+        public Vector Add(Vector vector)
+        {
+            return new Vector(X + vector.X, Y + vector.Y);
         }
 
         public Vector ScaleBy(int scale)
         {
-            return new Vector(DeltaX * scale, DeltaY * scale);
+            return new Vector(X * scale, Y * scale);
+        }
+
+        public double DistanceFrom(Vector target)
+        {
+            var diffX = Math.Abs(X - target.X);
+            var diffY = Math.Abs(Y - target.Y);
+
+            return Math.Sqrt((diffX * diffX) + (diffY * diffY));
         }
 
         public override bool Equals(object obj)
@@ -54,7 +67,7 @@ namespace Woz.Core.Geometry
 
         public bool Equals(Vector other)
         {
-            return DeltaX == other.DeltaX && DeltaY == other.DeltaY;
+            return X == other.X && Y == other.Y;
         }
 
         public static bool operator ==(Vector vector1, Vector vector2)
@@ -69,7 +82,7 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            return DeltaX ^ DeltaY;
+            return X ^ Y;
         }
     }
 }

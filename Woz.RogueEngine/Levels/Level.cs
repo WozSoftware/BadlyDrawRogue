@@ -49,7 +49,7 @@ namespace Woz.RogueEngine.Levels
             var walker =
                 from x in Enumerable.Range(0, size.Width)
                 from y in Enumerable.Range(0, size.Height)
-                select new Coordinate(x, y);
+                select new Vector(x, y);
 
             var gridBuilder = ImmutableGrid<Tile>.CreateBuilder(size);
             walker.ForEach(location => gridBuilder.Set(location, Tile.Void));

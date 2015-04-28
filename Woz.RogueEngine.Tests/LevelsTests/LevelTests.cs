@@ -64,7 +64,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
             var walker =
                 from x in Enumerable.Range(0, Size.Width)
                 from y in Enumerable.Range(0, Size.Height)
-                select new Coordinate(x, y);
+                select new Vector(x, y);
 
             walker.ForEach(location =>
                 Assert.AreSame(Tile.Void, level.Tiles[location]));

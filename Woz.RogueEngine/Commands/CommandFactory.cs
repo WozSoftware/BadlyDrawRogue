@@ -28,8 +28,8 @@ namespace Woz.RogueEngine.Commands
 {
     public static class CommandFactory
     {
-        public static Command 
-            CreateSpawnActorCommand(Actor actor, Coordinate location)
+        public static Command
+            CreateSpawnActorCommand(Actor actor, Vector location)
         {
             return Command.Create(
                 level => level.CanSpawnActor(actor.Id, location),

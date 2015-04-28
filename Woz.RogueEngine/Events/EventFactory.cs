@@ -26,7 +26,7 @@ namespace Woz.RogueEngine.Events
     public static class EventFactory
     {
         public static Event ActorSpawned(
-            Level level, Actor actor, Coordinate location)
+            Level level, Actor actor, Vector location)
         {
             return Event.Create(
                 level, 

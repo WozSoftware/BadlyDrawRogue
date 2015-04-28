@@ -26,7 +26,7 @@ namespace Woz.RogueEngine.Levels
     public static class ActorStateLens
     {
         public static readonly Lens<ActorState, long> Id;
-        public static readonly Lens<ActorState, Coordinate> Location;
+        public static readonly Lens<ActorState, Vector> Location;
 
         static ActorStateLens()
         {
@@ -34,7 +34,7 @@ namespace Woz.RogueEngine.Levels
                 actorState => actorState.Id,
                 id => actorState => actorState.With(id: id));
 
-            Location = Lens.Create<ActorState, Coordinate>(
+            Location = Lens.Create<ActorState, Vector>(
                 actorState => actorState.Location,
                 location => actorState => actorState.With(location: location));
         }

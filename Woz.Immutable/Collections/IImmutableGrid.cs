@@ -24,20 +24,20 @@ using Woz.Core.Geometry;
 
 namespace Woz.Immutable.Collections
 {
-    public interface IImmutableGrid<T> : IEnumerable<Tuple<Coordinate, T>>
+    public interface IImmutableGrid<T> : IEnumerable<Tuple<Vector, T>>
     {
         T this[int x, int y] { get; }
-        T this[Coordinate location] { get; }
+        T this[Vector location] { get; }
         
         int Width { get; }
         int Height { get; }
         Size Size { get; }
 
         bool IsValidLocation(int x, int y);
-        bool IsValidLocation(Coordinate location);
+        bool IsValidLocation(Vector location);
 
         IImmutableGrid<T> Set(int x, int y, T item);
-        IImmutableGrid<T> Set(Coordinate location, T item);
+        IImmutableGrid<T> Set(Vector location, T item);
 
         ImmutableGrid<T>.Builder ToBuilder();
     }
