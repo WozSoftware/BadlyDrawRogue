@@ -1,33 +1,15 @@
-﻿#region License
-// Copyright (C) Woz.Software 2015
-// [https://github.com/WozSoftware/BadlyDrawRogue]
-//
-// This file is part of Woz.RogueEngine.
-//
-// Woz.RoqueEngine is free software: you can redistribute it 
-// and/or modify it under the terms of the GNU General Public 
-// License as published by the Free Software Foundation, either 
-// version 3 of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Woz.RogueEngine")]
+[assembly: AssemblyTitle("Woz.PathFinding")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Woz.Software")]
-[assembly: AssemblyProduct("Woz.RogueEngine")]
+[assembly: AssemblyProduct("Woz.PathFinding")]
 [assembly: AssemblyCopyright("Copyright © Woz.Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -38,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8ebd888f-7667-466a-8a67-8ed9cf289a32")]
+[assembly: Guid("1483f7ac-1da1-4543-85c6-5bc136e9491e")]
 
 // Version information for an assembly consists of the following four values:
 //

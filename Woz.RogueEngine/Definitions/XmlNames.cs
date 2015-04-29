@@ -2,7 +2,7 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.RoqueEngine.
+// This file is part of Woz.RogueEngine.
 //
 // Woz.RoqueEngine is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
