@@ -90,9 +90,9 @@ namespace Woz.Core.Geometry
         {
             unchecked
             {
-                return 
-                    (13 * _x.GetHashCode()) +
-                    _y.GetHashCode();
+                var hash = _x.GetHashCode();
+                hash = (hash * 397) ^ _y.GetHashCode();
+                return hash;
             }
         }
     }

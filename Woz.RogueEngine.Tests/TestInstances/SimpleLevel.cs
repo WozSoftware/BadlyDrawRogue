@@ -64,7 +64,7 @@ namespace Woz.RogueEngine.Tests.TestInstances
             //   0123
 
             var tiles = ImmutableGrid<Tile>
-                .CreateBuilder(new Size(4, 4))
+                .CreateBuilder(Size.Create(4, 4))
                 .Set(0, 0, Floor)
                 .Set(0, 1, Wall)
                 .Set(0, 2, Floor)

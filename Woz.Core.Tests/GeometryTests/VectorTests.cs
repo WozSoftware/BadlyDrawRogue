@@ -102,7 +102,12 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void GetHashCodeXorValues()
         {
-            Assert.AreEqual(141, Vector.Create(10, 11).GetHashCode());
+            var vector1 = Vector.Create(10, 11);
+            var vector2 = Vector.Create(11, 11);
+            
+            Assert.AreEqual(vector1.GetHashCode(), vector1.GetHashCode());
+            Assert.AreEqual(vector2.GetHashCode(), vector2.GetHashCode());
+            Assert.AreNotEqual(vector1.GetHashCode(), vector2.GetHashCode());
         }
     }
 }

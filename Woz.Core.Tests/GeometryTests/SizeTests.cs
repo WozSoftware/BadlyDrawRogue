@@ -28,7 +28,7 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void Create()
         {
-            var size = new Size(1, 2);
+            var size = Size.Create(1, 2);
             Assert.AreEqual(1, size.Width);
             Assert.AreEqual(2, size.Height);
         }
@@ -36,36 +36,41 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void Equals()
         {
-            Assert.IsTrue(new Size(1, 2).Equals(new Size(1, 2)));
-            Assert.IsFalse(new Size(2, 2).Equals(new Size(1, 2)));
-            Assert.IsFalse(new Size(1, 1).Equals(new Size(1, 2)));
+            Assert.IsTrue(Size.Create(1, 2).Equals(Size.Create(1, 2)));
+            Assert.IsFalse(Size.Create(2, 2).Equals(Size.Create(1, 2)));
+            Assert.IsFalse(Size.Create(1, 1).Equals(Size.Create(1, 2)));
 
             // Use object entry point
-            Assert.IsFalse(new Size(1, 1).Equals((object)new Size(1, 2)));
+            Assert.IsFalse(Size.Create(1, 1).Equals((object)Size.Create(1, 2)));
         }
 
         [TestMethod]
         public void OperatorEquals()
         {
             // ReSharper disable once EqualExpressionComparison
-            Assert.IsTrue(new Size(1, 2) == new Size(1, 2));
-            Assert.IsFalse(new Size(2, 2) == new Size(1, 2));
-            Assert.IsFalse(new Size(1, 1) == new Size(1, 2));
+            Assert.IsTrue(Size.Create(1, 2) == Size.Create(1, 2));
+            Assert.IsFalse(Size.Create(2, 2) == Size.Create(1, 2));
+            Assert.IsFalse(Size.Create(1, 1) == Size.Create(1, 2));
         }
 
         [TestMethod]
         public void OperatorNotEquals()
         {
             // ReSharper disable once EqualExpressionComparison
-            Assert.IsFalse(new Size(1, 2) != new Size(1, 2));
-            Assert.IsTrue(new Size(2, 2) != new Size(1, 2));
-            Assert.IsTrue(new Size(1, 1) != new Size(1, 2));
+            Assert.IsFalse(Size.Create(1, 2) != Size.Create(1, 2));
+            Assert.IsTrue(Size.Create(2, 2) != Size.Create(1, 2));
+            Assert.IsTrue(Size.Create(1, 1) != Size.Create(1, 2));
         }
 
         [TestMethod]
         public void GetHashCodeXorValues()
         {
-            Assert.AreEqual(141, new Size(10, 11).GetHashCode());
+            var vector1 = Size.Create(10, 11);
+            var vector2 = Size.Create(11, 11);
+
+            Assert.AreEqual(vector1.GetHashCode(), vector1.GetHashCode());
+            Assert.AreEqual(vector2.GetHashCode(), vector2.GetHashCode());
+            Assert.AreNotEqual(vector1.GetHashCode(), vector2.GetHashCode());
         }
     }
 }

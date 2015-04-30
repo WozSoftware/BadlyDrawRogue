@@ -36,7 +36,7 @@ namespace Woz.RogueEngine.Tests.LevelsTests
     {
         public const int Width = 5;
         public const int Height = 5;
-        public static readonly Size Size = new Size(Width, Height);
+        public static readonly Size Size = Size.Create(Width, Height);
 
         public static readonly ITileStore Tiles =
             new Mock<ITileStore>().Object;

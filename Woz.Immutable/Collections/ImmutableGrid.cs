@@ -64,7 +64,7 @@ namespace Woz.Immutable.Collections
                 var width = data.Length;
                 var height = width > 0 ? data[0].Length : 0;
 
-                _size = new Size(width, height);
+                _size = Size.Create(width, height);
                 _source = data;
             }
 
@@ -177,7 +177,7 @@ namespace Woz.Immutable.Collections
 
         public static ImmutableGrid<T> Create(int width, int height)
         {
-            return CreateBuilder(new Size(width, height)).Build();
+            return CreateBuilder(Size.Create(width, height)).Build();
         }
 
         public static ImmutableGrid<T> Create(Size size)
@@ -187,7 +187,7 @@ namespace Woz.Immutable.Collections
 
         public static Builder CreateBuilder(int width, int height)
         {
-            return new Builder(new Size(width, height));
+            return new Builder(Size.Create(width, height));
         }
 
         public static Builder CreateBuilder(Size size)

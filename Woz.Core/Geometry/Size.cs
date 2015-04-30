@@ -27,10 +27,15 @@ namespace Woz.Core.Geometry
         private readonly int _width;
         private readonly int _height;
 
-        public Size(int width, int height)
+        private Size(int width, int height)
         {
             _width = width;
             _height = height;
+        }
+
+        public static Size Create(int width, int height)
+        {
+            return new Size(width, height);
         }
 
         public int Width
@@ -65,11 +70,11 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            unchecked 
+            unchecked
             {
-                return 
-                    (13 * _width.GetHashCode()) + 
-                    _height.GetHashCode();
+                var hash = _width.GetHashCode();
+                hash = (hash * 397) ^ _height.GetHashCode();
+                return hash;
             }
         }
     }
