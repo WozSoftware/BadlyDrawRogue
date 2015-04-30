@@ -58,7 +58,7 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void Add()
         {
-            var coordinate = Vector.Create(1, 2).Add(Vector.SouthEast);
+            var coordinate = Vector.Create(1, 2).Add(Directions.SouthEast);
             Assert.AreEqual(2, coordinate.X);
             Assert.AreEqual(1, coordinate.Y);
         }

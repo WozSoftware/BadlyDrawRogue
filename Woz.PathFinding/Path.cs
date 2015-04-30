@@ -25,13 +25,13 @@ namespace Woz.PathFinding
 {
     public class Path
     {
-        public readonly Vector End;
-        public readonly ImmutableStack<Vector> Route;
+        private readonly Vector _end;
+        private readonly ImmutableStack<Vector> _route;
 
         private Path(Vector end, ImmutableStack<Vector> route)
         {
-            End = end;
-            Route = route;
+            _end = end;
+            _route = route;
         }
 
         public static Path Create(
@@ -40,14 +40,24 @@ namespace Woz.PathFinding
             return new Path(end, route);
         }
 
+        public Vector End
+        {
+            get { return _end; }
+        }
+
+        public ImmutableStack<Vector> Route
+        {
+            get { return _route; }
+        }
+
         public Vector NextLocation
         {
-            get { return Route.Peek(); }
+            get { return _route.Peek(); }
         }
 
         public Path ConsumeNextLocation()
         {
-            return new Path(End, Route.Pop());
+            return new Path(_end, _route.Pop());
         }
     }
 }

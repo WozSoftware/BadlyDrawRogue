@@ -24,10 +24,10 @@ namespace Woz.RogueEngine.Events
 {
     public sealed class EventDetails
     {
-        public readonly long ActorId;
-        public readonly TargetTypes TargetType;
-        public readonly Vector Location;
-        public readonly IMaybe<long> TargetId;
+        private readonly long _actorId;
+        private readonly TargetTypes _targetType;
+        private readonly Vector _location;
+        private readonly IMaybe<long> _targetId;
 
         private EventDetails(
             long actorId, 
@@ -35,10 +35,10 @@ namespace Woz.RogueEngine.Events
             Vector location, 
             IMaybe<long> targetId)
         {
-            ActorId = actorId;
-            TargetType = targetType;
-            Location = location;
-            TargetId = targetId;
+            _actorId = actorId;
+            _targetType = targetType;
+            _location = location;
+            _targetId = targetId;
         }
 
         public static EventDetails Create(
@@ -57,6 +57,26 @@ namespace Woz.RogueEngine.Events
             IMaybe<long> targetId)
         {
             return new EventDetails(actorId, targetType, location, targetId);
+        }
+
+        public long ActorId
+        {
+            get { return _actorId; }
+        }
+
+        public TargetTypes TargetType
+        {
+            get { return _targetType; }
+        }
+
+        public Vector Location
+        {
+            get { return _location; }
+        }
+
+        public IMaybe<long> TargetId
+        {
+            get { return _targetId; }
         }
     }
 }

@@ -26,15 +26,15 @@ namespace Woz.RogueEngine.Commands
 {
     public sealed class Command
     {
-        public readonly Func<Level, IValidation<Level>> Validator;
-        public readonly Func<Level, IValidation<CommandResult>> Operation;
+        private readonly Func<Level, IValidation<Level>> _validator;
+        private readonly Func<Level, IValidation<CommandResult>> _operation;
 
         private Command(
             Func<Level, IValidation<Level>> validator,
             Func<Level, IValidation<CommandResult>> operation)
         {
-            Validator = validator;
-            Operation = operation;
+            _validator = validator;
+            _operation = operation;
         }
 
         public static Command Create(
@@ -50,6 +50,16 @@ namespace Woz.RogueEngine.Commands
                 level => validator(level)
                     .Select(operation)
                     .Select(resultBuilder));
+        }
+
+        public Func<Level, IValidation<Level>> Validator
+        {
+            get { return _validator; }
+        }
+
+        public Func<Level, IValidation<CommandResult>> Operation
+        {
+            get { return _operation; }
         }
     }
 }

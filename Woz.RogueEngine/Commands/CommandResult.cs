@@ -24,18 +24,28 @@ namespace Woz.RogueEngine.Commands
 {
     public sealed class CommandResult
     {
-        public readonly Level Level;
-        public readonly Event CommandEvent;
+        private readonly Level _level;
+        private readonly Event _commandEvent;
 
         private CommandResult(Level level, Event commandEvent)
         {
-            Level = level;
-            CommandEvent = commandEvent;
+            _level = level;
+            _commandEvent = commandEvent;
         }
 
         public static CommandResult Create(Level level, Event commandEvent)
         {
             return new CommandResult(level, commandEvent);
+        }
+
+        public Level Level
+        {
+            get { return _level; }
+        }
+
+        public Event CommandEvent
+        {
+            get { return _commandEvent; }
         }
     }
 }

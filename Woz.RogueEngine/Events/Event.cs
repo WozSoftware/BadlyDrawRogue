@@ -25,9 +25,9 @@ namespace Woz.RogueEngine.Events
 {
     public sealed class Event
     {
-        public readonly Level Level;
-        public readonly EventTypes EventType;
-        public readonly IMaybe<EventDetails> Details;
+        private readonly Level _level;
+        private readonly EventTypes _eventType;
+        private readonly IMaybe<EventDetails> _details;
 
         private Event(
             Level level,
@@ -37,9 +37,9 @@ namespace Woz.RogueEngine.Events
             Debug.Assert(level != null);
             Debug.Assert(details != null);
 
-            Level = level;
-            EventType = eventType;
-            Details = details;
+            _level = level;
+            _eventType = eventType;
+            _details = details;
         }
 
         public static Event Create(
@@ -63,6 +63,21 @@ namespace Woz.RogueEngine.Events
                 level, 
                 eventType, 
                 details.ToSome());
+        }
+
+        public Level Level
+        {
+            get { return _level; }
+        }
+
+        public EventTypes EventType
+        {
+            get { return _eventType; }
+        }
+
+        public IMaybe<EventDetails> Details
+        {
+            get { return _details; }
         }
     }
 }

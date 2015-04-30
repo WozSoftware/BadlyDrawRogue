@@ -27,14 +27,14 @@ namespace Woz.RogueEngine.Levels
 
     public sealed class Thing
     {
-        public readonly long Id;
-        public readonly ThingTypes ThingType;
-        public readonly string Name;
-        public readonly EquipmentSlots EquipableAs;
-        public readonly bool Equiped;
-        public readonly ICombatStatistics AttackDetails;
-        public readonly ICombatStatistics DefenseDetails;
-        public readonly IThingStore Contains;
+        private readonly long _id;
+        private readonly ThingTypes _thingType;
+        private readonly string _name;
+        private readonly EquipmentSlots _equipableAs;
+        private readonly bool _equiped;
+        private readonly ICombatStatistics _attackDetails;
+        private readonly ICombatStatistics _defenseDetails;
+        private readonly IThingStore _contains;
 
         public Thing(
             long id, 
@@ -51,14 +51,14 @@ namespace Woz.RogueEngine.Levels
             Debug.Assert(defenseDetails != null);
             Debug.Assert(contains != null);
 
-            Id = id;
-            ThingType = thingType;
-            Name = name;
-            EquipableAs = equipableAs;
-            Equiped = equiped;
-            AttackDetails = attackDetails;
-            DefenseDetails = defenseDetails;
-            Contains = contains;
+            _id = id;
+            _thingType = thingType;
+            _name = name;
+            _equipableAs = equipableAs;
+            _equiped = equiped;
+            _attackDetails = attackDetails;
+            _defenseDetails = defenseDetails;
+            _contains = contains;
         }
 
         public static Thing Create(
@@ -78,7 +78,6 @@ namespace Woz.RogueEngine.Levels
                 ImmutableDictionary<DamageTypes, int>.Empty,
                 ImmutableDictionary<long, Thing>.Empty);
         }
-
 
         public static Thing Create(
             long id,
@@ -101,6 +100,46 @@ namespace Woz.RogueEngine.Levels
                 contains);
         }
 
+        public long Id
+        {
+            get { return _id; }
+        }
+
+        public ThingTypes ThingType
+        {
+            get { return _thingType; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public EquipmentSlots EquipableAs
+        {
+            get { return _equipableAs; }
+        }
+
+        public bool Equiped
+        {
+            get { return _equiped; }
+        }
+
+        public ICombatStatistics AttackDetails
+        {
+            get { return _attackDetails; }
+        }
+
+        public ICombatStatistics DefenseDetails
+        {
+            get { return _defenseDetails; }
+        }
+
+        public IThingStore Contains
+        {
+            get { return _contains; }
+        }
+
         public Thing With(
             long? id = null,
             ThingTypes? thingType = null,
@@ -121,14 +160,14 @@ namespace Woz.RogueEngine.Levels
                 defenseDetails != null ||
                 contains != null
                     ? new Thing(
-                        id ?? Id,
-                        thingType ?? ThingType,
-                        name ?? Name,
-                        equipableAs ?? EquipableAs,
-                        equiped ?? Equiped,
-                        attackDetails ?? AttackDetails,
-                        defenseDetails ?? DefenseDetails,
-                        contains ?? Contains)
+                        id ?? _id,
+                        thingType ?? _thingType,
+                        name ?? _name,
+                        equipableAs ?? _equipableAs,
+                        equiped ?? _equiped,
+                        attackDetails ?? _attackDetails,
+                        defenseDetails ?? _defenseDetails,
+                        contains ?? _contains)
                     : this;
         }
     }

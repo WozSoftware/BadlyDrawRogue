@@ -23,8 +23,8 @@ namespace Woz.RogueEngine.Levels
 {
     public sealed class HitPoints
     {
-        public readonly int Maximum;
-        public readonly int Current;
+        private readonly int _maximum;
+        private readonly int _current;
 
         private HitPoints(int maximum, int current)
         {
@@ -32,8 +32,8 @@ namespace Woz.RogueEngine.Levels
             Debug.Assert(current > 0);
             Debug.Assert(maximum >= current);
 
-            Maximum = maximum;
-            Current = current;
+            _maximum = maximum;
+            _current = current;
         }
 
         public static HitPoints Create(int maximum, int current)
@@ -41,11 +41,21 @@ namespace Woz.RogueEngine.Levels
             return new HitPoints(maximum, current);
         }
 
+        public int Maximum
+        {
+            get { return _maximum; }
+        }
+
+        public int Current
+        {
+            get { return _current; }
+        }
+
         public HitPoints With(int? maximum = null, int? current = null)
         {
             return maximum == null && current == null
                 ? this
-                : new HitPoints(maximum ?? Maximum, current ?? Current);
+                : new HitPoints(maximum ?? _maximum, current ?? _current);
         }
     }
 }

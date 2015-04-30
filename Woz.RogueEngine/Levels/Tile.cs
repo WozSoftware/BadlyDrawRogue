@@ -30,10 +30,10 @@ namespace Woz.RogueEngine.Levels
     {
         public static readonly Tile Void;
 
-        public readonly TileTypes TileType;
-        public readonly string Name;
-        public readonly IMaybe<Actor> Actor;
-        public readonly IThingStore Things;
+        private readonly TileTypes _tileType;
+        private readonly string _name;
+        private readonly IMaybe<Actor> _actor;
+        private readonly IThingStore _things;
 
         static Tile()
         {
@@ -54,10 +54,10 @@ namespace Woz.RogueEngine.Levels
             Debug.Assert(actor != null);
             Debug.Assert(things != null);
 
-            TileType = tileType;
-            Name = name;
-            Actor = actor;
-            Things = things;
+            _tileType = tileType;
+            _name = name;
+            _actor = actor;
+            _things = things;
         }
 
         public static Tile Create(
@@ -84,6 +84,26 @@ namespace Woz.RogueEngine.Levels
                 things);
         }
 
+        public TileTypes TileType
+        {
+            get { return _tileType; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public IMaybe<Actor> Actor
+        {
+            get { return _actor; }
+        }
+
+        public IThingStore Things
+        {
+            get { return _things; }
+        }
+
         public Tile With(
             TileTypes? tileType = null,
             string name = null,
@@ -102,10 +122,10 @@ namespace Woz.RogueEngine.Levels
                 things == null
                     ? this
                     : new Tile(
-                        tileType ?? TileType,
-                        name ?? Name,
-                        actor ?? Actor,
-                        things ?? Things);
+                        tileType ?? _tileType,
+                        name ?? _name,
+                        actor ?? _actor,
+                        things ?? _things);
         }
     }
 }

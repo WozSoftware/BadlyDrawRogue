@@ -25,18 +25,18 @@ namespace Woz.PathFinding
 {
     public class RouteCandidate
     {
-        public readonly IMaybe<RouteCandidate> Parent;
-        public readonly Vector Location;
-        public readonly double Distance;
-        public readonly int Cost;
+        private readonly IMaybe<RouteCandidate> _parent;
+        private readonly Vector _location;
+        private readonly double _distance;
+        private readonly int _cost;
 
         public RouteCandidate(
             IMaybe<RouteCandidate> parent, Vector location, Vector target)
         {
-            Parent = parent;
-            Location = location;
-            Distance = location.DistanceFrom(target) * 10;
-            Cost = 1 + Parent.Select(x => x.Cost).OrElse(0);
+            _parent = parent;
+            _location = location;
+            _distance = location.DistanceFrom(target) * 10;
+            _cost = 1 + parent.Select(x => x._cost).OrElse(0);
         }
 
         public static RouteCandidate Create(Vector location, Vector target)
@@ -49,6 +49,26 @@ namespace Woz.PathFinding
             IMaybe<RouteCandidate> parent, Vector location, Vector target)
         {
             return new RouteCandidate(parent, location, target);
+        }
+
+        public IMaybe<RouteCandidate> Parent
+        {
+            get { return _parent; }
+        }
+
+        public Vector Location
+        {
+            get { return _location; }
+        }
+
+        public double Distance
+        {
+            get { return _distance; }
+        }
+
+        public int Cost
+        {
+            get { return _cost; }
         }
     }
 }

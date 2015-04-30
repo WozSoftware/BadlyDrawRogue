@@ -31,16 +31,16 @@ namespace Woz.RogueEngine.Levels
 
     public sealed class Level 
     {
-        public readonly ITileStore Tiles;
-        public readonly IActorStateStore ActorStates;
+        private readonly ITileStore _tiles;
+        private readonly IActorStateStore _actorStates;
 
         private Level(ITileStore tiles, IActorStateStore actorStates)
         {
             Debug.Assert(tiles != null);
             Debug.Assert(actorStates != null);
 
-            Tiles = tiles;
-            ActorStates = actorStates;
+            _tiles = tiles;
+            _actorStates = actorStates;
         }
 
         public static Level Create(Size size)
@@ -63,12 +63,22 @@ namespace Woz.RogueEngine.Levels
             return new Level(tiles, actorStates);
         }
 
+        public ITileStore Tiles
+        {
+            get { return _tiles; }
+        }
+
+        public IActorStateStore ActorStates
+        {
+            get { return _actorStates; }
+        }
+
         public Level With(
             ITileStore tiles = null,
             IActorStateStore actorStates = null)
         {
             return tiles != null || actorStates != null
-                ? new Level(tiles ?? Tiles, actorStates ?? ActorStates)
+                ? new Level(tiles ?? _tiles, actorStates ?? _actorStates)
                 : this;
         }
     }

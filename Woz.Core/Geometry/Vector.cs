@@ -24,13 +24,13 @@ namespace Woz.Core.Geometry
 {
     public struct Vector : IEquatable<Vector>
     {
-        public readonly int X;
-        public readonly int Y;
+        private readonly int _x;
+        private readonly int _y;
 
         private Vector(int x, int y)
         {
-            X = x;
-            Y = y;
+            _x = x;
+            _y = y;
         }
 
         public static Vector Create(int x, int y)
@@ -38,20 +38,30 @@ namespace Woz.Core.Geometry
             return new Vector(x, y);
         }
 
+        public int X
+        {
+            get { return _x; }
+        }
+
+        public int Y
+        {
+            get { return _y; }
+        }
+
         public Vector Add(Vector vector)
         {
-            return new Vector(X + vector.X, Y + vector.Y);
+            return new Vector(_x + vector._x, _y + vector._y);
         }
 
         public Vector ScaleBy(int scale)
         {
-            return new Vector(X * scale, Y * scale);
+            return new Vector(_x * scale, _y * scale);
         }
 
         public double DistanceFrom(Vector target)
         {
-            var diffX = Math.Abs(X - target.X);
-            var diffY = Math.Abs(Y - target.Y);
+            var diffX = Math.Abs(_x - target._x);
+            var diffY = Math.Abs(_y - target._y);
 
             return Math.Sqrt((diffX * diffX) + (diffY * diffY));
         }
@@ -63,7 +73,7 @@ namespace Woz.Core.Geometry
 
         public bool Equals(Vector other)
         {
-            return X == other.X && Y == other.Y;
+            return _x == other._x && _y == other._y;
         }
 
         public static bool operator ==(Vector vector1, Vector vector2)
@@ -78,7 +88,7 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            return X ^ Y;
+            return _x ^ _y;
         }
     }
 }

@@ -24,13 +24,23 @@ namespace Woz.Core.Geometry
 {
     public struct Size : IEquatable<Size>
     {
-        public readonly int Width;
-        public readonly int Height;
+        private readonly int _width;
+        private readonly int _height;
 
         public Size(int width, int height)
         {
-            Width = width;
-            Height = height;
+            _width = width;
+            _height = height;
+        }
+
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        public int Height
+        {
+            get { return _height; }
         }
 
         public override bool Equals(object obj)
@@ -40,7 +50,7 @@ namespace Woz.Core.Geometry
 
         public bool Equals(Size other)
         {
-            return Width == other.Width && Height == other.Height;
+            return _width == other._width && _height == other._height;
         }
 
         public static bool operator ==(Size size1, Size size2)
@@ -55,7 +65,7 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            return Width ^ Height;
+            return _width ^ _height;
         }
     }
 }

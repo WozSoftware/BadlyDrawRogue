@@ -27,12 +27,12 @@ namespace Woz.RogueEngine.Levels
 
     public sealed class Actor
     {
-        public readonly long Id;
-        public readonly ActorTypes ActorType;
-        public readonly string Name;
-        public readonly IStatisticsStore Statistics;
-        public readonly HitPoints HitPoints;
-        public readonly IThingStore Things;
+        private readonly long _id;
+        private readonly ActorTypes _actorType;
+        private readonly string _name;
+        private readonly IStatisticsStore _statistics;
+        private readonly HitPoints _hitPoints;
+        private readonly IThingStore _things;
 
         private Actor(
             long id,
@@ -47,12 +47,12 @@ namespace Woz.RogueEngine.Levels
             Debug.Assert(hitPoints != null);
             Debug.Assert(things != null);
 
-            Id = id;
-            ActorType = actorType;
-            Name = name;
-            Statistics = statistics;
-            HitPoints = hitPoints;
-            Things = things;
+            _id = id;
+            _actorType = actorType;
+            _name = name;
+            _statistics = statistics;
+            _hitPoints = hitPoints;
+            _things = things;
         }
 
         public static Actor Create(
@@ -89,6 +89,36 @@ namespace Woz.RogueEngine.Levels
                     things);
         }
 
+        public long Id
+        {
+            get { return _id; }
+        }
+
+        public ActorTypes ActorType
+        {
+            get { return _actorType; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public IStatisticsStore Statistics
+        {
+            get { return _statistics; }
+        }
+
+        public HitPoints HitPoints
+        {
+            get { return _hitPoints; }
+        }
+
+        public IThingStore Things
+        {
+            get { return _things; }
+        }
+
         public Actor With(
             long? id = null,
             ActorTypes? actorType = null,
@@ -105,12 +135,12 @@ namespace Woz.RogueEngine.Levels
                 hitPoints != null ||
                 things != null
                     ? new Actor(
-                        id ?? Id,
-                        actorType ?? ActorType,
-                        name ?? Name,
-                        statistics ?? Statistics,
-                        hitPoints ?? HitPoints,
-                        things ?? Things)
+                        id ?? _id,
+                        actorType ?? _actorType,
+                        name ?? _name,
+                        statistics ?? _statistics,
+                        hitPoints ?? _hitPoints,
+                        things ?? _things)
                     : this;
         }
     }

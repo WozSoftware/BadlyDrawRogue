@@ -23,13 +23,13 @@ namespace Woz.RogueEngine.Levels
 {
     public sealed class ActorState 
     {
-        public readonly long Id;
-        public readonly Vector Location;
+        private readonly long _id;
+        private readonly Vector _location;
 
         private ActorState(long id, Vector location)
         {
-            Id  = id;
-            Location = location;
+            _id  = id;
+            _location = location;
         }
 
         public static ActorState Create(long id, Vector location)
@@ -37,10 +37,20 @@ namespace Woz.RogueEngine.Levels
             return new ActorState(id, location);
         }
 
+        public long Id
+        {
+            get { return _id; }
+        }
+
+        public Vector Location
+        {
+            get { return _location; }
+        }
+
         public ActorState With(long? id = null, Vector? location = null)
         {
             return id != null || location != null
-                ? new ActorState(id ?? Id, location ?? Location)
+                ? new ActorState(id ?? _id, location ?? _location)
                 : this;
         }
     }
