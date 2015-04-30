@@ -30,7 +30,7 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void Create()
         {
-            var vector = new Vector(1, 2);
+            var vector = Vector.Create(1, 2);
             Assert.AreEqual(1, vector.X);
             Assert.AreEqual(2, vector.Y);
         }
@@ -39,33 +39,33 @@ namespace Woz.Core.Tests.GeometryTests
         public void DistanceFrom()
         {
             Assert.AreEqual(
-                1, new Vector(1, 1).DistanceFrom(new Vector(1, 2)));
+                1, Vector.Create(1, 1).DistanceFrom(Vector.Create(1, 2)));
 
             Assert.AreEqual(
-                1, new Vector(1, 1).DistanceFrom(new Vector(2, 1)));
+                1, Vector.Create(1, 1).DistanceFrom(Vector.Create(2, 1)));
 
             Assert.AreEqual(
-                1, new Vector(2, 1).DistanceFrom(new Vector(1, 1)));
+                1, Vector.Create(2, 1).DistanceFrom(Vector.Create(1, 1)));
 
             Assert.AreEqual(
-                1, new Vector(1, 2).DistanceFrom(new Vector(1, 1)));
+                1, Vector.Create(1, 2).DistanceFrom(Vector.Create(1, 1)));
 
             Assert.IsTrue(Math.Abs(
-                new Vector(2, 2).DistanceFrom(new Vector(1, 1)) -
+                Vector.Create(2, 2).DistanceFrom(Vector.Create(1, 1)) -
                 1.4142135623731d) < 0.0000000000001d);
         }
 
         [TestMethod]
         public void Add()
         {
-            var coordinate = new Vector(1, 2).Add(Vector.SouthEast);
+            var coordinate = Vector.Create(1, 2).Add(Vector.SouthEast);
             Assert.AreEqual(2, coordinate.X);
             Assert.AreEqual(1, coordinate.Y);
         }
         [TestMethod]
         public void ScaleBy()
         {
-            var vector = new Vector(1, 2).ScaleBy(3);
+            var vector = Vector.Create(1, 2).ScaleBy(3);
             Assert.AreEqual(3, vector.X);
             Assert.AreEqual(6, vector.Y);
         }
@@ -73,36 +73,36 @@ namespace Woz.Core.Tests.GeometryTests
         [TestMethod]
         public void Equals()
         {
-            Assert.IsTrue(new Vector(1, 2).Equals(new Vector(1, 2)));
-            Assert.IsFalse(new Vector(2, 2).Equals(new Vector(1, 2)));
-            Assert.IsFalse(new Vector(1, 1).Equals(new Vector(1, 2)));
+            Assert.IsTrue(Vector.Create(1, 2).Equals(Vector.Create(1, 2)));
+            Assert.IsFalse(Vector.Create(2, 2).Equals(Vector.Create(1, 2)));
+            Assert.IsFalse(Vector.Create(1, 1).Equals(Vector.Create(1, 2)));
 
             // Use object entry point
-            Assert.IsFalse(new Vector(1, 1).Equals((object)new Vector(1, 2)));
+            Assert.IsFalse(Vector.Create(1, 1).Equals((object)Vector.Create(1, 2)));
         }
 
         [TestMethod]
         public void OperatorEquals()
         {
             // ReSharper disable once EqualExpressionComparison
-            Assert.IsTrue(new Vector(1, 2) == new Vector(1, 2));
-            Assert.IsFalse(new Vector(2, 2) == new Vector(1, 2));
-            Assert.IsFalse(new Vector(1, 1) == new Vector(1, 2));
+            Assert.IsTrue(Vector.Create(1, 2) == Vector.Create(1, 2));
+            Assert.IsFalse(Vector.Create(2, 2) == Vector.Create(1, 2));
+            Assert.IsFalse(Vector.Create(1, 1) == Vector.Create(1, 2));
         }
 
         [TestMethod]
         public void OperatorNotEquals()
         {
             // ReSharper disable once EqualExpressionComparison
-            Assert.IsFalse(new Vector(1, 2) != new Vector(1, 2));
-            Assert.IsTrue(new Vector(2, 2) != new Vector(1, 2));
-            Assert.IsTrue(new Vector(1, 1) != new Vector(1, 2));
+            Assert.IsFalse(Vector.Create(1, 2) != Vector.Create(1, 2));
+            Assert.IsTrue(Vector.Create(2, 2) != Vector.Create(1, 2));
+            Assert.IsTrue(Vector.Create(1, 1) != Vector.Create(1, 2));
         }
 
         [TestMethod]
         public void GetHashCodeXorValues()
         {
-            Assert.AreEqual(10 ^ 11, new Vector(10, 11).GetHashCode());
+            Assert.AreEqual(10 ^ 11, Vector.Create(10, 11).GetHashCode());
         }
     }
 }

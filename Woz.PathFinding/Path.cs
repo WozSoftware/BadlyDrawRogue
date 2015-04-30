@@ -1,8 +1,8 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.RogueEngine.
+// This file is part of Woz.PathFinding.
 //
 // Woz.RoqueEngine is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
@@ -17,24 +17,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System.Collections.Immutable;
 using Woz.Core.Geometry;
-using Woz.RogueEngine.Levels;
-using Woz.RogueEngine.Validators;
 
-namespace Woz.RogueEngine.Tests.ValidatorsTests
+namespace Woz.PathFinding
 {
-    [TestClass]
-    public class ActorValidatorsTests
+    public class Path
     {
-        [TestMethod]
-        public void IsWithinMoveRange()
-        {
-            var actorState = ActorState.Create(1, Vector.Create(1, 1));
+        public readonly Vector End;
+        public readonly ImmutableStack<Vector> Route;
 
-            Assert.IsTrue(actorState.IsWithinMoveRange(Vector.Create(1, 2)).IsValid);
-            Assert.IsFalse(actorState.IsWithinMoveRange(Vector.Create(2, 2)).IsValid);
+        private Path(Vector end, ImmutableStack<Vector> route)
+        {
+            End = end;
+            Route = route;
         }
-        
+
+        public static Path Create(
+            Vector end, ImmutableStack<Vector> route)
+        {
+            return new Path(end, route);
+        }
+
+        public Vector NextLocation
+        {
+            get { return Route.Peek(); }
+        }
+
+        public Path ConsumeNextLocation()
+        {
+            return new Path(End, Route.Pop());
+        }
     }
 }

@@ -38,6 +38,7 @@
     <Compile Include="Collections\EnumerableExtensions.cs" />
     <Compile Include="Conversion\EnumConversions.cs" />
     <Compile Include="Conversion\StringConversion.cs" />
+    <Compile Include="Geometry\Directions.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Vector.cs" />
     <Compile Include="EnumUtils.cs" />

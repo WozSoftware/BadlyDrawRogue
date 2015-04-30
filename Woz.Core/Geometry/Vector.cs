@@ -24,22 +24,18 @@ namespace Woz.Core.Geometry
 {
     public struct Vector : IEquatable<Vector>
     {
-        public static readonly Vector North = new Vector(0, 1);
-        public static readonly Vector NorthEast = new Vector(1, 1);
-        public static readonly Vector East = new Vector(1, 0);
-        public static readonly Vector SouthEast = new Vector(1, -1);
-        public static readonly Vector South = new Vector(0, -1);
-        public static readonly Vector SouthWest = new Vector(-1, -1);
-        public static readonly Vector West = new Vector(-1, 0);
-        public static readonly Vector NorthWest = new Vector(-1, 1);
-
         public readonly int X;
         public readonly int Y;
 
-        public Vector(int x, int y)
+        private Vector(int x, int y)
         {
             X = x;
             Y = y;
+        }
+
+        public static Vector Create(int x, int y)
+        {
+            return new Vector(x, y);
         }
 
         public Vector Add(Vector vector)

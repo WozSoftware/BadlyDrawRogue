@@ -265,7 +265,7 @@ namespace Woz.Immutable.Collections
             var query = 
                 from x in Enumerable.Range(0, Width)
                 from y in Enumerable.Range(0, Height)
-                select Tuple.Create(new Vector(x, y), _storage[x][y]);
+                select Tuple.Create(Vector.Create(x, y), _storage[x][y]);
 
             return query.GetEnumerator();
         }

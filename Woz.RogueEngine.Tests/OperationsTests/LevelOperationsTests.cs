@@ -32,7 +32,7 @@ namespace Woz.RogueEngine.Tests.OperationsTests
         [TestMethod]
         public void SpawnActor()
         {
-            var location = new Vector(0, 0);
+            var location = Vector.Create(0, 0);
             var monster = SimpleLevel.Monster.Set(ActorLens.Id, 3);
             var result = SimpleLevel.Level.SpawnActor(monster, location);
 

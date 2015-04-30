@@ -55,11 +55,11 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         public void IsValidLocation()
         {
             Assert.IsTrue(SimpleLevel.Level
-                .IsValidLocation(new Vector(1, 1))
+                .IsValidLocation(Vector.Create(1, 1))
                 .IsValid);
 
             Assert.IsFalse(SimpleLevel.Level
-                .IsValidLocation(new Vector(4, 4))
+                .IsValidLocation(Vector.Create(4, 4))
                 .IsValid);
         }
     }
