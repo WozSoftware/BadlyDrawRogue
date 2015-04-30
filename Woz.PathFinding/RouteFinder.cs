@@ -30,7 +30,7 @@ namespace Woz.PathFinding
 {
     // See: http://www.policyalmanac.org/games/aStarTutorial.htm
 
-    // TODO: Use Bin heap for nodes?
+    // TODO: If performance is an issue use Bin heap for nodes?
     // http://www.codeproject.com/Articles/126751/Priority-queue-in-C-with-the-help-of-heap-data-str
 
     public class RouteFinder

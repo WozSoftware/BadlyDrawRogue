@@ -65,7 +65,12 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            return _width ^ _height;
+            unchecked 
+            {
+                return 
+                    (13 * _width.GetHashCode()) + 
+                    _height.GetHashCode();
+            }
         }
     }
 }

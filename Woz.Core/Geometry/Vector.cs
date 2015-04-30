@@ -88,7 +88,12 @@ namespace Woz.Core.Geometry
 
         public override int GetHashCode()
         {
-            return _x ^ _y;
+            unchecked
+            {
+                return 
+                    (13 * _x.GetHashCode()) +
+                    _y.GetHashCode();
+            }
         }
     }
 }
