@@ -163,12 +163,12 @@ namespace Woz.Immutable.Collections
             get { return _storage.Length; }
         }
 
-        public IMaybe<int> IndexOf(Predicate<T> predicate)
+        public IMaybe<int> IndexOf(Func<T, bool> predicate)
         {
             Debug.Assert(predicate != null);
 
             return Array
-                .FindIndex(_storage, predicate)
+                .FindIndex(_storage, x => predicate(x))
                 .ToSome()
                 .Where(index => index != -1);
         }

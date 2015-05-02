@@ -23,37 +23,30 @@ using Woz.Monads.MaybeMonad;
 
 namespace Woz.PathFinding
 {
-    public class RouteCandidate
+    public class LocationCandiate
     {
-        private readonly IMaybe<RouteCandidate> _parent;
         private readonly Vector _location;
-        private readonly double _distance;
         private readonly int _cost;
+        private readonly IMaybe<LocationCandiate> _parent;
 
-        public RouteCandidate(
-            IMaybe<RouteCandidate> parent, Vector location, Vector target)
+        public LocationCandiate(
+            Vector location, IMaybe<LocationCandiate> parent)
         {
-            _parent = parent;
             _location = location;
-            _distance = location.DistanceFrom(target) * 10;
             _cost = 1 + parent.Select(x => x._cost).OrElse(0);
+            _parent = parent;
         }
 
-        public static RouteCandidate Create(Vector location, Vector target)
+        public static LocationCandiate Create(Vector location)
         {
-            return new RouteCandidate(
-                Maybe<RouteCandidate>.None, location, target);
+            return new LocationCandiate(
+                location, Maybe<LocationCandiate>.None);
         }
 
-        public static RouteCandidate Create(
-            IMaybe<RouteCandidate> parent, Vector location, Vector target)
+        public static LocationCandiate Create(
+            Vector location, IMaybe<LocationCandiate> parent)
         {
-            return new RouteCandidate(parent, location, target);
-        }
-
-        public IMaybe<RouteCandidate> Parent
-        {
-            get { return _parent; }
+            return new LocationCandiate(location, parent);
         }
 
         public Vector Location
@@ -61,14 +54,14 @@ namespace Woz.PathFinding
             get { return _location; }
         }
 
-        public double Distance
-        {
-            get { return _distance; }
-        }
-
         public int Cost
         {
             get { return _cost; }
+        }
+
+        public IMaybe<LocationCandiate> Parent
+        {
+            get { return _parent; }
         }
     }
 }

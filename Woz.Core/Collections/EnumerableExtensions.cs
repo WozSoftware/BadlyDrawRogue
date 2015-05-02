@@ -20,11 +20,23 @@
 
 using System;
 using System.Collections.Generic;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Core.Collections
 {
     public static class EnumerableExtensions
     {
+        public static IEnumerable<T> LinkedListToEnumerable<T>(
+            this T rootNode, Func<T, IMaybe<T>> nextNodeSelector)
+        {
+            var node = rootNode.ToMaybe();
+            while (node.HasValue)
+            {
+                yield return node.Value;
+                node = nextNodeSelector(node.Value);
+            }
+        }
+
         public static IEnumerable<T> Select<T>(this IEnumerator<T> enumerator)
         {
             return enumerator.Select(x => x);

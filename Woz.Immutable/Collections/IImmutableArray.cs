@@ -28,7 +28,7 @@ namespace Woz.Immutable.Collections
     {
         T this[int index] { get; }
 
-        IMaybe<int> IndexOf(Predicate<T> predicate);
+        IMaybe<int> IndexOf(Func<T, bool> predicate);
 
         IImmutableArray<T> Set(int index, T item);
 

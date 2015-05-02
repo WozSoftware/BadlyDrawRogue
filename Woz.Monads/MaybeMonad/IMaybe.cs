@@ -38,7 +38,7 @@ namespace Woz.Monads.MaybeMonad
         IMaybe<TResult> SelectMany<T2, TResult>(
             Func<T, IMaybe<T2>> transform, Func<T, T2, TResult> composer);
 
-        IMaybe<T> Where(Predicate<T> predicate);
+        IMaybe<T> Where(Func<T, bool> predicate);
         void Do(Action<T> operation);
 
         T OrElseDefault();

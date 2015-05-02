@@ -22,7 +22,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Woz.Core.Collections;
 using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
 
@@ -33,72 +35,104 @@ namespace Woz.PathFinding
     // TODO: If performance is an issue use Bin heap for nodes?
     // http://www.codeproject.com/Articles/126751/Priority-queue-in-C-with-the-help-of-heap-data-str
 
-    public class RouteFinder
+    public static class RouteFinder
     {
-        public IMaybe<Path> FindRoute(
+        // ImplicitlyCapturedClosure suppressed as the lambdas do not escape 
+        // the function so there are no knock on GC issues to deal with
+        [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
+        public static IMaybe<Path> FindRoute(
             Vector start, Vector target,
-            Func<Vector, bool> isValidLocation,
+            Func<Vector, bool> isValidWorldMove,
             IEnumerable<Vector> moveVectors)
         {
-            Debug.Assert(isValidLocation != null);
+            Debug.Assert(isValidWorldMove != null);
+            Debug.Assert(moveVectors != null);
 
-            var openList = new Dictionary<Vector, RouteCandidate>();
-            var closeList = new Dictionary<Vector, RouteCandidate>();
+            if (!isValidWorldMove(target))
+            {
+                return Maybe<Path>.None;
+            }
+
             var validMoveVectors = moveVectors.ToArray();
+            var closeList = new Dictionary<Vector, LocationCandiate>();
+            var openList = new Dictionary<Vector, LocationCandiate>();
 
-            var candidate = isValidLocation(target)
-                ? RouteCandidate.Create(start, target).ToSome()
-                : Maybe<RouteCandidate>.None;
+            Func<Vector, bool> isValidMove =
+                vector => !closeList.ContainsKey(vector) &&
+                          isValidWorldMove(vector);
 
+            Action<LocationCandiate> closeCandidate =
+                toClose =>
+                {
+                    if (openList.Remove(toClose.Location))
+                    {
+                        closeList[toClose.Location] = toClose;
+                    }
+                };
+            
+            var candidate = LocationCandiate.Create(start).ToSome();
             while (candidate.Select(x => x.Location != target).OrElse(false))
             {
-                var candidateLocation = candidate.Value.Location;
+                var currentCandidate = candidate;
+                currentCandidate.Do(closeCandidate);
 
-                if (openList.Remove(candidateLocation))
-                {
-                    closeList[candidateLocation] = candidate.Value;
-                }
-
-                foreach (var directionVector in validMoveVectors)
-                {
-                    var newCandidateLocation = 
-                        candidateLocation.Add(directionVector);
-
-                    if (closeList.ContainsKey(newCandidateLocation) ||
-                        !isValidLocation(newCandidateLocation))
-                    {
-                        continue;
-                    }
-
-                    var existingCandidate = 
-                        openList.Lookup(newCandidateLocation);
-
-                    var newCandidate = RouteCandidate
-                        .Create(candidate, newCandidateLocation, target);
-
-                    if (existingCandidate.Select(x => x.Cost).OrElse(0) > newCandidate.Cost)
-                    {
-                        openList[newCandidateLocation] = newCandidate;
-                    }
-                }
+                validMoveVectors
+                    .GetValidMoves(candidate.Value.Location, isValidMove)
+                    .Select(
+                        move =>
+                            BuildMoveLocationCandidate(
+                                currentCandidate,
+                                openList.Lookup(move),
+                                move))
+                    .WhereHasValue()
+                    .ForEach(
+                        newCandidate =>
+                        {
+                            openList[newCandidate.Location] = newCandidate;
+                        });
 
                 candidate = openList.Values.OrderBy(x => x.Cost).FirstMaybe();
             }
 
-            return candidate.Select(x => BuildActorPath(target, x));
+            return candidate.Select(BuildActorPath);
         }
 
-        private static Path BuildActorPath(Vector target, RouteCandidate currentCandidate)
+        public static IEnumerable<Vector> GetValidMoves(
+            this IEnumerable<Vector> moveVectors,
+            Vector currentLocation,
+            Func<Vector, bool> isValidMove)
         {
-            var path = ImmutableStack<Vector>.Empty;
-            var pathEntry = currentCandidate;
-            while (pathEntry.Parent.HasValue)
-            {
-                path = path.Push(pathEntry.Location);
-                pathEntry = pathEntry.Parent.Value;
-            }
+            return moveVectors
+                .Select(currentLocation.Add)
+                .Where(isValidMove);
+        }
 
-            return Path.Create(target, path);
+        public static IMaybe<LocationCandiate> BuildMoveLocationCandidate(
+            IMaybe<LocationCandiate> currentCandidate,
+            IMaybe<LocationCandiate> oldMoveLocationCandidate,
+            Vector moveLocation)
+        {
+            var newMoveLocationCandidate = LocationCandiate
+                .Create(moveLocation, currentCandidate);
+
+            return oldMoveLocationCandidate
+                .Select(x => x.Cost > newMoveLocationCandidate.Cost)
+                .OrElse(true) 
+                ? newMoveLocationCandidate.ToSome() 
+                : Maybe<LocationCandiate>.None;
+        }
+
+        public static Path BuildActorPath(LocationCandiate targetCandidate)
+        {
+            // Pop last location added as itwill be the current location
+            return Path.Create(
+                targetCandidate.Location,
+                targetCandidate
+                    .LinkedListToEnumerable(node => node.Parent)
+                    .Aggregate(
+                        ImmutableStack<Vector>.Empty,
+                        (stack, candidate) => stack.Push(candidate.Location))
+                    .Pop());
         }
     }
 }

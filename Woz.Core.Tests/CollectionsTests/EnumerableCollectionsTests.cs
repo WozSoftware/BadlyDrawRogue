@@ -19,14 +19,62 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Collections;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.Core.Tests.CollectionsTests
 {
     [TestClass]
     public class EnumerableCollectionsTests
     {
+        private class Node
+        {
+            public IMaybe<Node> Parent;
+        }
+
+        [TestMethod]
+        public void LinkedListToEnumerable()
+        {
+            var node3 = new Node {Parent = Maybe<Node>.None};
+            var node2 = new Node {Parent = node3.ToSome()};
+            var node1 = new Node {Parent = node2.ToSome()};
+
+            var expected = new List<Node> {node1, node2, node3};
+
+            var result = node1.LinkedListToEnumerable(x => x.Parent).ToList();
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Select()
+        {
+            var source = new List<int> { 1, 2, 3 };
+
+            var result = source.GetEnumerator().Select().ToArray();
+
+            CollectionAssert.AreEqual(source, result);
+        }
+
+        [TestMethod]
+        public void SelectWithSelector()
+        {
+            var expected = new []{ 1, 2, 3 };
+            var source =
+                new[]
+                {
+                    new {A = 1},
+                    new {A = 2},
+                    new {A = 3},
+                }.ToList();
+
+            var result = source.GetEnumerator().Select(x => x.A).ToArray();
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+
         [TestMethod]
         public void ForEach()
         {

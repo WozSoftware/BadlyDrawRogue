@@ -61,7 +61,7 @@ namespace Woz.Monads.MaybeMonad
             return Maybe<TResult>.None;
         }
 
-        public IMaybe<T> Where(Predicate<T> predicate)
+        public IMaybe<T> Where(Func<T, bool> predicate)
         {
             Debug.Assert(predicate != null);
 

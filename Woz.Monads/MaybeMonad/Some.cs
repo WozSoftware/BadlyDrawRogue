@@ -70,7 +70,7 @@ namespace Woz.Monads.MaybeMonad
                 .SelectMany(value2 => composer(value1, value2).ToMaybe());
         }
 
-        public IMaybe<T> Where(Predicate<T> predicate)
+        public IMaybe<T> Where(Func<T, bool> predicate)
         {
             Debug.Assert(predicate != null);
 
