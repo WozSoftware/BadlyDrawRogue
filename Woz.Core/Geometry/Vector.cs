@@ -48,9 +48,9 @@ namespace Woz.Core.Geometry
             get { return _y; }
         }
 
-        public Vector Add(Vector vector)
+        public Vector Abs()
         {
-            return new Vector(_x + vector._x, _y + vector._y);
+            return new Vector(Math.Abs(_x), Math.Abs(_y));
         }
 
         public Vector ScaleBy(int scale)
@@ -84,6 +84,16 @@ namespace Woz.Core.Geometry
         public static bool operator !=(Vector vector1, Vector vector2)
         {
             return !vector1.Equals(vector2);
+        }
+
+        public static Vector operator +(Vector vector1, Vector vector2)
+        {
+            return new Vector(vector1._x + vector2._x, vector1._y + vector2._y);
+        }
+
+        public static Vector operator -(Vector vector1, Vector vector2)
+        {
+            return new Vector(vector1._x - vector2._x, vector1._y - vector2._y);
         }
 
         public override int GetHashCode()

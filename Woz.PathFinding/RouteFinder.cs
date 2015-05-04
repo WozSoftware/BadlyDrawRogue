@@ -61,20 +61,18 @@ namespace Woz.PathFinding
                 vector => !closeList.ContainsKey(vector) &&
                           isValidWorldMove(vector);
 
-            Action<LocationCandiate> closeCandidate =
-                toClose =>
-                {
-                    if (openList.Remove(toClose.Location))
-                    {
-                        closeList[toClose.Location] = toClose;
-                    }
-                };
-            
             var candidate = LocationCandiate.Create(start).ToSome();
             while (candidate.Select(x => x.Location != target).OrElse(false))
             {
                 var currentCandidate = candidate;
-                currentCandidate.Do(closeCandidate);
+                currentCandidate.Do(
+                    toClose =>
+                    {
+                        if (openList.Remove(toClose.Location))
+                        {
+                            closeList[toClose.Location] = toClose;
+                        }
+                    });
 
                 validMoveVectors
                     .GetValidMoves(candidate.Value.Location, isValidMove)
@@ -103,7 +101,7 @@ namespace Woz.PathFinding
             Func<Vector, bool> isValidMove)
         {
             return moveVectors
-                .Select(currentLocation.Add)
+                .Select(move => currentLocation + move)
                 .Where(isValidMove);
         }
 
