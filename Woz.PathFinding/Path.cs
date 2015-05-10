@@ -50,6 +50,10 @@ namespace Woz.PathFinding
             get { return _route; }
         }
 
+        public bool HasNextLocation
+        {
+            get { return !_route.IsEmpty; }
+        }
         public Vector NextLocation
         {
             get { return _route.Peek(); }

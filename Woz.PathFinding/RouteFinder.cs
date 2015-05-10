@@ -69,18 +69,27 @@ namespace Woz.PathFinding
                     return BuildActorPath(currentNode).ToSome();
                 }
 
-                // ReSharper disable once PossibleMultipleEnumeration
-                lists = Directions.FourPoint
-                    .GetValidMoves(currentNode.Location, isValidMove)
-                    .Where(move => !lists.IsClosed(move))
-                    .Select(move => LocationCandiate
-                        .Create(target, move, currentNode.ToSome()))
-                    .Aggregate(
-                        lists.Close(currentNode),
-                        (finderLists, candiate) => finderLists.Open(candiate));
+                lists = OpenCandidateMoves(
+                    lists, currentNode, target, isValidMove);
             }
 
             return Maybe<Path>.None;
+        }
+
+        public static RouteFinderLists OpenCandidateMoves(
+            RouteFinderLists lists,
+            LocationCandiate currentNode,
+            Vector target,
+            Func<Vector, bool> isValidMove)
+        {
+            return Directions.FourPoint
+                .GetValidMoves(currentNode.Location, isValidMove)
+                .Where(move => !lists.IsClosed(move))
+                .Select(move => LocationCandiate
+                    .Create(target, move, currentNode.ToSome()))
+                .Aggregate(
+                    lists.Close(currentNode),
+                    (finderLists, candiate) => finderLists.Open(candiate));
         }
 
         public static IEnumerable<Vector> GetValidMoves(
@@ -95,7 +104,7 @@ namespace Woz.PathFinding
 
         public static Path BuildActorPath(LocationCandiate targetCandidate)
         {
-            // Pop last location added as itwill be the current location
+            // Pop last location added as it will be the current location
             return Path.Create(
                 targetCandidate.Location,
                 targetCandidate
