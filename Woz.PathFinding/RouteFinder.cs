@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Woz.Core.Collections;
 using Woz.Core.Geometry;
@@ -37,62 +36,51 @@ namespace Woz.PathFinding
 
     public static class RouteFinder
     {
-        // ImplicitlyCapturedClosure suppressed as the lambdas do not escape 
-        // the function so there are no knock on GC issues to deal with
-        [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
         public static IMaybe<Path> FindRoute(
             Vector start, Vector target,
-            Func<Vector, bool> isValidWorldMove,
-            IEnumerable<Vector> moveVectors)
+            Func<Vector, bool> isValidMove)
         {
-            Debug.Assert(isValidWorldMove != null);
-            Debug.Assert(moveVectors != null);
+            return FindRoute(start, target, isValidMove, Maybe<int>.None);
+        }
 
-            if (!isValidWorldMove(target))
+        public static IMaybe<Path> FindRoute(
+            Vector start, Vector target,
+            Func<Vector, bool> isValidMove,
+            IMaybe<int> breakSize)
+        {
+            Debug.Assert(isValidMove != null);
+
+            var lists = RouteFinderLists
+                .Create()
+                .Open(LocationCandiate.Create(target, start));
+
+            while (lists.HasOpenCandidates)
             {
-                return Maybe<Path>.None;
+                var closedList = lists.ClosedList;
+                if (breakSize.Select(x => x < closedList.Count).OrElse(false))
+                {
+                    break;
+                }
+
+                var currentNode = lists.NextOpenCandiate;
+
+                if (currentNode.Location == target)
+                {
+                    return BuildActorPath(currentNode).ToSome();
+                }
+
+                // ReSharper disable once PossibleMultipleEnumeration
+                lists = Directions.FourPoint
+                    .GetValidMoves(currentNode.Location, isValidMove)
+                    .Where(move => !lists.IsClosed(move))
+                    .Select(move => LocationCandiate
+                        .Create(target, move, currentNode.ToSome()))
+                    .Aggregate(
+                        lists.Close(currentNode),
+                        (finderLists, candiate) => finderLists.Open(candiate));
             }
 
-            var validMoveVectors = moveVectors.ToArray();
-            var closeList = new Dictionary<Vector, LocationCandiate>();
-            var openList = new Dictionary<Vector, LocationCandiate>();
-
-            Func<Vector, bool> isValidMove =
-                vector => !closeList.ContainsKey(vector) &&
-                          isValidWorldMove(vector);
-
-            var candidate = LocationCandiate.Create(start).ToSome();
-            while (candidate.Select(x => x.Location != target).OrElse(false))
-            {
-                var currentCandidate = candidate;
-                currentCandidate.Do(
-                    toClose =>
-                    {
-                        if (openList.Remove(toClose.Location))
-                        {
-                            closeList[toClose.Location] = toClose;
-                        }
-                    });
-
-                validMoveVectors
-                    .GetValidMoves(candidate.Value.Location, isValidMove)
-                    .Select(
-                        move =>
-                            BuildMoveLocationCandidate(
-                                currentCandidate,
-                                openList.Lookup(move),
-                                move))
-                    .WhereHasValue()
-                    .ForEach(
-                        newCandidate =>
-                        {
-                            openList[newCandidate.Location] = newCandidate;
-                        });
-
-                candidate = openList.Values.OrderBy(x => x.Cost).FirstMaybe();
-            }
-
-            return candidate.Select(BuildActorPath);
+            return Maybe<Path>.None;
         }
 
         public static IEnumerable<Vector> GetValidMoves(
@@ -103,21 +91,6 @@ namespace Woz.PathFinding
             return moveVectors
                 .Select(move => currentLocation + move)
                 .Where(isValidMove);
-        }
-
-        public static IMaybe<LocationCandiate> BuildMoveLocationCandidate(
-            IMaybe<LocationCandiate> currentCandidate,
-            IMaybe<LocationCandiate> oldMoveLocationCandidate,
-            Vector moveLocation)
-        {
-            var newMoveLocationCandidate = LocationCandiate
-                .Create(moveLocation, currentCandidate);
-
-            return oldMoveLocationCandidate
-                .Select(x => x.Cost > newMoveLocationCandidate.Cost)
-                .OrElse(true) 
-                ? newMoveLocationCandidate.ToSome() 
-                : Maybe<LocationCandiate>.None;
         }
 
         public static Path BuildActorPath(LocationCandiate targetCandidate)

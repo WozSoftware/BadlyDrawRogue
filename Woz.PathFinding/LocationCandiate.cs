@@ -25,28 +25,39 @@ namespace Woz.PathFinding
 {
     public class LocationCandiate
     {
+        public const int DistanceMultiplier = 10;
+
         private readonly Vector _location;
-        private readonly int _cost;
+        private readonly int _currentCost;
+        private readonly int _remainingEstimatedCost;
         private readonly IMaybe<LocationCandiate> _parent;
 
-        public LocationCandiate(
-            Vector location, IMaybe<LocationCandiate> parent)
+        private LocationCandiate(
+            Vector location, 
+            int currentCost, 
+            int remnainingEstimatedCost, 
+            IMaybe<LocationCandiate> parent)
         {
             _location = location;
-            _cost = 1 + parent.Select(x => x._cost).OrElse(0);
+            _currentCost = currentCost;
+            _remainingEstimatedCost = remnainingEstimatedCost;
             _parent = parent;
         }
 
-        public static LocationCandiate Create(Vector location)
+        public static LocationCandiate Create(Vector target, Vector location)
         {
-            return new LocationCandiate(
-                location, Maybe<LocationCandiate>.None);
+            return Create(target, location, Maybe<LocationCandiate>.None);
         }
 
         public static LocationCandiate Create(
-            Vector location, IMaybe<LocationCandiate> parent)
+            Vector target, Vector location, IMaybe<LocationCandiate> parent)
         {
-            return new LocationCandiate(location, parent);
+            return 
+                new LocationCandiate(
+                    location,
+                    CalculateMoveCost(parent, location),
+                    EstimateRemainingMoveCost(location, target),
+                    parent);
         }
 
         public Vector Location
@@ -54,14 +65,42 @@ namespace Woz.PathFinding
             get { return _location; }
         }
 
-        public int Cost
+        public int CurrentCost
         {
-            get { return _cost; }
+            get { return _currentCost; }
+        }
+
+        public int RemainingEstimatedCost
+        {
+            get { return _remainingEstimatedCost; }
+        }
+
+        public int OverallCost
+        {
+            get { return _currentCost + _remainingEstimatedCost; }
         }
 
         public IMaybe<LocationCandiate> Parent
         {
             get { return _parent; }
+        }
+
+        public static int CalculateMoveCost(IMaybe<LocationCandiate> parent, Vector location)
+        {
+            var parentCost = parent.Select(x => x._currentCost).OrElse(0);
+
+            var moveCost = parent
+                .Select(x => (int)(x.Location.DistanceFrom(location) * DistanceMultiplier))
+                .OrElse(0);
+
+            return parentCost + moveCost;
+        }
+
+        public static int EstimateRemainingMoveCost(Vector locatiobn, Vector target)
+        {
+            var remainingMove = (locatiobn - target).Abs();
+
+            return (remainingMove.X + remainingMove.Y) * DistanceMultiplier;
         }
     }
 }
