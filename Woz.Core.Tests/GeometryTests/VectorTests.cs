@@ -64,14 +64,6 @@ namespace Woz.Core.Tests.GeometryTests
         }
 
         [TestMethod]
-        public void ScaleBy()
-        {
-            var vector = Vector.Create(1, 2).ScaleBy(3);
-            Assert.AreEqual(3, vector.X);
-            Assert.AreEqual(6, vector.Y);
-        }
-
-        [TestMethod]
         public void Equals()
         {
             Assert.IsTrue(Vector.Create(1, 2).Equals(Vector.Create(1, 2)));
@@ -114,6 +106,14 @@ namespace Woz.Core.Tests.GeometryTests
             var coordinate = Vector.Create(1, 2) - (Directions.SouthEast);
             Assert.AreEqual(0, coordinate.X);
             Assert.AreEqual(3, coordinate.Y);
+        }
+
+        [TestMethod]
+        public void OperatorMultiply()
+        {
+            var vector = Vector.Create(1, 2) * 3;
+            Assert.AreEqual(3, vector.X);
+            Assert.AreEqual(6, vector.Y);
         }
 
         [TestMethod]

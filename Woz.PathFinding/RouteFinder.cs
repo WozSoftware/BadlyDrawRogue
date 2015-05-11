@@ -50,12 +50,18 @@ namespace Woz.PathFinding
         {
             Debug.Assert(isValidMove != null);
 
+            if (start == target)
+            {
+                return Maybe<Path>.None;
+            }
+
             var lists = RouteFinderLists
                 .Create()
                 .Open(LocationCandiate.Create(target, start));
 
             while (lists.HasOpenCandidates)
             {
+                // Capture to stop access modified closure
                 var closedList = lists.ClosedList;
                 if (breakSize.Select(x => x < closedList.Count).OrElse(false))
                 {
@@ -82,9 +88,11 @@ namespace Woz.PathFinding
             Vector target,
             Func<Vector, bool> isValidMove)
         {
-            return Directions.FourPoint
-                .GetValidMoves(currentNode.Location, isValidMove)
-                .Where(move => !lists.IsClosed(move))
+            Func<Vector, bool> isViable =
+                move => isValidMove(move) && !lists.IsClosed(move);
+
+            return currentNode.Location 
+                .GetValidMoves(isViable)
                 .Select(move => LocationCandiate
                     .Create(target, move, currentNode.ToSome()))
                 .Aggregate(
@@ -93,17 +101,19 @@ namespace Woz.PathFinding
         }
 
         public static IEnumerable<Vector> GetValidMoves(
-            this IEnumerable<Vector> moveVectors,
-            Vector currentLocation,
+            this Vector currentLocation,
             Func<Vector, bool> isValidMove)
         {
-            return moveVectors
+            return Directions.FourPoint
                 .Select(move => currentLocation + move)
                 .Where(isValidMove);
         }
 
         public static Path BuildActorPath(LocationCandiate targetCandidate)
         {
+            // Do not expect one node, would mean start = end
+            Debug.Assert(targetCandidate.Parent.HasValue);
+
             // Pop last location added as it will be the current location
             return Path.Create(
                 targetCandidate.Location,

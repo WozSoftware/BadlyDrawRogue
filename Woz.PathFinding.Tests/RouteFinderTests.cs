@@ -17,7 +17,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
@@ -27,6 +29,15 @@ namespace Woz.PathFinding.Tests
     [TestClass]
     public class RouteFinderTests
     {
+        [TestMethod]
+        public void FindRouteStartIsEnd()
+        {
+            var result = RouteFinder.FindRoute(
+                Vector.Create(1, 1), Vector.Create(1, 1), vector => true);
+
+            Assert.IsFalse(result.HasValue);
+        }
+
         [TestMethod]
         public void FindRouteNoWalls()
         {
@@ -82,6 +93,68 @@ namespace Woz.PathFinding.Tests
                 });
         }
 
+        [TestMethod]
+        public void FindRouteComplex()
+        {
+            var map =
+                new[]
+                {
+                    "               ",
+                    "+++++++++++    ",
+                    "   +      + +++",
+                    "   + ++ + +    ",
+                    "   + +  + ++++ ",
+                    "   ++++++ +    ",
+                    "   +      + +++",
+                    "   + ++++++    ",
+                    "     +   +++++ ",
+                    "       +       "
+                };
+
+            var result = RouteFinder.FindRoute(
+                Vector.Create(6, 5), Vector.Create(0, 9),
+                vector => IsValidMove(map, vector));
+
+            Assert.IsTrue(result.HasValue);
+        }
+
+        [TestMethod]
+        public void FindRouteNoValidPath()
+        {
+            var map =
+                new[]
+                {
+                    "     ",
+                    "+++++",
+                    "     ",
+                };
+
+            var result = RouteFinder.FindRoute(
+                Vector.Create(0, 0), Vector.Create(4, 2), 
+                vector => IsValidMove(map, vector));
+
+            Assert.IsFalse(result.HasValue);
+        }
+
+        [TestMethod]
+        public void FindRouteHitBreakLimit()
+        {
+            var map =
+                new[]
+                {
+                    "     ",
+                    "     ",
+                    "     ",
+                };
+
+            var result = RouteFinder.FindRoute(
+                Vector.Create(0, 0), Vector.Create(4, 2),
+                vector => IsValidMove(map, vector),
+                3.ToSome());
+
+            Assert.IsFalse(result.HasValue);
+        }
+
         private static bool IsValidMove(string[] map, Vector location)
         {
             if (location.X < 0 || location.X >= map[0].Length)
@@ -121,6 +194,50 @@ namespace Woz.PathFinding.Tests
 
                 path = path.ConsumeNextLocation();
             }
+        }
+
+        [TestMethod]
+        public void GetValidMovesAllValid()
+        {
+            var location = Vector.Create(1, 1);
+            var result = location.GetValidMoves(vector => true);
+
+            CollectionAssert.AreEqual(
+                Directions.FourPoint.Select(x => location + x).ToArray(),
+                result.ToArray());
+        }
+
+        [TestMethod]
+        public void GetValidMovesAllInvalid()
+        {
+            var location = Vector.Create(1, 1);
+            var result = location.GetValidMoves(vector => false);
+
+            Assert.IsFalse(result.Any());
+        }
+
+        [TestMethod]
+        public void BuildActorPath()
+        {
+            var target = Vector.Create(5, 5);
+
+            var first = LocationCandiate.Create(
+                target, target + (Directions.West *2),
+                Maybe<LocationCandiate>.None);
+
+            var second = LocationCandiate.Create(
+                target, target + Directions.West, first.ToSome());
+
+            var final = LocationCandiate.Create(
+                target, target, second.ToSome());
+
+            var result = RouteFinder.BuildActorPath(final);
+
+            Assert.AreEqual(target, result.End);
+            
+            AssertPath(
+                new []{target + Directions.West, target},
+                result.ToSome());
         }
     }
 }

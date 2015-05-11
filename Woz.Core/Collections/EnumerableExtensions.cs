@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.Core.Collections
@@ -29,6 +30,8 @@ namespace Woz.Core.Collections
         public static IEnumerable<T> LinkedListToEnumerable<T>(
             this T rootNode, Func<T, IMaybe<T>> nextNodeSelector)
         {
+            Debug.Assert(nextNodeSelector != null);
+
             var node = rootNode.ToMaybe();
             while (node.HasValue)
             {
@@ -39,15 +42,69 @@ namespace Woz.Core.Collections
 
         public static IEnumerable<T> Select<T>(this IEnumerator<T> enumerator)
         {
+            Debug.Assert(enumerator!= null);
+
             return enumerator.Select(x => x);
         }
 
         public static IEnumerable<TResult> Select<T, TResult>(
             this IEnumerator<T> enumerator, Func<T, TResult> selector)
         {
+            Debug.Assert(enumerator != null);
+            Debug.Assert(selector != null);
+
             while (enumerator.MoveNext())
             {
                 yield return selector(enumerator.Current);
+            }
+        }
+
+        public static T MinBy<T, TKey>(
+            this IEnumerable<T> self, Func<T, TKey> selector)
+        {
+            return self.CompareBy(selector, x => x < 0);
+        }
+
+        public static T MaxBy<T, TKey>(
+            this IEnumerable<T> self, Func<T, TKey> selector)
+        {
+            return self.CompareBy(selector, x => x > 0);
+        }
+
+        private static T CompareBy<T, TKey>(
+            this IEnumerable<T> self, 
+            Func<T, TKey> selector, 
+            Func<int, bool> isBetter)
+        {
+            Debug.Assert(self != null);
+            Debug.Assert(selector != null);
+            Debug.Assert(isBetter != null);
+
+            var comparer = Comparer<TKey>.Default;
+
+            using (var enumerator = self.GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    throw new InvalidOperationException("Sequence has no elements");
+                }
+
+                var best = enumerator.Current;
+                var bestKey = selector(best);
+
+                while (enumerator.MoveNext())
+                {
+                    var candidate = enumerator.Current;
+                    var candidateKey = selector(candidate);
+
+                    if (isBetter(comparer.Compare(candidateKey, bestKey)))
+                    {
+                        best = candidate;
+                        bestKey = candidateKey;
+                    }
+                }
+
+                return best;
             }
         }
 

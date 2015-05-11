@@ -76,6 +76,34 @@ namespace Woz.Core.Tests.CollectionsTests
         }
 
         [TestMethod]
+        public void MinBy()
+        {
+            var source =
+                new[]
+                {
+                    new {A = 1},
+                    new {A = 2},
+                    new {A = 3},
+                };
+
+            Assert.AreSame(source.First(), source.MinBy(x => x.A));
+        }
+
+        [TestMethod]
+        public void MaxBy()
+        {
+            var source =
+                new[]
+                {
+                    new {A = 1},
+                    new {A = 2},
+                    new {A = 3},
+                };
+
+            Assert.AreSame(source.Last(), source.MaxBy(x => x.A));
+        }
+
+        [TestMethod]
         public void ForEach()
         {
             var source = new[] {1, 2, 3};

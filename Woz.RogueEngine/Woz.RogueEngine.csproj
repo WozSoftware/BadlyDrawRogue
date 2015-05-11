@@ -37,9 +37,6 @@
       <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
@@ -98,10 +95,6 @@
     <ProjectReference Include="..\Woz.Lenses\Woz.Lenses.csproj">
       <Project>{95E4674D-638D-4B89-8732-106F10D27B1C}</Project>
       <Name>Woz.Lenses</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
-      <Project>{1c394bd3-381e-4a26-9263-7e4057bd3bff}</Project>
-      <Name>Woz.Linq</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
       <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>

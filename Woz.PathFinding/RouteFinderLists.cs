@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using Woz.Core.Collections;
 using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
 
@@ -46,8 +47,7 @@ namespace Woz.PathFinding
             {
                 return _openList
                     .Select(x => x.Value)
-                    .OrderBy(x => x.OverallCost)
-                    .First();
+                    .MinBy(x => x.OverallCost);
             }    
         }
 

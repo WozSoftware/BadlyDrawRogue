@@ -53,11 +53,6 @@ namespace Woz.Core.Geometry
             return new Vector(Math.Abs(_x), Math.Abs(_y));
         }
 
-        public Vector ScaleBy(int scale)
-        {
-            return new Vector(_x * scale, _y * scale);
-        }
-
         public double DistanceFrom(Vector target)
         {
             var diffX = Math.Abs(_x - target._x);
@@ -94,6 +89,11 @@ namespace Woz.Core.Geometry
         public static Vector operator -(Vector vector1, Vector vector2)
         {
             return new Vector(vector1._x - vector2._x, vector1._y - vector2._y);
+        }
+
+        public static Vector operator *(Vector vector, int scale)
+        {
+            return new Vector(vector._x * scale, vector._y * scale);
         }
 
         public override int GetHashCode()
