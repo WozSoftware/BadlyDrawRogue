@@ -66,6 +66,10 @@
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Woz.Linq\Woz.Linq.csproj">
+      <Project>{1C394BD3-381E-4A26-9263-7E4057BD3BFF}</Project>
+      <Name>Woz.Linq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
       <Project>{5765091D-856C-41D4-B97E-AA7A3D0ED5BA}</Project>
       <Name>Woz.Monads</Name>

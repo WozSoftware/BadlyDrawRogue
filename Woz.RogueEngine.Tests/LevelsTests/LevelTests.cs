@@ -21,9 +21,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Woz.Core.Collections;
 using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
+using Woz.Linq.Collections;
 using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Tests.LevelsTests

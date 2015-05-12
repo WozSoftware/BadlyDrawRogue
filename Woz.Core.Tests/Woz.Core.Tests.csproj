@@ -50,7 +50,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CollectionsTests\EnumerableCollectionsTests.cs" />
     <Compile Include="ConversionTests\EnumConversionTests.cs" />
     <Compile Include="ConversionTests\StringConversionTests.cs" />
     <Compile Include="GeneratorsTests\IdGeneratorTests.cs" />

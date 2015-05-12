@@ -23,8 +23,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using Woz.Core.Collections;
 using Woz.Core.Geometry;
+using Woz.Linq.Collections;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.PathFinding

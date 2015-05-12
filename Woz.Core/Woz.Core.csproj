@@ -34,7 +34,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\EnumerableExtensions.cs" />
     <Compile Include="Conversion\EnumConversions.cs" />
     <Compile Include="Conversion\StringConversion.cs" />
     <Compile Include="Geometry\Directions.cs" />

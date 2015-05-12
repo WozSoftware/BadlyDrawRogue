@@ -2,9 +2,9 @@
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
-// This file is part of Woz.Core.
+// This file is part of Woz.Linq.
 //
-// Woz.Core is free software: you can redistribute it 
+// Woz.Linq is free software: you can redistribute it 
 // and/or modify it under the terms of the GNU General Public 
 // License as published by the Free Software Foundation, either 
 // version 3 of the License, or (at your option) any later version.
@@ -17,14 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Core.Collections;
+using Woz.Linq.Collections;
 using Woz.Monads.MaybeMonad;
 
-namespace Woz.Core.Tests.CollectionsTests
+namespace Woz.Linq.Tests.CollectionsTests
 {
     [TestClass]
     public class EnumerableCollectionsTests
