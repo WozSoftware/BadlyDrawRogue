@@ -40,6 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{814B62
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.PathFinding.Tests", "Woz.PathFinding.Tests\Woz.PathFinding.Tests.csproj", "{A44DBC4B-A851-4981-8E0A-104C93653AE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.FieldOfView", "Woz.FieldOfView\Woz.FieldOfView.csproj", "{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woz.FieldOfView.Tests", "Woz.FieldOfView.Tests\Woz.FieldOfView.Tests.csproj", "{4AB56CD1-84FE-4007-9D38-71BD928FA85F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +108,14 @@ Global
 		{A44DBC4B-A851-4981-8E0A-104C93653AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A44DBC4B-A851-4981-8E0A-104C93653AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A44DBC4B-A851-4981-8E0A-104C93653AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB56CD1-84FE-4007-9D38-71BD928FA85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB56CD1-84FE-4007-9D38-71BD928FA85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB56CD1-84FE-4007-9D38-71BD928FA85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB56CD1-84FE-4007-9D38-71BD928FA85F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

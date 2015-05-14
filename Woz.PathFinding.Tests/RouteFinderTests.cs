@@ -29,6 +29,9 @@ namespace Woz.PathFinding.Tests
     [TestClass]
     public class RouteFinderTests
     {
+        // NOTE: All map grids reversed as map treats 0, 0 as bottom
+        // left but array construction is row 0 at the top
+
         [TestMethod]
         public void FindRouteStartIsEnd()
         {
@@ -112,7 +115,7 @@ namespace Woz.PathFinding.Tests
                 };
 
             var result = RouteFinder.FindRoute(
-                Vector.Create(6, 5), Vector.Create(0, 9),
+                Vector.Create(6, 4), Vector.Create(0, 0),
                 vector => IsValidMove(map, vector));
 
             Assert.IsTrue(result.HasValue);
