@@ -19,6 +19,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
@@ -30,136 +32,212 @@ namespace Woz.FieldOfView.Tests
     [TestClass]
     public class LineOfSightTests
     {
-        // NOTE: All map grids reversed as map treats 0, 0 as bottom
-        // left but array construction is row 0 at the top
-
-        private readonly string[] _map =
-            {
-                "    +      ",
-                "    +      ",
-                "           ",
-                "   ++ +    ",
-                "    +      ",
-            };
-
-
         [TestMethod]
-        public void LineOfSightModiferNoBlock()
+        public void CastRayYOnly()
         {
-            var result = Vector
-                .Create(0, 0)
-                .LineOfSightModifer(Vector.Create(5, 3), vector => false);
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
 
-            Assert.AreEqual(1d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(y => Vector.Create(0, y));
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightBlockedStraightLine()
+        public void CastRayYOnlyReverse()
         {
-            var result = Vector
-                .Create(0, 0)
-                .LineOfSightModifer(Vector.Create(6, 0),
-                BlocksMovement);
+            var start = Vector.Create(0, 6);
+            var target = Vector.Create(0, 0);
 
-            Assert.AreEqual(0d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(y => Vector.Create(0, y))
+                .Reverse();
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightBlockedCrossTwoBlocks()
+        public void CastRayXOnly()
         {
-            var result = Vector
-                .Create(0, 0)
-                .LineOfSightModifer(Vector.Create(10, 1),
-                BlocksMovement);
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(6, 0);
 
-            Assert.AreEqual(0d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(x => Vector.Create(x, 0));
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightEndInWall()
+        public void CastRayXOnlyReverse()
         {
-            var result = Vector
-                .Create(0, 0)
-                .LineOfSightModifer(Vector.Create(3, 0),
-                BlocksMovement);
+            var start = Vector.Create(6, 0);
+            var target = Vector.Create(0, 0);
 
-            Assert.AreEqual(1d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(x => Vector.Create(x, 0))
+                .Reverse();
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightPartialShallow()
+        public void CastRayXAndYEqual()
         {
-            var result = Vector
-                .Create(0, 1)
-                .LineOfSightModifer(Vector.Create(10, 2),
-                BlocksMovement);
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(6, 6);
 
-            Assert.AreEqual(0.4d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(n => Vector.Create(n, n));
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightPartialBlockedDiagonal()
+        public void CastRayXAndYEqualReverse()
         {
-            var result = Vector
-                .Create(3, 1)
-                .LineOfSightModifer(Vector.Create(5, 3),
-                BlocksMovement);
+            var start = Vector.Create(6, 6);
+            var target = Vector.Create(0, 0);
 
-            Assert.AreEqual(0.5d, result);
+            var expectedVisits = Enumerable
+                .Range(1, 5)
+                .Select(n => Vector.Create(n, n))
+                .Reverse();
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void LineOfSightOctantMapped()
+        public void CastRayXBiggerThanYSteep()
         {
-            var result = Vector
-                .Create(8, 4)
-                .LineOfSightModifer(Vector.Create(6, 2),
-                BlocksMovement);
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(5, 4);
 
-            Assert.AreEqual(0.5d, result);
-        }
+            var expectedVisits =
+                new[]
+                {
+                    Vector.Create(1, 0),
+                    Vector.Create(1, 1),
+                    Vector.Create(2, 1),
+                    Vector.Create(2, 2),
+                    Vector.Create(3, 2),
+                    Vector.Create(3, 3),
+                    Vector.Create(4, 3),
+                    Vector.Create(4, 4)
+                };
 
-        private bool BlocksMovement(Vector location)
-        {
-            return _map[location.Y].ToCharArray()[location.X] == '+';
-        }
-
-        [TestMethod]
-        public void CalculateSlope()
-        {
-            Assert.AreEqual(
-                1d / 3d,
-                LineOfSight.CalculateSlope(
-                    Vector.Create(0, 0), Vector.Create(3, 1)));
-
-            Assert.AreEqual(
-                0.25d,
-                LineOfSight.CalculateSlope(
-                    Vector.Create(0, 0), Vector.Create(4, 1)));
-
-            Assert.AreEqual(
-                1d,
-                LineOfSight.CalculateSlope(
-                    Vector.Create(0, 0), Vector.Create(2, 2)));
-
-            Assert.AreEqual(
-                0d,
-                LineOfSight.CalculateSlope(
-                    Vector.Create(0, 0), Vector.Create(6, 0)));
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void BlockFactor()
+        public void CastRayXBiggerThanYShallow()
         {
-            Assert.AreEqual(0.76d, LineOfSight.BlockFactor(1.2423d));
-            Assert.AreEqual(1d, LineOfSight.BlockFactor(1d));
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(8, 1);
+
+            var expectedVisits =
+                new[]
+                {
+                    Vector.Create(1, 0),
+                    Vector.Create(2, 0),
+                    Vector.Create(3, 0),
+                    Vector.Create(4, 0),
+                    Vector.Create(4, 1),
+                    Vector.Create(5, 1),
+                    Vector.Create(6, 1),
+                    Vector.Create(7, 1)
+                };
+
+            TestCastRay(start, target, expectedVisits);
         }
 
         [TestMethod]
-        public void OffsetBlockFactor()
+        public void CastRayYBiggerThanXSteep()
         {
-            Assert.AreEqual(0.24d, LineOfSight.OffsetBlockFactor(1.2423d));
-            Assert.AreEqual(0d, LineOfSight.OffsetBlockFactor(1d));
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(4, 5);
+
+            var expectedVisits =
+                new[]
+                {
+                    Vector.Create(0, 1),
+                    Vector.Create(1, 1),
+                    Vector.Create(1, 2),
+                    Vector.Create(2, 2),
+                    Vector.Create(2, 3),
+                    Vector.Create(3, 3),
+                    Vector.Create(3, 4),
+                    Vector.Create(4, 4)
+                };
+
+            TestCastRay(start, target, expectedVisits);
+        }
+
+        [TestMethod]
+        public void CastRayYBiggerThanXShallow()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(1, 8);
+
+            var expectedVisits =
+                new[]
+                {
+                    Vector.Create(0, 1),
+                    Vector.Create(0, 2),
+                    Vector.Create(0, 3),
+                    Vector.Create(0, 4),
+                    Vector.Create(1, 4),
+                    Vector.Create(1, 5),
+                    Vector.Create(1, 6),
+                    Vector.Create(1, 7)
+                };
+
+            TestCastRay(start, target, expectedVisits);
+        }
+
+        private void TestCastRay(
+            Vector start, Vector target, IEnumerable<Vector> expectedSquares)
+        {
+            var result = start.CastRay(target);
+
+            CollectionAssert.AreEqual(
+                expectedSquares.ToArray(), result.ToArray());
+        }
+
+        [TestMethod]
+        public void CanSeeNotBlocked()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
+
+            Assert.IsTrue(
+                start.CanSee(target, vector => false));
+        }
+
+        [TestMethod]
+        public void CanSeeBlocked()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
+
+            Assert.IsFalse(
+                start.CanSee(target, vector => vector == Vector.Create(0, 3)));
+        }
+
+        [TestMethod]
+        public void CanSeeEndDoesNotBlock()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
+
+            Assert.IsTrue(
+                start.CanSee(target, vector => vector == target));
         }
     }
 }

@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Woz.Core.Geometry;
 
@@ -32,202 +31,63 @@ namespace Woz.FieldOfView
 
     public static class LineOfSight
     {
-        public const double Tolerance = 0.0001d;
-
-        public struct StepCandidate
+        public static IEnumerable<Vector> CastRay(this Vector start, Vector end)
         {
-            private readonly Vector _stepLocation;
-            private readonly IEnumerable<TestCandidate> _testCandidates;
-
-            private StepCandidate(
-                Vector stepLocation, IEnumerable<TestCandidate> testCandidates)
-            {
-                _stepLocation = stepLocation;
-                _testCandidates = testCandidates;
-            }
-
-            public static StepCandidate Create(
-                Vector stepLocation, IEnumerable<TestCandidate> testCandidates)
-            {
-                return new StepCandidate(stepLocation, testCandidates);
-            }
-
-            public Vector StepLocation
-            {
-                get { return _stepLocation; }
-            }
-
-            public IEnumerable<TestCandidate> TestCandidates
-            {
-                get { return _testCandidates; }
-            }
+            return CastRay(start, end, false, false);
         }
 
-        public struct TestCandidate
+        public static IEnumerable<Vector> CastRay(
+            this Vector start, Vector end, bool includeStart, bool includeEnd)
         {
-            private readonly Vector _location;
-            private readonly double _blockFactor;
+            var delta = (start - end).Abs();
 
-            private TestCandidate(Vector location, double blockFactor)
+            var current = start;
+
+            var xIncrement = (end.X > start.X) ? 1 : -1;
+            var yIncrement = (end.Y > start.Y) ? 1 : -1;
+
+            var error = delta.X - delta.Y;
+            var errorCorrect = delta * 2;
+
+            while (true)
             {
-                _location = location;
-                _blockFactor = blockFactor;
-            }
-
-            public static TestCandidate Create(
-                Vector location, double blockFactor)
-            {
-                return new TestCandidate(location, blockFactor);
-            }
-
-            public Vector Location
-            {
-                get { return _location; }
-            }
-
-            public double Factor
-            {
-                get { return _blockFactor; }
-            }
-        }
-
-        public static double LineOfSightModifer(
-            this Vector currentLocation,
-            Vector target,
-            Func<Vector, bool> blocksLineOfSight)
-        {
-            var octant = Octants.DetermineOctant(currentLocation, target);
-
-            var mapToOctant1 =
-                Octants.CreateMapToOctant1(octant);
-
-            var mapFromOctant1 =
-                Octants.CreateMapFromOctant1(octant);
-
-            Func<Vector, bool> mappedBlocksLineOfSight =
-                vector => blocksLineOfSight(mapFromOctant1(vector));
-
-            return CalculateModifier(
-                mapToOctant1(currentLocation),
-                mapToOctant1(target),
-                mappedBlocksLineOfSight);
-        }
-
-        public static double CalculateModifier(
-            Vector currentLocation,
-            Vector target,
-            Func<Vector, bool> blocksLineOfSight)
-        {
-            var factor = 1d;
-
-            foreach (var stepCandidate in WalkSlope(currentLocation, target))
-            {
-                factor = Math.Min(
-                    factor,
-                    CalculateStepModifier(stepCandidate, blocksLineOfSight));
-
-                if (stepCandidate.StepLocation == target)
+                if ((current == start && includeStart) ||
+                    (current == end && includeEnd) ||
+                    (current != start && current != end))
                 {
-                    // If target is wall always visible to stop crazy
-                    // LOS on walls
-                    return blocksLineOfSight(target) ? 1d : factor;
+                    yield return current;
                 }
 
-                if (Math.Abs(factor) < Tolerance)
+                if (current == end)
                 {
-                    return factor;
+                    yield break;
+                }
+
+                if (error > 0)
+                {
+                    current = Vector.Create(current.X + xIncrement, current.Y);
+                    error -= errorCorrect.Y;
+                }
+                else if (error < 0)
+                {
+                    current = Vector.Create(current.X, current.Y + yIncrement);
+                    error += errorCorrect.X;
+                }
+                else
+                {
+                    current = Vector.Create(
+                        current.X + xIncrement,
+                        current.Y + yIncrement);
                 }
             }
-
-            throw new InvalidOperationException(
-                "Should be impossible to reach here");
         }
 
-        public static IEnumerable<StepCandidate>
-            WalkSlope(Vector currentLocation, Vector target)
-        {
-            var slope = CalculateSlope(currentLocation, target);
-            var xLength = target.X - currentLocation.X;
-
-            return Enumerable
-                .Range(1, xLength)
-                .Select(xOffset => CreateStepCandidate(
-                    currentLocation, slope, xOffset));
-        }
-
-        public static StepCandidate CreateStepCandidate(
-            Vector location, double slope, int xOffset)
-        {
-            var yOffsetRaw = xOffset * slope;
-            var yOffset = (int)yOffsetRaw;
-
-            var stepLocation = Vector
-                .Create(location.X + xOffset, location.Y + yOffset);
-
-            var candidates =
-                new List<TestCandidate>
-                {
-                    TestCandidate.Create(
-                        stepLocation,
-                        BlockFactor(yOffsetRaw))
-                };
-
-            // If slope is 1d, using tolerace test
-            if (Math.Abs(slope - 1d) < Tolerance)
-            {
-                candidates.Add(TestCandidate.Create(
-                    stepLocation + Directions.South, 0.5d));
-
-                candidates.Add(TestCandidate.Create(
-                    stepLocation + Directions.West, 0.5d));
-            }
-            else if (Math.Abs(yOffsetRaw - yOffset) > Tolerance)
-            {
-                candidates.Add(TestCandidate.Create(
-                    stepLocation + Directions.North,
-                    OffsetBlockFactor(yOffsetRaw)));
-            }
-
-            return StepCandidate.Create(stepLocation, candidates);
-        }
-
-        public static double CalculateStepModifier(
-            StepCandidate stepCandidate,
+        public static bool CanSee(
+            this Vector location, 
+            Vector target, 
             Func<Vector, bool> blocksLineOfSight)
         {
-            Func<double, TestCandidate, double> calculateFactor =
-                (factor, candidate) => blocksLineOfSight(candidate.Location)
-                    ? factor - candidate.Factor
-                    : factor;
-
-            return Math.Max(
-                0d,
-                stepCandidate
-                    .TestCandidates
-                    .Aggregate(1d, calculateFactor));
-        }
-
-        public static double CalculateSlope(Vector from, Vector to)
-        {
-            var difference = to - from;
-
-            // Should always be Octant 1
-            Debug.Assert(
-                difference.X >= 0 &&
-                difference.Y >= 0 &&
-                difference.X >= difference.Y);
-
-            return difference.Y / (double)difference.X;
-        }
-
-        public static double BlockFactor(double rawY)
-        {
-            return 1 - OffsetBlockFactor(rawY);
-        }
-
-        public static double OffsetBlockFactor(double rawY)
-        {
-            return Math.Round(rawY - (int)rawY, 2);
+            return CastRay(location, target).All(x => !blocksLineOfSight(x));
         }
     }
 }
