@@ -20,15 +20,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Woz.Core.Geometry;
+using Woz.Immutable.Collections;
+using Woz.Linq.Collections;
 
 namespace Woz.FieldOfView
 {
-    // This algorithm only processes within octant 1.
-    // When working in other octants the coordinates are mapped
-    // such that they overlap on octant 1. See Octants
-
     public static class LineOfSight
     {
         public static IEnumerable<Vector> CastRay(this Vector start, Vector end)
@@ -88,6 +87,40 @@ namespace Woz.FieldOfView
             Func<Vector, bool> blocksLineOfSight)
         {
             return CastRay(location, target).All(x => !blocksLineOfSight(x));
+        }
+
+        [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
+        public static IImmutableGrid<bool> VisibleRegion(
+            this Vector location,
+            int radius,
+            Func<Vector, bool> blocksLineOfSight)
+        {
+            // Not as fast as a shadowcast because we visit tiles closer
+            // to location multiple times when ray casting out from
+            // location to each target. The cost is worth it as we are
+            // sure what players/monsters can target matches what the 
+            // player can see
+
+            Func<Vector, Vector> gridMapper = 
+                vector => Vector.Create(
+                    vector.X - (location.X - radius), 
+                    vector.Y - (location.Y - radius));
+
+            var axisLength = radius * 2 + 1;
+
+            var gridBuilder = ImmutableGrid<bool>
+                .CreateBuilder(axisLength, axisLength);
+
+            var xs = Enumerable.Range(location.X - radius, axisLength);
+            var ys = Enumerable.Range(location.Y - radius, axisLength).ToArray();
+            var coordinates = xs.SelectMany(x => ys, Vector.Create);
+
+            coordinates
+                .Where(target => location.DistanceFrom(target) < radius)
+                .Where(target => location.CanSee(target, blocksLineOfSight))
+                .ForEach(target => gridBuilder.Set(gridMapper(target), true));
+
+            return gridBuilder.Build();
         }
     }
 }
