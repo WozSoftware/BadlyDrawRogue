@@ -81,6 +81,26 @@ namespace Woz.Core.Geometry
             return !vector1.Equals(vector2);
         }
 
+        public static bool operator >(Vector vector1, Vector vector2)
+        {
+            return vector1.X > vector2.X && vector1.Y > vector2.Y;
+        }
+
+        public static bool operator <(Vector vector1, Vector vector2)
+        {
+            return vector1.X < vector2.X && vector1.Y < vector2.Y;
+        }
+
+        public static bool operator >=(Vector vector1, Vector vector2)
+        {
+            return vector1.X >= vector2.X && vector1.Y >= vector2.Y;
+        }
+
+        public static bool operator <=(Vector vector1, Vector vector2)
+        {
+            return vector1.X <= vector2.X && vector1.Y <= vector2.Y;
+        }
+
         public static Vector operator +(Vector vector1, Vector vector2)
         {
             return new Vector(vector1._x + vector2._x, vector1._y + vector2._y);

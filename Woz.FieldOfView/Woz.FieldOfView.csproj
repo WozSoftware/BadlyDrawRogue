@@ -37,6 +37,7 @@
     <Compile Include="LineOfSight.cs" />
     <Compile Include="Octants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewPort.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Woz.Core\Woz.Core.csproj">

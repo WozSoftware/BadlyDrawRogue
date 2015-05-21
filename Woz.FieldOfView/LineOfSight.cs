@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Woz.Core.Geometry;
@@ -90,7 +91,7 @@ namespace Woz.FieldOfView
         }
 
         [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
-        public static IImmutableGrid<bool> VisibleRegion(
+        public static ViewPort VisibleRegion(
             this Vector location,
             int radius,
             Func<Vector, bool> blocksLineOfSight)
@@ -101,26 +102,66 @@ namespace Woz.FieldOfView
             // sure what players/monsters can target matches what the 
             // player can see
 
-            Func<Vector, Vector> gridMapper = 
-                vector => Vector.Create(
-                    vector.X - (location.X - radius), 
-                    vector.Y - (location.Y - radius));
+            var min = location - (Directions.SouthWest * radius);
+            var max = location - (Directions.NorthEast * radius);
 
-            var axisLength = radius * 2 + 1;
+            var viewPortStorage = ImmutableGrid<bool>
+                .CreateBuilder(max.X - min.X + 1, max.Y - min.Y + 1);
 
-            var gridBuilder = ImmutableGrid<bool>
-                .CreateBuilder(axisLength, axisLength);
+            Func<Vector, Vector> viewPortMapper =
+                vector => Vector.Create(vector.X - min.X, vector.Y - min.Y);
 
-            var xs = Enumerable.Range(location.X - radius, axisLength);
-            var ys = Enumerable.Range(location.Y - radius, axisLength).ToArray();
-            var coordinates = xs.SelectMany(x => ys, Vector.Create);
+            Action<IEnumerable<Vector>> traceRay =
+                ray =>
+                {
+                    foreach (var rayPoint in ray)
+                    {
+                        viewPortStorage.Set(viewPortMapper(rayPoint), true);
 
-            coordinates
-                .Where(target => location.DistanceFrom(target) < radius)
-                .Where(target => location.CanSee(target, blocksLineOfSight))
-                .ForEach(target => gridBuilder.Set(gridMapper(target), true));
+                        if (blocksLineOfSight(rayPoint))
+                        {
+                            break;
+                        }
+                    }
+                };
 
-            return gridBuilder.Build();
+            RayEndPoints(min, max)
+                .Select(endPoint =>
+                    CastRay(location, endPoint, false, true)
+                        .Where(x => location.DistanceFrom(x) < radius))
+                .ForEach(traceRay);
+
+            return ViewPort.Create(
+                min, max, viewPortMapper, viewPortStorage.Build());
+        }
+
+        public static IEnumerable<Vector> RayEndPoints(Vector min, Vector max)
+        {
+            return RayEndPointsXAxis(min.X, max.X, min.Y)
+                .Concat(RayEndPointsXAxis(min.X, max.X, max.Y))
+                .Concat(RayEndPointsYAxis(min.X, min.Y, max.Y))
+                .Concat(RayEndPointsYAxis(max.X, min.Y, max.Y))
+                .Distinct();
+        }
+
+        public static IEnumerable<Vector> RayEndPointsXAxis(int xStart, int xEnd, int y)
+        {
+            Debug.Assert(xStart < xEnd);
+
+            for (var x = xStart; x <= xEnd; x++)
+            {
+                yield return Vector.Create(x, y);
+            }
+        }
+
+        public static IEnumerable<Vector> RayEndPointsYAxis(int x, int yStart, int yEnd)
+        {
+            Debug.Assert(yStart < yEnd);
+
+            for (var y = yStart; x <= yEnd; x++)
+            {
+                yield return Vector.Create(x, y);
+            }
         }
     }
 }
