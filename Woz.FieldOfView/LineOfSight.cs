@@ -21,7 +21,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
@@ -90,8 +89,7 @@ namespace Woz.FieldOfView
             return CastRay(location, target).All(x => !blocksLineOfSight(x));
         }
 
-        [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
-        public static ViewPort VisibleRegion(
+        public static Func<Vector, bool> CalculateVisibleRegion(
             this Vector location,
             int radius,
             Func<Vector, bool> blocksLineOfSight)
@@ -100,7 +98,7 @@ namespace Woz.FieldOfView
             // to location multiple times when ray casting out from
             // location to each target. The cost is worth it as we are
             // sure what players/monsters can target matches what the 
-            // player can see
+            // player can see as built on the same ray cast. 
 
             var min = location - (Directions.SouthWest * radius);
             var max = location - (Directions.NorthEast * radius);
@@ -111,57 +109,62 @@ namespace Woz.FieldOfView
             Func<Vector, Vector> viewPortMapper =
                 vector => Vector.Create(vector.X - min.X, vector.Y - min.Y);
 
+            Func<Vector, IEnumerable<Vector>> castRay =
+                endPoint => CastRay(location, endPoint, false, true)
+                    .Where(x => location.DistanceFrom(x) < radius);
+
             Action<IEnumerable<Vector>> traceRay =
                 ray =>
                 {
-                    foreach (var rayPoint in ray)
-                    {
-                        viewPortStorage.Set(viewPortMapper(rayPoint), true);
-
-                        if (blocksLineOfSight(rayPoint))
+                    ray.ForEachBreakable(
+                        rayPoint =>
                         {
-                            break;
-                        }
-                    }
+                            viewPortStorage.Set(viewPortMapper(rayPoint), true);
+                            return blocksLineOfSight(rayPoint);
+                        });
                 };
 
-            RayEndPoints(min, max)
-                .Select(endPoint =>
-                    CastRay(location, endPoint, false, true)
-                        .Where(x => location.DistanceFrom(x) < radius))
-                .ForEach(traceRay);
+            RayEndPoints(min, max).Select(castRay).ForEach(traceRay);
 
-            return ViewPort.Create(
-                min, max, viewPortMapper, viewPortStorage.Build());
+            return CreateIsVisible(
+                min, min, viewPortMapper, viewPortStorage.Build());
         }
 
         public static IEnumerable<Vector> RayEndPoints(Vector min, Vector max)
         {
-            return RayEndPointsXAxis(min.X, max.X, min.Y)
-                .Concat(RayEndPointsXAxis(min.X, max.X, max.Y))
-                .Concat(RayEndPointsYAxis(min.X, min.Y, max.Y))
-                .Concat(RayEndPointsYAxis(max.X, min.Y, max.Y))
-                .Distinct();
+            Debug.Assert(min < max);
+
+            Func<IEnumerable<int>, int, IEnumerable<Vector>> xsBuilder = 
+                (xs, y) => xs.Select(x => Vector.Create(x, y));
+
+            Func<int, IEnumerable<int>, IEnumerable<Vector>> ysBuilder =
+                (x, ys) => ys.Select(y => Vector.Create(x, y));
+
+            var xSequence = Enumerable.Range(min.X, max.X - min.X + 1);
+            var ySequence = Enumerable.Range(min.Y, max.Y - min.Y + 1);
+
+            // ReSharper disable PossibleMultipleEnumeration
+            // Ignoring the multiple enumeration as the generation is 
+            // cheap and saves allocation on heap for the array
+            var north = xsBuilder(xSequence, max.Y);
+            var east = ysBuilder(max.X, ySequence);
+            var south = xsBuilder(xSequence, min.Y);
+            var west = ysBuilder(min.X, ySequence);
+            // ReSharper restore PossibleMultipleEnumeration
+            
+            return north.Concat(east).Concat(south).Concat(west).Distinct();
         }
 
-        public static IEnumerable<Vector> RayEndPointsXAxis(int xStart, int xEnd, int y)
+        public static Func<Vector, bool> CreateIsVisible(
+            Vector min,
+            Vector max,
+            Func<Vector, Vector> viewPortMapper,
+            IImmutableGrid<bool> viewPort)
         {
-            Debug.Assert(xStart < xEnd);
-
-            for (var x = xStart; x <= xEnd; x++)
-            {
-                yield return Vector.Create(x, y);
-            }
-        }
-
-        public static IEnumerable<Vector> RayEndPointsYAxis(int x, int yStart, int yEnd)
-        {
-            Debug.Assert(yStart < yEnd);
-
-            for (var y = yStart; x <= yEnd; x++)
-            {
-                yield return Vector.Create(x, y);
-            }
+            return vector =>
+                vector >= min &&
+                vector <= min &&
+                viewPort[viewPortMapper(vector)];
         }
     }
 }

@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.Linq.Collections
@@ -113,6 +114,18 @@ namespace Woz.Linq.Collections
             foreach (var item in self)
             {
                 action(item);
+            }
+        }
+
+        public static void ForEachBreakable<T>(
+            this IEnumerable<T> self, Func<T, bool> actionShouldBreak)
+        {
+            foreach (var item in self)
+            {
+                if (actionShouldBreak(item))
+                {
+                    break;
+                }
             }
         }
     }
