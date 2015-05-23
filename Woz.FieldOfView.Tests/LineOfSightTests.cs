@@ -23,6 +23,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
+using Woz.Immutable.Collections;
+using Woz.Linq.Collections;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.FieldOfView.Tests
@@ -32,6 +34,28 @@ namespace Woz.FieldOfView.Tests
     [TestClass]
     public class LineOfSightTests
     {
+        [TestMethod]
+        public void CastRayIncludeStart()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
+
+            var ray = start.CastRay(target, true, false);
+
+            Assert.IsTrue(ray.Contains(start));
+        }
+
+        [TestMethod]
+        public void CastRayIncludeEnd()
+        {
+            var start = Vector.Create(0, 0);
+            var target = Vector.Create(0, 6);
+
+            var ray = start.CastRay(target, false, true);
+
+            Assert.IsTrue(ray.Contains(target));
+        }
+
         [TestMethod]
         public void CastRayYOnly()
         {
@@ -238,6 +262,158 @@ namespace Woz.FieldOfView.Tests
 
             Assert.IsTrue(
                 start.CanSee(target, vector => vector == target));
+        }
+
+        [TestMethod]
+        public void CalculateVisibleRegionNoWalls()
+        {
+            var expected =
+                new[]
+                {
+                    "         ",
+                    "  yyyyy  ",
+                    " yyyyyyy ",
+                    " yyyyyyy ",
+                    " yyy@yyy ",
+                    " yyyyyyy ",
+                    " yyyyyyy ",
+                    "  yyyyy  ",
+                    "         "
+                };
+
+            TestCreateVisibleRegion(vector => false, expected);
+        }
+
+        [TestMethod]
+        public void CalculateVisibleRegionWithWalls()
+        {
+            var map =
+                new[]
+                {
+                    "         ",
+                    "         ",
+                    " ++ +  + ",
+                    "    +    ",
+                    "    @+   ",
+                    "    + +  ",
+                    "    + +  ",
+                    "      +  ",
+                    "         "
+                };
+
+            Func<Vector, bool> blocksLineOfSight =
+                vector => map[vector.Y][vector.X] == '+';
+
+            var expected =
+                new[]
+                {
+                    "         ",
+                    "         ",
+                    " ++   y  ",
+                    " yyy+y   ",
+                    " yyy@+   ",
+                    " yyy+y   ",
+                    " yy   +  ",
+                    "         ",
+                    "         "
+                };
+
+            TestCreateVisibleRegion(blocksLineOfSight, expected);
+        }
+
+        public void TestCreateVisibleRegion(
+            Func<Vector, bool> blocksLineOfSight, string[] expected)
+        {
+
+            var viewPort = Vector.Create(4, 4)
+                .CalculateVisibleRegion(4, blocksLineOfSight);
+
+            var toTest =
+                from x in Enumerable.Range(0, 9)
+                from y in Enumerable.Range(0, 9)
+                select Vector.Create(x, y);
+
+            toTest.ForEach(
+                vector =>
+                {
+                    var expectedCanSee = expected[vector.Y][vector.X] != ' ';
+                    Assert.AreEqual(
+                        expectedCanSee, viewPort(vector),
+                        string.Format("Vector({0},{1})", vector.X, vector.Y));
+                });
+        }
+
+        [TestMethod]
+        public void RayEndPoints()
+        {
+            var min = Vector.Create(5, 5);
+            var max = Vector.Create(7, 7);
+
+            Func<IEnumerable<Vector>, Vector[]> prepare =
+                vectors => vectors
+                    .OrderBy(v => v.X)
+                    .ThenBy(v => v.Y)
+                    .ToArray();
+
+            var expected = prepare(
+                new[]
+                {
+                    Vector.Create(5, 5),
+                    Vector.Create(5, 6),
+                    Vector.Create(5, 7),
+                    Vector.Create(7, 5),
+                    Vector.Create(7, 6),
+                    Vector.Create(7, 7),
+                    Vector.Create(6, 5),
+                    Vector.Create(6, 7)
+                });
+
+            var result = prepare(LineOfSight.RayEndPoints(min, max));
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void CreateIsVisibleWhenLessThanMin()
+        {
+            TestCreateIsVisible(Vector.Create(1, 1), false);
+        }
+
+        [TestMethod]
+        public void CreateIsVisibleWhenGreaterThanMax()
+        {
+            TestCreateIsVisible(Vector.Create(20, 20), false);
+        }
+
+        [TestMethod]
+        public void CreateIsVisibleWhenVisible()
+        {
+            TestCreateIsVisible(Vector.Create(10, 10), true);
+        }
+
+        [TestMethod]
+        public void CreateIsVisibleWhenNotVisible()
+        {
+            TestCreateIsVisible(Vector.Create(11, 11), false);
+        }
+
+        public void TestCreateIsVisible(Vector location, bool expected)
+        {
+            var min = Vector.Create(5, 5);
+            var max = Vector.Create(15, 15);
+
+            Func<Vector, Vector> mapper = 
+                vector => Vector.Create(vector.X - min.X, vector.Y - min.Y);
+
+            var viewPort = ImmutableGrid<bool>
+                .CreateBuilder(max.X - min.X + 1, max.Y - min.Y + 1)
+                .Set(5, 5, true)
+                .Build();
+
+            var isVisible = LineOfSight
+                .CreateIsVisible(min, max, mapper, viewPort)(location);
+
+            Assert.AreEqual(expected, isVisible);
         }
     }
 }

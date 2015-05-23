@@ -53,6 +53,9 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsTrue(Math.Abs(
                 Vector.Create(2, 2).DistanceFrom(Vector.Create(1, 1)) -
                 1.4142135623731d) < 0.0000000000001d);
+
+            Assert.AreEqual(
+                4, Vector.Create(0, 0).DistanceFrom(Vector.Create(0, 4)));
         }
 
         [TestMethod]
@@ -90,6 +93,46 @@ namespace Woz.Core.Tests.GeometryTests
             Assert.IsFalse(Vector.Create(1, 2) != Vector.Create(1, 2));
             Assert.IsTrue(Vector.Create(2, 2) != Vector.Create(1, 2));
             Assert.IsTrue(Vector.Create(1, 1) != Vector.Create(1, 2));
+        }
+
+        [TestMethod]
+        public void OperatorGreater()
+        {
+            // ReSharper disable once EqualExpressionComparison
+            Assert.IsFalse(Vector.Create(2, 2) > Vector.Create(2, 2));
+            Assert.IsFalse(Vector.Create(2, 2) > Vector.Create(1, 3));
+            Assert.IsFalse(Vector.Create(2, 2) > Vector.Create(3, 1));
+            Assert.IsTrue(Vector.Create(2, 2) > Vector.Create(1, 1));
+        }
+
+        [TestMethod]
+        public void OperatorGreaterOrEqual()
+        {
+            Assert.IsFalse(Vector.Create(2, 2) >= Vector.Create(1, 3));
+            Assert.IsFalse(Vector.Create(2, 2) >= Vector.Create(3, 1));
+            Assert.IsTrue(Vector.Create(2, 2) >= Vector.Create(1, 1));
+            // ReSharper disable once EqualExpressionComparison
+            Assert.IsTrue(Vector.Create(2, 2) >= Vector.Create(2, 2));
+        }
+
+        [TestMethod]
+        public void OperatorLess()
+        {
+            // ReSharper disable once EqualExpressionComparison
+            Assert.IsFalse(Vector.Create(2, 2) < Vector.Create(2, 2));
+            Assert.IsFalse(Vector.Create(2, 2) < Vector.Create(1, 3));
+            Assert.IsFalse(Vector.Create(2, 2) < Vector.Create(3, 1));
+            Assert.IsTrue(Vector.Create(2, 2) < Vector.Create(3, 3));
+        }
+
+        [TestMethod]
+        public void OperatorLessOrEqual()
+        {
+            Assert.IsFalse(Vector.Create(2, 2) <= Vector.Create(1, 3));
+            Assert.IsFalse(Vector.Create(2, 2) <= Vector.Create(3, 1));
+            Assert.IsTrue(Vector.Create(2, 2) <= Vector.Create(3, 3));
+            // ReSharper disable once EqualExpressionComparison
+            Assert.IsTrue(Vector.Create(2, 2) <= Vector.Create(2, 2));
         }
 
         [TestMethod]

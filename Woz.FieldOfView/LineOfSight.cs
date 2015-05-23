@@ -100,8 +100,8 @@ namespace Woz.FieldOfView
             // sure what players/monsters can target matches what the 
             // player can see as built on the same ray cast. 
 
-            var min = location - (Directions.SouthWest * radius);
-            var max = location - (Directions.NorthEast * radius);
+            var min = location + (Directions.SouthWest * radius);
+            var max = location + (Directions.NorthEast * radius);
 
             var viewPortStorage = ImmutableGrid<bool>
                 .CreateBuilder(max.X - min.X + 1, max.Y - min.Y + 1);
@@ -110,8 +110,8 @@ namespace Woz.FieldOfView
                 vector => Vector.Create(vector.X - min.X, vector.Y - min.Y);
 
             Func<Vector, IEnumerable<Vector>> castRay =
-                endPoint => CastRay(location, endPoint, false, true)
-                    .Where(x => location.DistanceFrom(x) < radius);
+                endPoint => CastRay(location, endPoint, true, true)
+                    .Where(point => location.DistanceFrom(point) < radius);
 
             Action<IEnumerable<Vector>> traceRay =
                 ray =>
@@ -127,7 +127,7 @@ namespace Woz.FieldOfView
             RayEndPoints(min, max).Select(castRay).ForEach(traceRay);
 
             return CreateIsVisible(
-                min, min, viewPortMapper, viewPortStorage.Build());
+                min, max, viewPortMapper, viewPortStorage.Build());
         }
 
         public static IEnumerable<Vector> RayEndPoints(Vector min, Vector max)
@@ -163,7 +163,7 @@ namespace Woz.FieldOfView
         {
             return vector =>
                 vector >= min &&
-                vector <= min &&
+                vector <= max &&
                 viewPort[viewPortMapper(vector)];
         }
     }
