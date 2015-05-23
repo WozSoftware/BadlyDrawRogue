@@ -22,7 +22,7 @@ using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Validators
 {
-    public class ThingTypeGroups
+    public static class ThingTypeGroups
     {
         public static readonly IEnumerable<ThingTypes> BlockMovement =
             new[] {ThingTypes.Furniture};

@@ -22,7 +22,7 @@ using Woz.RogueEngine.Levels;
 
 namespace Woz.RogueEngine.Validators
 {
-    public class TileTypeGroups
+    public static class TileTypeGroups
     {
         public static readonly IEnumerable<TileTypes> DoorTypes = 
             new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};
