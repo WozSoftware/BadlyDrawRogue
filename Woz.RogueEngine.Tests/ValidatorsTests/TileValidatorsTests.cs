@@ -41,19 +41,6 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
             5, ThingTypes.Item, "Test Thing", EquipmentSlots.None, false);
 
         [TestMethod]
-        public void IsValidMove()
-        {
-            // Fires all the tests to ensure that IsValidMove is a combination
-            // of all the expected validators. Should probably have one method
-            // per test but meh, good enough for this need
-
-            TestValidMoveTileTypes(TileValidators.IsValidMove);
-            TestValidMoveTileThings(TileValidators.IsValidMove);
-            TestValidMoveNoActor(TileValidators.IsValidMove);
-            TestInvalidMoveActorPresent(TileValidators.IsValidMove);
-        }
-
-        [TestMethod]
         public void IsValidMoveTileType()
         {
             TestValidMoveTileTypes(TileValidators.IsValidMoveTileType);
@@ -62,7 +49,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void IsValidMoveTileThings()
         {
-            TestValidMoveTileThings(TileValidators.IsValidMove);
+            TestValidMoveTileThings(TileValidators.IsValidMoveTileThings);
         }
 
         [TestMethod]
@@ -128,7 +115,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                     });
         }
 
-        public void TestValidMoveTileThings<T>(
+        public static void TestValidMoveTileThings<T>(
             Func<Tile, IValidation<T>> validator)
         {
             EnumUtils
@@ -147,13 +134,13 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                     });
         }
 
-        public void TestValidMoveNoActor<T>(
+        public static void TestValidMoveNoActor<T>(
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsTrue(validator(Tile).IsValid);
         }
 
-        public void TestInvalidMoveActorPresent<T>(
+        public static void TestInvalidMoveActorPresent<T>(
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsFalse(

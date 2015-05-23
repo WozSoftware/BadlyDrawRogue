@@ -25,6 +25,26 @@ namespace Woz.RogueEngine.Validators
 {
     public static class LevelValidators
     {
+        public static IValidation<Level> 
+            IsValidMove(this Level level, Vector location)
+        {
+            return
+                from tile in level.IsValidLocation(location)
+                from x in tile.IsValidMoveTileType()
+                from y in tile.IsValidMoveTileThings()
+                from z in tile.IsValidMoveNoActor()
+                select level;
+        }
+
+        public static IValidation<Level>
+            BlocksLineOfSight(this Level level, Vector location)
+        {
+            return
+                from tile in level.IsValidLocation(location)
+                from validMove in tile.TileBlocksLineOfSight()
+                select level;
+        }
+
         public static IValidation<Level> IsNewActor(
             this Level level, long actorId)
         {

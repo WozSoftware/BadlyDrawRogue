@@ -27,6 +27,19 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
     [TestClass]
     public class LevelValidatorsTests
     {
+        //[TestMethod]
+        //public void IsValidMove()
+        //{
+        //    // Fires all the tests to ensure that IsValidMove is a combination
+        //    // of all the expected validators. Should probably have one method
+        //    // per test but meh, good enough for this need
+
+        //    TileValidatorsTests.TestValidMoveTileTypes(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestValidMoveTileThings(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestValidMoveNoActor(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestInvalidMoveActorPresent(LevelValidators.IsValidMove);
+        //}
+
         [TestMethod]
         public void IsNewActor()
         {

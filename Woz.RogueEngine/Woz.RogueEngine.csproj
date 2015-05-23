@@ -39,6 +39,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\LineOfSight.cs" />
+    <Compile Include="AI\RouteFinder.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandResult.cs" />
@@ -88,6 +90,10 @@
       <Project>{e030e5ba-a70a-4023-92d7-d20a7f4102f4}</Project>
       <Name>Woz.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Woz.FieldOfView\Woz.FieldOfView.csproj">
+      <Project>{C0DDFDDD-8790-4CB3-ADD9-CE9F72AF79EA}</Project>
+      <Name>Woz.FieldOfView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Woz.Immutable\Woz.Immutable.csproj">
       <Project>{E7F50371-A7C5-4B42-AB7F-DBCE7FBA1099}</Project>
       <Name>Woz.Immutable</Name>
@@ -103,6 +109,10 @@
     <ProjectReference Include="..\Woz.Monads\Woz.Monads.csproj">
       <Project>{5765091d-856c-41d4-b97e-aa7a3d0ed5ba}</Project>
       <Name>Woz.Monads</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woz.PathFinding\Woz.PathFinding.csproj">
+      <Project>{EC905BE6-5B2E-477C-A975-66FF6F087442}</Project>
+      <Name>Woz.PathFinding</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

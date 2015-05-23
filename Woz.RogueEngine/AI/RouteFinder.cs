@@ -17,21 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using System.Collections.Generic;
+using Woz.Core.Geometry;
+using Woz.Monads.MaybeMonad;
+using Woz.PathFinding;
 using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.Validators;
 
-namespace Woz.RogueEngine.Validators
+namespace Woz.RogueEngine.AI
 {
-    public static class TileTypeGroups
+    public static class RouteFinder
     {
-        public static readonly IEnumerable<TileTypes> DoorTypes = 
-            new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};
-
-        public static readonly IEnumerable<TileTypes> BlockMovement = 
-            new[] {TileTypes.Void, TileTypes.Wall, TileTypes.ClosedDoor};
-
-        public static readonly IEnumerable<TileTypes> BlocksLineOfSight =
-            new[] {TileTypes.Void, TileTypes.Wall, TileTypes.ClosedDoor};
+        public static IMaybe<Path> FindRoute(
+            this Level level, Vector start, Vector target)
+        {
+            return start.FindRoute(
+                target, toTest => !level.IsValidMove(toTest).IsValid);
+        }
     }
-
 }

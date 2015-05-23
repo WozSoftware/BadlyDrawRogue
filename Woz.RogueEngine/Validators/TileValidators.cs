@@ -25,15 +25,7 @@ namespace Woz.RogueEngine.Validators
 {
     public static class TileValidators
     {
-        public static IValidation<bool> IsValidMove(this Tile tile)
-        {
-            return
-                from x in tile.IsValidMoveTileType()
-                from y in tile.IsValidMoveTileThings()
-                from z in tile.IsValidMoveNoActor()
-                select true;
-        }
-
+        #region Movement
         public static IValidation<Tile> IsValidMoveTileType(this Tile tile)
         {
             return TileTypeGroups.BlockMovement.Contains(tile.TileType)
@@ -57,7 +49,18 @@ namespace Woz.RogueEngine.Validators
                     tile.Actor.Value.Name).ToInvalid<Tile>()
                 : tile.ToValid();
         }
+        #endregion
 
+        #region Line Of Sight
+        public static IValidation<Tile> TileBlocksLineOfSight(this Tile tile)
+        {
+            return TileTypeGroups.BlocksLineOfSight.Contains(tile.TileType)
+                ? "Can't see through".ToInvalid<Tile>()
+                : tile.ToValid();
+        }
+        #endregion
+
+        #region Actors
         public static IValidation<Actor> HasActor(this Tile tile)
         {
             return tile.Actor.HasValue
@@ -74,5 +77,6 @@ namespace Woz.RogueEngine.Validators
                     "Actor {0} not present in the tile",
                     actorId).ToInvalid<Actor>();
         }
+        #endregion
     }
 }

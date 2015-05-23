@@ -17,33 +17,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using Woz.Core.Geometry;
-using Woz.Monads.ValidationMonad;
-using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Validators
+using System;
+using Woz.Core.Geometry;
+using Woz.FieldOfView;
+using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.Validators;
+
+namespace Woz.RogueEngine.AI
 {
-    public static class CommandValidators
+    public static class LineOfSight
     {
-        public static IValidation<Level> CanSpawnActor(
-            this Level level, long actorId, Vector location)
+        public const int VisibleRegionRadius = 8;
+
+        public static bool CanSee(
+            this Level level, Vector location, Vector target)
         {
-            return
-                from isNew in level.IsNewActor(actorId)
-                from targetTile in level.IsValidMove(location)
-                select level;
+            return location.CanSee(
+                target,
+                toTest => !level.BlocksLineOfSight(toTest).IsValid);
         }
 
-        public static IValidation<Level> CanMoveActor(
-            this Level level, long actorId, Vector newLocation)
+        public static Func<Vector, bool> CalculateVisibleRegion(
+            this Level level,
+            Vector location,
+            int radius)
         {
-            return
-                from actorState in level.ActorStateExists(actorId)
-                from actorTile in level.IsValidLocation(actorState.Location)
-                from actor in actorTile.HasActor(actorId)
-                from withinRange in actorState.IsWithinMoveRange(newLocation)
-                from validMove in level.IsValidMove(newLocation)
-                select level;
+            return location.CalculateVisibleRegion(
+                VisibleRegionRadius,
+                toTest => !level.BlocksLineOfSight(toTest).IsValid);
         }
     }
 }

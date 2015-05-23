@@ -37,14 +37,14 @@ namespace Woz.PathFinding
     public static class RouteFinder
     {
         public static IMaybe<Path> FindRoute(
-            Vector start, Vector target,
+            this Vector start, Vector target,
             Func<Vector, bool> isValidMove)
         {
             return FindRoute(start, target, isValidMove, Maybe<int>.None);
         }
 
         public static IMaybe<Path> FindRoute(
-            Vector start, Vector target,
+            this Vector start, Vector target,
             Func<Vector, bool> isValidMove,
             IMaybe<int> breakSize)
         {
