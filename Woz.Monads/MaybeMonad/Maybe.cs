@@ -24,7 +24,7 @@ namespace Woz.Monads.MaybeMonad
 {
     public static class Maybe<T>
     {
-        public static readonly IMaybe<T> None = new Nothing<T>();
+        public static readonly IMaybe<T> None = new None<T>();
     }
 
     public static class Maybe

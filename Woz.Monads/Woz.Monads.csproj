@@ -45,7 +45,7 @@
     <Compile Include="MaybeMonad\MaybeDictionaryLookup.cs" />
     <Compile Include="MaybeMonad\MaybeEnumerable.cs" />
     <Compile Include="MaybeMonad\MaybeTryGet.cs" />
-    <Compile Include="MaybeMonad\Nothing.cs" />
+    <Compile Include="MaybeMonad\None.cs" />
     <Compile Include="MaybeMonad\Some.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMonad\State.cs" />

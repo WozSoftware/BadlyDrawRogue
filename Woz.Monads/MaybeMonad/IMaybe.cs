@@ -41,6 +41,9 @@ namespace Woz.Monads.MaybeMonad
         IMaybe<T> Where(Func<T, bool> predicate);
         void Do(Action<T> operation);
 
+        TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none);
+        void Match(Action<T> some, Action none);
+
         T OrElseDefault();
         T OrElse(T defaultValue);
         T OrElse(Func<T> valueFactory);

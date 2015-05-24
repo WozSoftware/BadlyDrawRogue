@@ -23,7 +23,7 @@ using System.Diagnostics;
 
 namespace Woz.Monads.MaybeMonad
 {
-    internal class Nothing<T> : IMaybe<T>
+    internal class None<T> : IMaybe<T>
     {
         public bool HasValue
         {
@@ -72,7 +72,23 @@ namespace Woz.Monads.MaybeMonad
         {
             Debug.Assert(operation != null);
 
-            throw new InvalidOperationException("Maybe has no value");
+            // Do nothing
+        }
+
+        public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
+        {
+            Debug.Assert(some != null);
+            Debug.Assert(none != null);
+
+            return none();
+        }
+
+        public void Match(Action<T> some, Action none)
+        {
+            Debug.Assert(some != null);
+            Debug.Assert(none != null);
+
+            none();
         }
 
         public T OrElseDefault()
@@ -106,8 +122,8 @@ namespace Woz.Monads.MaybeMonad
 
         public override bool Equals(object obj)
         {
-            var nothing = obj as Nothing<T>;
-            return nothing != null && Equals(nothing);
+            var none = obj as None<T>;
+            return none != null && Equals(none);
         }
 
         public override int GetHashCode()

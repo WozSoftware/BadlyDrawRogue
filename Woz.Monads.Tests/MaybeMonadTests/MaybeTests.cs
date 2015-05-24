@@ -124,7 +124,7 @@ namespace Woz.Monads.Tests.MaybeMonadTests
         }
 
         [TestMethod]
-        public void SelectManyCompose()
+        public void SelectManyComposeAllSome()
         {
             var maybe = 
                 from value1 in 1.ToMaybe()
@@ -133,6 +133,134 @@ namespace Woz.Monads.Tests.MaybeMonadTests
 
             Assert.IsTrue(maybe.HasValue);
             Assert.AreEqual(3, maybe.Value);
+        }
+
+        [TestMethod]
+        public void SelectManyComposeFirstNone()
+        {
+            var maybe =
+                from value1 in 1.ToMaybe()
+                from value2 in Maybe<int>.None
+                select value1 + value2;
+
+            Assert.IsFalse(maybe.HasValue);
+        }
+
+        [TestMethod]
+        public void SelectManyComposeSecondNone()
+        {
+            var maybe =
+                from value1 in Maybe<int>.None
+                from value2 in 1.ToMaybe()
+                select value1 + value2;
+
+            Assert.IsFalse(maybe.HasValue);
+        }
+
+        [TestMethod]
+        public void WhereSomeTrue()
+        {
+            var maybe = 1.ToMaybe().Where(x => x == 1);
+
+            Assert.IsTrue(maybe.HasValue);
+            Assert.AreEqual(1, maybe.Value);
+        }
+
+        [TestMethod]
+        public void WhereSomeFalse()
+        {
+            var maybe = 1.ToMaybe().Where(x => x == 2);
+
+            Assert.IsFalse(maybe.HasValue);
+        }
+
+        [TestMethod]
+        public void WhereNone()
+        {
+            var maybe = Maybe<int>.None.Where(x => x == 2);
+
+            Assert.IsFalse(maybe.HasValue);
+        }
+
+        [TestMethod]
+        public void DoSome()
+        {
+            var called = false;
+
+            1.ToMaybe()
+             .Do(
+                 x =>
+                 {
+                     Assert.AreEqual(1, x);
+                     called = true;
+                 });
+            
+            Assert.IsTrue(called);
+        }
+
+        [TestMethod]
+        public void DoNone()
+        {
+            var called = false;
+
+            Maybe<int>.None
+                      .Do(
+                          x =>
+                          {
+                              called = true;
+                          });
+
+            Assert.IsFalse(called);
+        }
+
+        [TestMethod]
+        public void MatchFunctionsWhenSome()
+        {
+            var maybe = 1.ToMaybe();
+
+            var result = maybe.Match(
+                some: value => value + 1,
+                none: () => 3);
+
+            Assert.AreEqual(2, result);
+        }
+
+        [TestMethod]
+        public void MatchFunctionsWhenNone()
+        {
+            var maybe = Maybe<int>.None;
+
+            var result = maybe.Match(
+                some: value => value + 1,
+                none: () => 3);
+
+            Assert.AreEqual(3, result);
+        }
+
+        [TestMethod]
+        public void MatchActionsWhenSome()
+        {
+            var maybe = 1.ToMaybe();
+
+            maybe.Match(
+                some: value =>
+                {
+                    Assert.AreEqual(1, value);
+                },
+                none: Assert.Fail);
+        }
+
+        [TestMethod]
+        public void MatchActionsWhenNone()
+        {
+            var maybe = Maybe<int>.None;
+
+            maybe.Match(
+                some: value =>
+                {
+                    Assert.Fail();
+                },
+                none: () => { });
         }
 
         [TestMethod]

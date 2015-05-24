@@ -84,6 +84,22 @@ namespace Woz.Monads.MaybeMonad
             operation(_value);
         }
 
+        public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
+        {
+            Debug.Assert(some != null);
+            Debug.Assert(none != null);
+
+            return some(_value);
+        }
+
+        public void Match(Action<T> some, Action none)
+        {
+            Debug.Assert(some != null);
+            Debug.Assert(none != null);
+
+            some(_value);
+        }
+
         public T OrElseDefault()
         {
             return _value;
