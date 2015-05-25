@@ -17,12 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System.Collections.Generic;
 using Woz.RogueEngine.Levels;
 
-namespace Woz.RogueEngine.Validators
+namespace Woz.RogueEngine.Validators.Rules
 {
-    public static class TileTypeGroups
+    public static class TileTypeRules
     {
         public static readonly IEnumerable<TileTypes> DoorTypes = 
             new[] {TileTypes.OpenDoor, TileTypes.ClosedDoor};

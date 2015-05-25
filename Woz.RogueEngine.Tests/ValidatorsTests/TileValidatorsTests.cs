@@ -28,6 +28,7 @@ using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Tests.LevelsTests;
 using Woz.RogueEngine.Validators;
+using Woz.RogueEngine.Validators.Rules;
 
 namespace Woz.RogueEngine.Tests.ValidatorsTests
 {
@@ -43,20 +44,29 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void IsValidMoveTileType()
         {
-            TestValidMoveTileTypes(TileValidators.IsValidMoveTileType);
+            TestInvalidWhenTileTypeBlocksMovement(
+                TileValidators.IsValidMoveTileType);
         }
 
         [TestMethod]
         public void IsValidMoveTileThings()
         {
-            TestValidMoveTileThings(TileValidators.IsValidMoveTileThings);
+            TestInvalidWhenThingTypeBlocksMovement(
+                TileValidators.IsValidMoveTileThings);
         }
 
         [TestMethod]
         public void IsValidMoveNoActor()
         {
-            TestValidMoveNoActor(TileValidators.IsValidMoveNoActor);
-            TestInvalidMoveActorPresent(TileValidators.IsValidMoveNoActor);
+            TestValidWhenNoActor(TileValidators.IsValidMoveNoActor);
+            TestInvalidWhenActorPresent(TileValidators.IsValidMoveNoActor);
+        }
+
+        [TestMethod]
+        public void BlocksLineOfSightTileType()
+        {
+            TestInvalidWhenTileTypeBlocksLineOfSight(
+                TileValidators.BlocksLineOfSightTileType);
         }
 
         [TestMethod]
@@ -98,7 +108,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                 .IsValid);
         }
 
-        public static void TestValidMoveTileTypes<T>(
+        public static void TestInvalidWhenTileTypeBlocksMovement<T>(
             Func<Tile, IValidation<T>> validator)
         {
             EnumUtils
@@ -110,12 +120,12 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                         var result = validator(tile);
 
                         Assert.AreEqual(
-                            !TileTypeGroups.BlockMovement.Contains(type),
+                            !TileTypeRules.BlockMovement.Contains(type),
                             result.IsValid);
                     });
         }
 
-        public static void TestValidMoveTileThings<T>(
+        public static void TestInvalidWhenThingTypeBlocksMovement<T>(
             Func<Tile, IValidation<T>> validator)
         {
             EnumUtils
@@ -124,28 +134,47 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
                     type =>
                     {
                         var thing = Thing.Set(ThingLens.ThingType, type);
-                        var tile = Tile.Set(TileLens.Things.Lookup(thing.Id), thing.ToSome());
+                        var tile = Tile.Set(
+                            TileLens.Things.Lookup(thing.Id), 
+                            thing.ToSome());
 
                         var result = validator(tile);
 
                         Assert.AreEqual(
-                            !ThingTypeGroups.BlockMovement.Contains(type),
+                            !ThingTypeRules.BlockMovement.Contains(type),
                             result.IsValid);
                     });
         }
 
-        public static void TestValidMoveNoActor<T>(
+        public static void TestValidWhenNoActor<T>(
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsTrue(validator(Tile).IsValid);
         }
 
-        public static void TestInvalidMoveActorPresent<T>(
+        public static void TestInvalidWhenActorPresent<T>(
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsFalse(
                 validator(Tile.Set(TileLens.Actor, ActorTests.Actor.ToSome()))
                 .IsValid);
+        }
+
+        public static void TestInvalidWhenTileTypeBlocksLineOfSight<T>(
+            Func<Tile, IValidation<T>> validator)
+        {
+            EnumUtils
+                .GetValues<TileTypes>()
+                .ForEach(
+                    type =>
+                    {
+                        var tile = Tile.Set(TileLens.TileType, type);
+                        var result = validator(tile);
+
+                        Assert.AreEqual(
+                            !TileTypeRules.BlocksLineOfSight.Contains(type),
+                            result.IsValid);
+                    });
         }
     }
 }

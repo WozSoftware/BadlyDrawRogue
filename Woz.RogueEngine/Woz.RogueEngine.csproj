@@ -74,9 +74,9 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\ActorValidators.cs" />
-    <Compile Include="Validators\ThingTypeGroups.cs" />
+    <Compile Include="Validators\Rules\ThingTypeRules.cs" />
     <Compile Include="Validators\ThingValidators.cs" />
-    <Compile Include="Validators\TileTypeGroups.cs" />
+    <Compile Include="Validators\Rules\TileTypeRules.cs" />
     <Compile Include="Validators\LevelValidators.cs" />
     <Compile Include="Validators\CommandValidators.cs" />
     <Compile Include="Validators\TileValidators.cs" />

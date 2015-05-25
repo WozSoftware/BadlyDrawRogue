@@ -18,6 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 using Woz.Core.Geometry;
+using Woz.Monads;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
 
@@ -25,34 +26,34 @@ namespace Woz.RogueEngine.Validators
 {
     public static class LevelValidators
     {
-        public static IValidation<Level> 
+        public static IValidation<Unit> 
             IsValidMove(this Level level, Vector location)
         {
             return
                 from tile in level.IsValidLocation(location)
-                from x in tile.IsValidMoveTileType()
-                from y in tile.IsValidMoveTileThings()
-                from z in tile.IsValidMoveNoActor()
-                select level;
+                from tileType in tile.IsValidMoveTileType()
+                from thingType in tile.IsValidMoveTileThings()
+                from noActor in tile.IsValidMoveNoActor()
+                select Unit.Value;
         }
 
-        public static IValidation<Level>
+        public static IValidation<Unit>
             BlocksLineOfSight(this Level level, Vector location)
         {
             return
                 from tile in level.IsValidLocation(location)
-                from validMove in tile.TileBlocksLineOfSight()
-                select level;
+                from validMove in tile.BlocksLineOfSightTileType()
+                select Unit.Value;
         }
 
-        public static IValidation<Level> IsNewActor(
+        public static IValidation<Unit> IsNewActor(
             this Level level, long actorId)
         {
             return level.ActorStates.ContainsKey(actorId)
                 ? string.Format(
                     "Actor Id={0} already exists",
-                    actorId).ToInvalid<Level>()
-                : level.ToValid();
+                    actorId).ToInvalid<Unit>()
+                : Unit.Value.ToValid();
         }
 
         public static IValidation<ActorState> ActorStateExists(

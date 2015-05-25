@@ -34,10 +34,10 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         //    // of all the expected validators. Should probably have one method
         //    // per test but meh, good enough for this need
 
-        //    TileValidatorsTests.TestValidMoveTileTypes(LevelValidators.IsValidMove);
-        //    TileValidatorsTests.TestValidMoveTileThings(LevelValidators.IsValidMove);
-        //    TileValidatorsTests.TestValidMoveNoActor(LevelValidators.IsValidMove);
-        //    TileValidatorsTests.TestInvalidMoveActorPresent(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestInvalidWhenTileTypeBlocksMovement(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestInvalidWhenThingTypeBlocksMovement(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestValidWhenNoActor(LevelValidators.IsValidMove);
+        //    TileValidatorsTests.TestInvalidWhenActorPresent(LevelValidators.IsValidMove);
         //}
 
         [TestMethod]

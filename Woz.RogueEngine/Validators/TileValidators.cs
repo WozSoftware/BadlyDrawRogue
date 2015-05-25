@@ -18,45 +18,47 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 using System.Linq;
+using Woz.Monads;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.Validators.Rules;
 
 namespace Woz.RogueEngine.Validators
 {
     public static class TileValidators
     {
         #region Movement
-        public static IValidation<Tile> IsValidMoveTileType(this Tile tile)
+        public static IValidation<Unit> IsValidMoveTileType(this Tile tile)
         {
-            return TileTypeGroups.BlockMovement.Contains(tile.TileType)
-                ? "Can't move there".ToInvalid<Tile>()
-                : tile.ToValid();
+            return TileTypeRules.BlockMovement.Contains(tile.TileType)
+                ? "Can't move there".ToInvalid<Unit>()
+                : Unit.Value.ToValid();
         }
 
-        public static IValidation<Tile> IsValidMoveTileThings(this Tile tile)
+        public static IValidation<Unit> IsValidMoveTileThings(this Tile tile)
         {
             return tile.Things.Values.Any(thing =>
-                    ThingTypeGroups.BlockMovement.Contains(thing.ThingType))
-                ? "Can't move there".ToInvalid<Tile>()
-                : tile.ToValid();
+                    ThingTypeRules.BlockMovement.Contains(thing.ThingType))
+                ? "Can't move there".ToInvalid<Unit>()
+                : Unit.Value.ToValid();
         }
 
-        public static IValidation<Tile> IsValidMoveNoActor(this Tile tile)
+        public static IValidation<Unit> IsValidMoveNoActor(this Tile tile)
         {
             return tile.Actor.HasValue
                 ? string.Format(
                     "Can't move there, blocked by {0}",
-                    tile.Actor.Value.Name).ToInvalid<Tile>()
-                : tile.ToValid();
+                    tile.Actor.Value.Name).ToInvalid<Unit>()
+                : Unit.Value.ToValid();
         }
         #endregion
 
         #region Line Of Sight
-        public static IValidation<Tile> TileBlocksLineOfSight(this Tile tile)
+        public static IValidation<Unit> BlocksLineOfSightTileType(this Tile tile)
         {
-            return TileTypeGroups.BlocksLineOfSight.Contains(tile.TileType)
-                ? "Can't see through".ToInvalid<Tile>()
-                : tile.ToValid();
+            return TileTypeRules.BlocksLineOfSight.Contains(tile.TileType)
+                ? "Can't see through".ToInvalid<Unit>()
+                : Unit.Value.ToValid();
         }
         #endregion
 
