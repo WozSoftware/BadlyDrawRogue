@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,38 +17,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woz.Core.Geometry;
-using Woz.Lenses;
-using Woz.RogueEngine.Operations;
-using Woz.RogueEngine.State.Lenses;
-using Woz.RogueEngine.Tests.TestInstances;
 
-namespace Woz.RogueEngine.Tests.OperationsTests
+using System.Collections.Immutable;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Woz.Lenses.Tests;
+using Woz.Monads.MaybeMonad;
+using Woz.RogueEngine.State;
+using Woz.RogueEngine.State.Lenses;
+
+namespace Woz.RogueEngine.Tests.StateTests.LensesTests
 {
+    using IThingStore = IImmutableDictionary<long, Thing>;
+
     [TestClass]
-    public class LevelOperationsTests
+    public class TileLensTests : BaseLensTests
     {
         [TestMethod]
-        public void SpawnActor()
+        public void TileType()
         {
-            var location = Vector.Create(0, 0);
-            var monster = SimpleLevel.Monster.Set(ActorLens.Id, 3);
-            var result = SimpleLevel.Level.SpawnActor(monster, location);
-
-            var actorState = result.ActorStates[monster.Id];
-            Assert.AreEqual(monster.Id, actorState.Id);
-            Assert.AreEqual(location, actorState.Location);
-
-            Assert.AreSame(monster, result.Tiles[location].Actor.Value);
+            TestLensWithAreEqual(
+                TileTests.Tile, TileLens.TileType, TileTypes.Floor);
         }
 
         [TestMethod]
-        public void MoveActor()
+        public void Name()
         {
-            var playerLocation = SimpleLevel.ActorLocation(SimpleLevel.Player);
-            //var result = SimpleLevel.Level.MoveActor(
-            //    SimpleLevel.Player.Id, playerLocation.)
+            TestLensWithAreEqual(TileTests.Tile, TileLens.Name, "A");
+        }
+
+        [TestMethod]
+        public void Actor()
+        {
+            TestLensWithAreSame(
+                TileTests.Tile, TileLens.Actor, 
+                new Mock<IMaybe<Actor>>().Object);
+        }
+
+        [TestMethod]
+        public void Things()
+        {
+            TestLensWithAreSame(
+                TileTests.Tile, TileLens.Things,
+                new Mock<IThingStore>().Object);
         }
     }
 }

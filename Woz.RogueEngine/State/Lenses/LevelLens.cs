@@ -18,14 +18,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
+using System.Collections.Immutable;
+using Woz.Immutable.Collections;
+using Woz.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.State.Lenses
 {
-    public static class ThingTypeRules
+    using ITileStore = IImmutableGrid<Tile>;
+    using IActorStateStore = IImmutableDictionary<long, ActorState>;
+
+    public static class LevelLens
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        public static readonly Lens<Level, ITileStore> Tiles;
+        public static readonly Lens<Level, IActorStateStore> ActorStates;
+
+        static LevelLens()
+        {
+            Tiles = Lens.Create<Level, ITileStore>(
+                level => level.Tiles,
+                tile => level => level.With(tiles: tile));
+
+            ActorStates = Lens.Create<Level, IActorStateStore>(
+                level => level.ActorStates,
+                actorStates => level => level.With(actorStates: actorStates));
+        }
     }
 }

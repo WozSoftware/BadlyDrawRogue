@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -17,15 +17,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
-
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
-
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.State
 {
-    public static class ThingTypeRules
+    public enum DamageTypes
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        Slashing,
+        BluntImpact,
+        Piercing,
+        Fire,
+        Acid,
+        Frost,
+        Shock
     }
 }

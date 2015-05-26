@@ -60,18 +60,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LevelsTests\ActorStateLensTests.cs" />
-    <Compile Include="LevelsTests\ActorStateTests.cs" />
-    <Compile Include="LevelsTests\ActorTests.cs" />
-    <Compile Include="LevelsTests\ActorLensTests.cs" />
-    <Compile Include="LevelsTests\HitPointsLensTests.cs" />
-    <Compile Include="LevelsTests\HitPointsTests.cs" />
-    <Compile Include="LevelsTests\LevelLensTests.cs" />
-    <Compile Include="LevelsTests\LevelTests.cs" />
-    <Compile Include="LevelsTests\ThingLensTests.cs" />
-    <Compile Include="LevelsTests\ThingTests.cs" />
-    <Compile Include="LevelsTests\TileLensTests.cs" />
-    <Compile Include="LevelsTests\TileTests.cs" />
+    <Compile Include="StateTests\LensesTests\ActorStateLensTests.cs" />
+    <Compile Include="StateTests\ActorStateTests.cs" />
+    <Compile Include="StateTests\ActorTests.cs" />
+    <Compile Include="StateTests\LensesTests\ActorLensTests.cs" />
+    <Compile Include="StateTests\LensesTests\HitPointsLensTests.cs" />
+    <Compile Include="StateTests\HitPointsTests.cs" />
+    <Compile Include="StateTests\LensesTests\LevelLensTests.cs" />
+    <Compile Include="StateTests\LevelTests.cs" />
+    <Compile Include="StateTests\LensesTests\ThingLensTests.cs" />
+    <Compile Include="StateTests\ThingTests.cs" />
+    <Compile Include="StateTests\LensesTests\TileLensTests.cs" />
+    <Compile Include="StateTests\TileTests.cs" />
     <Compile Include="OperationsTests\LevelOperationsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestInstances\SimpleLevel.cs" />

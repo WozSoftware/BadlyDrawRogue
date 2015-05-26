@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,34 +18,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using Woz.Core.Geometry;
-using Woz.FieldOfView;
-using Woz.RogueEngine.State;
-using Woz.RogueEngine.Validators;
 
-namespace Woz.RogueEngine.AI
+namespace Woz.RogueEngine.State
 {
-    public static class LineOfSight
+    public sealed class ActorState 
     {
-        public const int VisibleRegionRadius = 8;
+        private readonly long _id;
+        private readonly Vector _location;
 
-        public static bool CanSee(
-            this Level level, Vector location, Vector target)
+        private ActorState(long id, Vector location)
         {
-            return location.CanSee(
-                target,
-                toTest => !level.BlocksLineOfSight(toTest).IsValid);
+            _id  = id;
+            _location = location;
         }
 
-        public static Func<Vector, bool> CalculateVisibleRegion(
-            this Level level,
-            Vector location,
-            int radius)
+        public static ActorState Create(long id, Vector location)
         {
-            return location.CalculateVisibleRegion(
-                VisibleRegionRadius,
-                toTest => !level.BlocksLineOfSight(toTest).IsValid);
+            return new ActorState(id, location);
+        }
+
+        public long Id
+        {
+            get { return _id; }
+        }
+
+        public Vector Location
+        {
+            get { return _location; }
+        }
+
+        public ActorState With(long? id = null, Vector? location = null)
+        {
+            return id != null || location != null
+                ? new ActorState(id ?? _id, location ?? _location)
+                : this;
         }
     }
 }

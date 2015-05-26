@@ -20,7 +20,7 @@
 using System;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.Events;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Commands
 {

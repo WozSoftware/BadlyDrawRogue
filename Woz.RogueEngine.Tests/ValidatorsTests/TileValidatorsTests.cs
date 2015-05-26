@@ -25,8 +25,9 @@ using Woz.Lenses;
 using Woz.Linq.Collections;
 using Woz.Monads.MaybeMonad;
 using Woz.Monads.ValidationMonad;
-using Woz.RogueEngine.Levels;
-using Woz.RogueEngine.Tests.LevelsTests;
+using Woz.RogueEngine.State;
+using Woz.RogueEngine.State.Lenses;
+using Woz.RogueEngine.Tests.StateTests;
 using Woz.RogueEngine.Validators;
 using Woz.RogueEngine.Validators.Rules;
 

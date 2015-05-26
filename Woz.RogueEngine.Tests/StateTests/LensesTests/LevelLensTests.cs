@@ -18,14 +18,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
+using System.Collections.Immutable;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Woz.Immutable.Collections;
+using Woz.Lenses.Tests;
 using Woz.RogueEngine.State;
+using Woz.RogueEngine.State.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.Tests.StateTests.LensesTests
 {
-    public static class ThingTypeRules
+    using ITileStore = IImmutableGrid<Tile>;
+    using IActorStateStore = IImmutableDictionary<long, ActorState>;
+
+    [TestClass]
+    public class LevelLensTests : BaseLensTests
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        [TestMethod]
+        public void Tiles()
+        {
+            TestLensWithAreSame(
+                LevelTests.Level, LevelLens.Tiles, 
+                new Mock<ITileStore>().Object);
+        }
+
+        [TestMethod]
+        public void ActorStates()
+        {
+            TestLensWithAreSame(
+                LevelTests.Level, LevelLens.ActorStates,
+                new Mock<IActorStateStore>().Object);
+        }
     }
 }

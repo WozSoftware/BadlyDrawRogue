@@ -18,14 +18,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
+using Woz.Core.Geometry;
+using Woz.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.State.Lenses
 {
-    public static class ThingTypeRules
+    public static class ActorStateLens
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        public static readonly Lens<ActorState, long> Id;
+        public static readonly Lens<ActorState, Vector> Location;
+
+        static ActorStateLens()
+        {
+            Id = Lens.Create<ActorState, long>(
+                actorState => actorState.Id,
+                id => actorState => actorState.With(id: id));
+
+            Location = Lens.Create<ActorState, Vector>(
+                actorState => actorState.Location,
+                location => actorState => actorState.With(location: location));
+        }
     }
 }

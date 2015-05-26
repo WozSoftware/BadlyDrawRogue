@@ -18,14 +18,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
+using Woz.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.State.Lenses
 {
-    public static class ThingTypeRules
+    public static class HitPointsLens
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        public static readonly Lens<HitPoints, int> Maximum;
+        public static readonly Lens<HitPoints, int> Current;
+
+        static HitPointsLens()
+        {
+            Maximum = Lens.Create<HitPoints, int>(
+                hitPoints => hitPoints.Maximum,
+                maximum => hitPoints => hitPoints.With(maximum: maximum));
+
+            Current = Lens.Create<HitPoints, int>(
+                hitPoints => hitPoints.Current,
+                current => hitPoints => hitPoints.With(current: current));
+        }
     }
 }

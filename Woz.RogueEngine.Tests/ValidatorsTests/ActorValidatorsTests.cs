@@ -19,7 +19,7 @@
 #endregion
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
 using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.Tests.ValidatorsTests

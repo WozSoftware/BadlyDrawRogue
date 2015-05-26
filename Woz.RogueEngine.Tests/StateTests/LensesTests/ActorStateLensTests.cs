@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright (C) Woz.Software 2015
 // [https://github.com/WozSoftware/BadlyDrawRogue]
 //
@@ -18,14 +18,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Core.Geometry;
+using Woz.Lenses.Tests;
+using Woz.RogueEngine.State.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.Tests.StateTests.LensesTests
 {
-    public static class ThingTypeRules
+    [TestClass]
+    public class ActorStateLensTests : BaseLensTests
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        [TestMethod]
+        public void Id()
+        {
+            TestLensWithAreEqual(
+                ActorStateTests.ActorState, ActorStateLens.Id, 2L);
+        }
+
+        [TestMethod]
+        public void Location()
+        {
+            TestLensWithAreEqual(
+                ActorStateTests.ActorState, ActorStateLens.Location,
+                new Vector());
+        }
     }
 }

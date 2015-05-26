@@ -20,7 +20,7 @@
 using Woz.Core.Geometry;
 using Woz.Monads.MaybeMonad;
 using Woz.PathFinding;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
 using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.AI

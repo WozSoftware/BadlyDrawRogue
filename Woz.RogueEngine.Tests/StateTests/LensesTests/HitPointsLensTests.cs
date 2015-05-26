@@ -18,14 +18,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
-using Woz.RogueEngine.State;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woz.Lenses.Tests;
+using Woz.RogueEngine.State.Lenses;
 
-namespace Woz.RogueEngine.Validators.Rules
+namespace Woz.RogueEngine.Tests.StateTests.LensesTests
 {
-    public static class ThingTypeRules
+    [TestClass]
+    public class HitPointsLensTests : BaseLensTests
     {
-        public static readonly IEnumerable<ThingTypes> BlockMovement =
-            new[] {ThingTypes.Furniture};
+        [TestMethod]
+        public void Maximum()
+        {
+            TestLensWithAreEqual(
+                HitPointsTests.HitPoints, HitPointsLens.Maximum, 20);
+        }
+
+        [TestMethod]
+        public void Current()
+        {
+            TestLensWithAreEqual(
+                HitPointsTests.HitPoints, HitPointsLens.Current, 5);
+        }
     }
 }

@@ -20,8 +20,8 @@
 using System.Collections.Immutable;
 using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
-using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;
+using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Tests.TestInstances
 {

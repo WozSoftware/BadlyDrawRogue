@@ -19,8 +19,8 @@
 #endregion
 using Woz.Core.Geometry;
 using Woz.RogueEngine.Events;
-using Woz.RogueEngine.Levels;
 using Woz.RogueEngine.Operations;
+using Woz.RogueEngine.State;
 using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.Commands

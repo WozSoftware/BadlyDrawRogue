@@ -23,7 +23,8 @@ using Woz.Core.Geometry;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
 using Woz.Monads.MaybeMonad;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
+using Woz.RogueEngine.State.Lenses;
 using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.Operations

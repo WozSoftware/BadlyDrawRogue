@@ -19,7 +19,7 @@
 #endregion
 using Woz.Core.Geometry;
 using Woz.Monads.ValidationMonad;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Validators
 {

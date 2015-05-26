@@ -19,7 +19,7 @@
 #endregion
 using System.Diagnostics;
 using Woz.Monads.MaybeMonad;
-using Woz.RogueEngine.Levels;
+using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Events
 {
