@@ -71,8 +71,7 @@ namespace Woz.RogueEngine.Operations
         {
             Debug.Assert(level != null);
 
-            var tileThingsLens = TileThing(itemLocation, itemId);
-            var item = level.Get(tileThingsLens);
+            var item = level.Get(TileThing(itemLocation, itemId));
 
             return level
                 .RemoveThingFromTile(itemLocation, itemId)

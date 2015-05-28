@@ -63,19 +63,23 @@ namespace Woz.RogueEngine.Validators
         #region Actors
         public static IValidation<long> HasActor(this Tile tile)
         {
-            return tile.ActorId.HasValue
-                ? tile.ActorId.Value.ToValid()
-                : "No actor present in the tile".ToInvalid<long>();
+            return tile.ActorId.Match(
+                some: id => id.ToValid(),
+                none: () => "No actor present in the tile".ToInvalid<long>());
         }
 
         public static IValidation<long> HasActor(
             this Tile tile, long actorId)
         {
-            return tile.ActorId.Select(x => x == actorId).OrElse(false)
-                ? tile.ActorId.Value.ToValid()
-                : string.Format(
-                    "Actor {0} not present in the tile",
-                    actorId).ToInvalid<long>();
+            return tile
+                .ActorId
+                .Where(id => id == actorId)
+                .Match(
+                    some: id => id.ToValid(),
+                    none: () =>
+                        string.Format(
+                            "Actor {0} not present in the tile",
+                            actorId).ToInvalid<long>());
         }
         #endregion
     }
