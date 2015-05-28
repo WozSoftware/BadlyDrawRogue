@@ -33,7 +33,7 @@ namespace Woz.RogueEngine.State
 
         private readonly TileTypes _tileType;
         private readonly string _name;
-        private readonly IMaybe<Actor> _actor;
+        private readonly IMaybe<long> _actorId;
         private readonly IThingStore _things;
 
         static Tile()
@@ -41,23 +41,23 @@ namespace Woz.RogueEngine.State
             Void = new Tile(
                 TileTypes.Void,
                 "Empty void",
-                Maybe<Actor>.None,
+                Maybe<long>.None,
                 ImmutableDictionary<long, Thing>.Empty);
         }
 
         private Tile(
             TileTypes tileType,
             string name,
-            IMaybe<Actor> actor,
+            IMaybe<long> actorId,
             IThingStore things)
         {
             Debug.Assert(name != null);
-            Debug.Assert(actor != null);
+            Debug.Assert(actorId != null);
             Debug.Assert(things != null);
 
             _tileType = tileType;
             _name = name;
-            _actor = actor;
+            _actorId = actorId;
             _things = things;
         }
 
@@ -68,20 +68,20 @@ namespace Woz.RogueEngine.State
             return new Tile(
                 tileType,
                 name,
-                Maybe<Actor>.None,
+                Maybe<long>.None,
                 ImmutableDictionary<long, Thing>.Empty);
         }
 
         public static Tile Create(
             TileTypes tileType,
             string name,
-            IMaybe<Actor> actor,
+            IMaybe<long> actorId,
             IThingStore things)
         {
             return new Tile(
                 tileType,
                 name,
-                actor,
+                actorId,
                 things);
         }
 
@@ -95,9 +95,9 @@ namespace Woz.RogueEngine.State
             get { return _name; }
         }
 
-        public IMaybe<Actor> Actor
+        public IMaybe<long> ActorId
         {
-            get { return _actor; }
+            get { return _actorId; }
         }
 
         public IThingStore Things
@@ -108,7 +108,7 @@ namespace Woz.RogueEngine.State
         public Tile With(
             TileTypes? tileType = null,
             string name = null,
-            IMaybe<Actor> actor = null,
+            IMaybe<long> actorId = null,
             IThingStore things = null)
         {
             if (TileType == TileTypes.Void)
@@ -119,13 +119,13 @@ namespace Woz.RogueEngine.State
             return
                 !tileType.HasValue &&
                 name == null &&
-                actor == null &&
+                actorId == null &&
                 things == null
                     ? this
                     : new Tile(
                         tileType ?? _tileType,
                         name ?? _name,
-                        actor ?? _actor,
+                        actorId ?? _actorId,
                         things ?? _things);
         }
     }

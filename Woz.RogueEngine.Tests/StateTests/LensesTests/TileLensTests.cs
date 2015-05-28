@@ -47,11 +47,9 @@ namespace Woz.RogueEngine.Tests.StateTests.LensesTests
         }
 
         [TestMethod]
-        public void Actor()
+        public void ActorId()
         {
-            TestLensWithAreSame(
-                TileTests.Tile, TileLens.Actor, 
-                new Mock<IMaybe<Actor>>().Object);
+            TestLensWithAreSame(TileTests.Tile, TileLens.ActorId, 6L.ToSome());
         }
 
         [TestMethod]

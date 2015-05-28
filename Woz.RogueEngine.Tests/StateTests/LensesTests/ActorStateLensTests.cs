@@ -31,8 +31,11 @@ namespace Woz.RogueEngine.Tests.StateTests.LensesTests
         [TestMethod]
         public void Id()
         {
-            TestLensWithAreEqual(
-                ActorStateTests.ActorState, ActorStateLens.Id, 2L);
+            var state = ActorStateTests.ActorState;
+            var newActor = state.Actor.With(name: "Changed");
+
+            TestLensWithAreSame(
+                ActorStateTests.ActorState, ActorStateLens.Actor, newActor);
         }
 
         [TestMethod]

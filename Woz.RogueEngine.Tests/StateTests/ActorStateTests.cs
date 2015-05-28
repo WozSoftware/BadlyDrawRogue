@@ -27,16 +27,16 @@ namespace Woz.RogueEngine.Tests.StateTests
     [TestClass]
     public class ActorStateTests
     {
-        public const int Id = 1;
+        public static readonly Actor Actor = ActorTests.Actor;
         public static readonly Vector Location = new Vector();
 
         public static readonly ActorState ActorState = 
-            ActorState.Create(Id, Location);
+            ActorState.Create(Actor, Location);
 
         private static void Validate(
-            ActorState instance, long? id = null, Vector? location = null)
+            ActorState instance, Actor actor = null, Vector? location = null)
         {
-            Assert.AreEqual(id ?? Id, instance.Id);
+            Assert.AreSame(actor ?? Actor, instance.Actor);
             Assert.AreEqual(location ?? Location, instance.Location);
         }
 
@@ -55,7 +55,8 @@ namespace Woz.RogueEngine.Tests.StateTests
         [TestMethod]
         public void WithId()
         {
-            Validate(ActorState.With(id: 2), id: 2);
+            var newActor = ActorTests.Actor.With(name: "changed");
+            Validate(ActorState.With(actor: newActor), actor: newActor);
         }
 
         [TestMethod]

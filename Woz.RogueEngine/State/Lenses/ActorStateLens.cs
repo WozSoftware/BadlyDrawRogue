@@ -25,14 +25,14 @@ namespace Woz.RogueEngine.State.Lenses
 {
     public static class ActorStateLens
     {
-        public static readonly Lens<ActorState, long> Id;
+        public static readonly Lens<ActorState, Actor> Actor;
         public static readonly Lens<ActorState, Vector> Location;
 
         static ActorStateLens()
         {
-            Id = Lens.Create<ActorState, long>(
-                actorState => actorState.Id,
-                id => actorState => actorState.With(id: id));
+            Actor = Lens.Create<ActorState, Actor>(
+                actorState => actorState.Actor,
+                actor => actorState => actorState.With(actor: actor));
 
             Location = Lens.Create<ActorState, Vector>(
                 actorState => actorState.Location,

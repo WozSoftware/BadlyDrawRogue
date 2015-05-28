@@ -33,22 +33,22 @@ namespace Woz.RogueEngine.Tests.StateTests
     {
         public const TileTypes TileType = TileTypes.OpenDoor;
         public const string Name = "Name";
-        public static readonly IMaybe<Actor> Actor = ActorTests.Actor.ToSome();
+        public static readonly IMaybe<long> ActorId = 5L.ToSome();
         public static readonly IThingStore Things = new Mock<IThingStore>().Object;
 
         public static readonly Tile Tile = 
-            Tile.Create(TileType, Name, Actor, Things);
+            Tile.Create(TileType, Name, ActorId, Things);
 
         public static void Validate(
             Tile instance,
             TileTypes? tileType = null,
             string name = null,
-            IMaybe<Actor> actor = null,
+            IMaybe<long> actorId = null,
             IThingStore things = null)
         {
             Assert.AreEqual(tileType ?? TileType, instance.TileType);
             Assert.AreEqual(name ?? Name, instance.Name);
-            Assert.AreSame(actor ?? Actor, instance.Actor);
+            Assert.AreEqual(actorId ?? ActorId, instance.ActorId);
             Assert.AreSame(things ?? Things, instance.Things);
         }
 
@@ -79,10 +79,9 @@ namespace Woz.RogueEngine.Tests.StateTests
         }
 
         [TestMethod]
-        public void WithActor()
+        public void WithActorId()
         {
-            var actor = new Mock<IMaybe<Actor>>().Object;
-            Validate(Tile.With(actor: actor), actor: actor);
+            Validate(Tile.With(actorId: 6L.ToSome()), actorId: 6L.ToSome());
         }
 
         [TestMethod]

@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +28,6 @@ using Woz.Monads.MaybeMonad;
 using Woz.Monads.ValidationMonad;
 using Woz.RogueEngine.State;
 using Woz.RogueEngine.State.Lenses;
-using Woz.RogueEngine.Tests.StateTests;
 using Woz.RogueEngine.Validators;
 using Woz.RogueEngine.Validators.Rules;
 
@@ -80,7 +80,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         public void HasActorActorPresent()
         {
             Assert.IsTrue(Tile
-                .Set(TileLens.Actor, ActorTests.Actor.ToSome())
+                .Set(TileLens.ActorId, 5L.ToSome())
                 .HasActor()
                 .IsValid);
         }
@@ -95,8 +95,8 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         public void HasActorByIdActorPresentWrongId()
         {
             Assert.IsFalse(Tile
-                .Set(TileLens.Actor, ActorTests.Actor.ToSome())
-                .HasActor(ActorTests.Actor.Id + 1)
+                .Set(TileLens.ActorId, 5L.ToSome())
+                .HasActor(6)
                 .IsValid);
         }
 
@@ -104,8 +104,8 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         public void HasActorByIdActorPresentCorrectId()
         {
             Assert.IsTrue(Tile
-                .Set(TileLens.Actor, ActorTests.Actor.ToSome())
-                .HasActor(ActorTests.Actor.Id)
+                .Set(TileLens.ActorId, 5L.ToSome())
+                .HasActor(5)
                 .IsValid);
         }
 
@@ -157,7 +157,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
             Func<Tile, IValidation<T>> validator)
         {
             Assert.IsFalse(
-                validator(Tile.Set(TileLens.Actor, ActorTests.Actor.ToSome()))
+                validator(Tile.Set(TileLens.ActorId, 5L.ToSome()))
                 .IsValid);
         }
 

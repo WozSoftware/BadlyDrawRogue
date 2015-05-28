@@ -43,11 +43,12 @@ namespace Woz.RogueEngine.Operations
             Debug.Assert(actor != null);
             Debug.Assert(level.CanSpawnActor(actor.Id, location).IsValid);
 
-            var actorState = ActorState.Create(actor.Id, location);
+            var actorId = actor.Id;
+            var actorState = ActorState.Create(actor, location);
 
             return level
-                .Set(ActorLookupAt(location), actor.ToSome())
-                .Set(ActorStateLookup(actor.Id), actorState.ToSome());
+                .AddActorState(actorState)
+                .AddActorIdToTile(location, actorId);
         }
 
         public static Level MoveActor(
@@ -56,31 +57,26 @@ namespace Woz.RogueEngine.Operations
             Debug.Assert(level != null);
             Debug.Assert(level.CanMoveActor(actorId, newLocation).IsValid);
 
-            var actorLocationLens = ActorLocationByKey(actorId);
+            var actorLocationLens = ActorLocation(actorId);
             var oldLocation = level.Get(actorLocationLens);
 
-            var actorAtOldLocationLens = ActorLookupAt(oldLocation);
-            var actor = level.Get(actorAtOldLocationLens);
-
             return level
-                .Set(actorAtOldLocationLens, Maybe<Actor>.None)
-                .Set(ActorLookupAt(newLocation), actor)
-                .Set(actorLocationLens, newLocation);
+                .Set(actorLocationLens, newLocation)
+                .RemoveActorIdFromTile(oldLocation)
+                .AddActorIdToTile(newLocation, actorId);
         }
 
         public static Level ActorTakeItem(
-            this Level level, long actorId, long itemId, Vector itemLocation)
+            this Level level, long actorId, Vector itemLocation, long itemId)
         {
             Debug.Assert(level != null);
 
-            var actorLocation = level.Get(ActorLocationByKey(actorId));
-
-            var itemTileThingsLens = TileThingsAt(itemLocation);
-            var item = level.Get(itemTileThingsLens.ByKey(itemId));
+            var tileThingsLens = TileThing(itemLocation, itemId);
+            var item = level.Get(tileThingsLens);
 
             return level
-                .RemoveByKey(itemTileThingsLens, itemId)
-                .Set(ActorThingLookup(actorLocation, itemId), item.ToSome());
+                .RemoveThingFromTile(itemLocation, itemId)
+                .AddThingToActor(actorId, item);
         }
 
         //public static ILevel ActorDropItem(
@@ -107,67 +103,92 @@ namespace Woz.RogueEngine.Operations
         //}
         #endregion
 
+        #region Atomic Operations
+        public static Level AddActorState(
+            this Level level, ActorState actorState)
+        {
+            var actorId = actorState.Actor.Id;
+            var lens = LevelLens.ActorStates.ByKey(actorId);
+
+            return level.Set(lens, actorState);
+        }
+
+        public static Level AddThingToActor(
+            this Level level, long actorId, Thing thing)
+        {
+            return level.Set(ActorThing(actorId, thing.Id), thing);
+        }
+
+        public static Level RemoveThingFromActor(
+            this Level level, long actorId, long thingId)
+        {
+            return level.RemoveByKey(ActorThings(actorId), thingId);
+        }
+
+        public static Level AddActorIdToTile(
+            this Level level, Vector location, long actorId)
+        {
+            return level.Set(TileActorId(location), actorId.ToSome());
+        }
+
+        public static Level RemoveActorIdFromTile(
+            this Level level, Vector location)
+        {
+            return level.Set(TileActorId(location), Maybe<long>.None);
+        }
+
+        public static Level AddThingToTile(
+            this Level level, Vector location, Thing thing)
+        {
+            return level.Set(TileThing(location, thing.Id), thing);
+        }
+
+        public static Level RemoveThingFromTile(
+            this Level level, Vector location, long thingId)
+        {
+            return level.RemoveByKey(TileThings(location), thingId);
+        }
+        #endregion
+
         #region Lenses
-        public static Lens<Level, Tile> TileAt(Vector location)
+        public static Lens<Level, Vector> ActorLocation(long actorId)
         {
-            return LevelLens.Tiles.Location(location);
+            return LevelLens
+                .ActorStates.ByKey(actorId)
+                .With(ActorStateLens.Location);
         }
 
-        public static Lens<Level, IMaybe<Actor>> ActorLookupAt(Vector location)
+        public static Lens<Level, IMaybe<long>> TileActorId(Vector location)
         {
-            return TileAt(location).With(TileLens.Actor);
+            return LevelLens
+                .Tiles.Location(location)
+                .With(TileLens.ActorId);
         }
 
-        public static Lens<Level, Actor> ActorAt(Vector location)
+        public static Lens<Level, IThingStore> ActorThings(long actorId)
         {
-            return TileAt(location)
-                .With(TileLens.Actor)
-                .With(MaybeLens<Actor>.ExpectSome);
+            return LevelLens
+                .ActorStates.ByKey(actorId)
+                .With(ActorStateLens.Actor)
+                .With(ActorLens.Things);
         }
 
-        public static Lens<Level, IThingStore> ActorThingsAt(Vector location)
+        public static Lens<Level, Thing> ActorThing(long actorId, long thingId)
         {
-            return ActorAt(location).With(ActorLens.Things);
+            return ActorThings(actorId).ByKey(thingId);
         }
 
-        public static Lens<Level, IMaybe<Thing>> ActorThingLookup(Vector location, long thingId)
+        public static Lens<Level, IThingStore> TileThings(Vector location)
         {
-            return ActorThingsAt(location).Lookup(thingId);
+            return LevelLens
+                .Tiles.Location(location)
+                .With(TileLens.Things);
         }
 
-        public static Lens<Level, Thing> ActorThingByKey(Vector location, long thingId)
+        public static Lens<Level, Thing> TileThing(
+            Vector location, long thingId)
         {
-            return ActorThingsAt(location).ByKey(thingId);
-        }
-
-        public static Lens<Level, IMaybe<ActorState>> ActorStateLookup(long actorId)
-        {
-            return LevelLens.ActorStates.Lookup(actorId);
-        }
-
-        public static Lens<Level, ActorState> ActorStateByKey(long actorId)
-        {
-            return LevelLens.ActorStates.ByKey(actorId);
-        }
-
-        public static Lens<Level, Vector> ActorLocationByKey(long actorId)
-        {
-            return ActorStateByKey(actorId).With(ActorStateLens.Location);
-        }
-
-        public static Lens<Level, IThingStore> TileThingsAt(Vector location)
-        {
-            return TileAt(location).With(TileLens.Things);
-        }
-
-        public static Lens<Level, IMaybe<Thing>> TileThingLookup(Vector location, long thingId)
-        {
-            return TileThingsAt(location).Lookup(thingId);
-        }
-
-        public static Lens<Level, Thing> TileThingByKey(Vector location, long thingId)
-        {
-            return TileThingsAt(location).ByKey(thingId);
+            return TileThings(location).ByKey(thingId);
         }
         #endregion
     }

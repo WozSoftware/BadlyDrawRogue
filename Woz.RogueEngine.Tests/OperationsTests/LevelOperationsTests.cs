@@ -37,10 +37,10 @@ namespace Woz.RogueEngine.Tests.OperationsTests
             var result = SimpleLevel.Level.SpawnActor(monster, location);
 
             var actorState = result.ActorStates[monster.Id];
-            Assert.AreEqual(monster.Id, actorState.Id);
+            Assert.AreSame(monster, actorState.Actor);
             Assert.AreEqual(location, actorState.Location);
 
-            Assert.AreSame(monster, result.Tiles[location].Actor.Value);
+            Assert.AreEqual(monster.Id, result.Tiles[location].ActorId.Value);
         }
 
         [TestMethod]

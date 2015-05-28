@@ -30,7 +30,7 @@ namespace Woz.RogueEngine.State.Lenses
     {
         public static readonly Lens<Tile, TileTypes> TileType;
         public static readonly Lens<Tile, string> Name;
-        public static readonly Lens<Tile, IMaybe<Actor>> Actor;
+        public static readonly Lens<Tile, IMaybe<long>> ActorId;
         public static readonly Lens<Tile, IThingStore> Things;
 
         static TileLens()
@@ -43,9 +43,9 @@ namespace Woz.RogueEngine.State.Lenses
                 tile => tile.Name,
                 name => tile => tile.With(name: name));
 
-            Actor = Lens.Create<Tile, IMaybe<Actor>>(
-                tile => tile.Actor,
-                actor => tile => tile.With(actor: actor));
+            ActorId = Lens.Create<Tile, IMaybe<long>>(
+                tile => tile.ActorId,
+                actorId => tile => tile.With(actorId: actorId));
 
             Things = Lens.Create<Tile, IThingStore>(
                 tile => tile.Things,

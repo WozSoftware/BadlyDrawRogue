@@ -18,29 +18,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
 using Woz.Core.Geometry;
 
 namespace Woz.RogueEngine.State
 {
     public sealed class ActorState 
     {
-        private readonly long _id;
+        private readonly Actor _actor;
         private readonly Vector _location;
 
-        private ActorState(long id, Vector location)
+        private ActorState(Actor actor, Vector location)
         {
-            _id  = id;
+            Debug.Assert(actor != null);
+
+            _actor  = actor;
             _location = location;
         }
 
-        public static ActorState Create(long id, Vector location)
+        public static ActorState Create(Actor actor, Vector location)
         {
-            return new ActorState(id, location);
+            return new ActorState(actor, location);
         }
 
-        public long Id
+        public Actor Actor
         {
-            get { return _id; }
+            get { return _actor; }
         }
 
         public Vector Location
@@ -48,10 +51,10 @@ namespace Woz.RogueEngine.State
             get { return _location; }
         }
 
-        public ActorState With(long? id = null, Vector? location = null)
+        public ActorState With(Actor actor = null, Vector? location = null)
         {
-            return id != null || location != null
-                ? new ActorState(id ?? _id, location ?? _location)
+            return actor != null || location != null
+                ? new ActorState(actor ?? _actor, location ?? _location)
                 : this;
         }
     }

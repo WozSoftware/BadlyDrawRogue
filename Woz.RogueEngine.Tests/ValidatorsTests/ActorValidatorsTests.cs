@@ -20,6 +20,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woz.Core.Geometry;
 using Woz.RogueEngine.State;
+using Woz.RogueEngine.Tests.StateTests;
 using Woz.RogueEngine.Validators;
 
 namespace Woz.RogueEngine.Tests.ValidatorsTests
@@ -30,7 +31,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
         [TestMethod]
         public void IsWithinMoveRange()
         {
-            var actorState = ActorState.Create(1, Vector.Create(1, 1));
+            var actorState = ActorState.Create(ActorTests.Actor, Vector.Create(1, 1));
 
             Assert.IsTrue(actorState.IsWithinMoveRange(Vector.Create(1, 2)).IsValid);
             Assert.IsFalse(actorState.IsWithinMoveRange(Vector.Create(2, 2)).IsValid);

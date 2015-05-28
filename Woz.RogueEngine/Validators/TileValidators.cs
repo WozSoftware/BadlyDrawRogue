@@ -45,10 +45,8 @@ namespace Woz.RogueEngine.Validators
 
         public static IValidation<Unit> IsValidMoveNoActor(this Tile tile)
         {
-            return tile.Actor.HasValue
-                ? string.Format(
-                    "Can't move there, blocked by {0}",
-                    tile.Actor.Value.Name).ToInvalid<Unit>()
+            return tile.ActorId.HasValue
+                ? "Can't move there".ToInvalid<Unit>()
                 : Unit.Value.ToValid();
         }
         #endregion
@@ -63,21 +61,21 @@ namespace Woz.RogueEngine.Validators
         #endregion
 
         #region Actors
-        public static IValidation<Actor> HasActor(this Tile tile)
+        public static IValidation<long> HasActor(this Tile tile)
         {
-            return tile.Actor.HasValue
-                ? tile.Actor.Value.ToValid()
-                : "No actor present in the tile".ToInvalid<Actor>();
+            return tile.ActorId.HasValue
+                ? tile.ActorId.Value.ToValid()
+                : "No actor present in the tile".ToInvalid<long>();
         }
 
-        public static IValidation<Actor> HasActor(
+        public static IValidation<long> HasActor(
             this Tile tile, long actorId)
         {
-            return tile.Actor.Select(x => x.Id == actorId).OrElse(false)
-                ? tile.Actor.Value.ToValid()
+            return tile.ActorId.Select(x => x == actorId).OrElse(false)
+                ? tile.ActorId.Value.ToValid()
                 : string.Format(
                     "Actor {0} not present in the tile",
-                    actorId).ToInvalid<Actor>();
+                    actorId).ToInvalid<long>();
         }
         #endregion
     }
