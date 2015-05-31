@@ -60,12 +60,6 @@ namespace Woz.RogueEngine.Tests.StateTests.LensesTests
         }
 
         [TestMethod]
-        public void Equiped()
-        {
-            TestLensWithAreEqual(ThingTests.Thing, ThingLens.Equiped, false);
-        }
-
-        [TestMethod]
         public void AttackDetails()
         {
             TestLensWithAreEqual(

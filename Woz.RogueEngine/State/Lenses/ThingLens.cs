@@ -19,10 +19,12 @@
 #endregion
 
 using System.Collections.Immutable;
+using Woz.Immutable.Collections;
 using Woz.Lenses;
 
 namespace Woz.RogueEngine.State.Lenses
 {
+    using ISlotList = IImmutableArray<EquipmentSlots>;
     using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
@@ -31,8 +33,8 @@ namespace Woz.RogueEngine.State.Lenses
         public static readonly Lens<Thing, long> Id;
         public static readonly Lens<Thing, ThingTypes> ThingType;
         public static readonly Lens<Thing, string> Name;
+        public static readonly Lens<Thing, ISlotList> ValidSlots;
         public static readonly Lens<Thing, EquipmentSlots> EquipableAs;
-        public static readonly Lens<Thing, bool> Equiped;
         public static readonly Lens<Thing, ICombatStatistics> AttackDetails;
         public static readonly Lens<Thing, ICombatStatistics> DefenseDetails;
         public static readonly Lens<Thing, IThingStore> Contains;
@@ -51,13 +53,13 @@ namespace Woz.RogueEngine.State.Lenses
                 thing => thing.Name,
                 name => thing => thing.With(name: name));
 
-            EquipableAs = Lens.Create<Thing, EquipmentSlots>(
-                thing => thing.EquipableAs,
-                equipableAs => thing => thing.With(equipableAs: equipableAs));
+            ValidSlots = Lens.Create<Thing, ISlotList>(
+                thing => thing.ValidSlots,
+                validSlots => thing => thing.With(validSlots: validSlots));
 
-            Equiped = Lens.Create<Thing, bool>(
-                thing => thing.Equiped,
-                equiped => thing => thing.With(equiped: equiped));
+            EquipableAs = Lens.Create<Thing, EquipmentSlots>(
+                thing => thing.EquipedAs,
+                equipedAs => thing => thing.With(equipedAs: equipedAs));
 
             AttackDetails = Lens.Create<Thing, ICombatStatistics>(
                 thing => thing.AttackDetails,

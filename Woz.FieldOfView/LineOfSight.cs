@@ -116,7 +116,7 @@ namespace Woz.FieldOfView
             Action<IEnumerable<Vector>> traceRay =
                 ray =>
                 {
-                    ray.ForEachBreakable(
+                    ray.Until(
                         rayPoint =>
                         {
                             viewPortStorage.Set(viewPortMapper(rayPoint), true);

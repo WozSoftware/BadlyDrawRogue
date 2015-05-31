@@ -21,10 +21,13 @@
 using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Woz.Immutable.Collections;
+using Woz.Linq.Collections;
 using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Tests.StateTests
 {
+    using ISlotList = IImmutableArray<EquipmentSlots>;
     using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
@@ -34,8 +37,10 @@ namespace Woz.RogueEngine.Tests.StateTests
         public const long Id = 1;
         public const ThingTypes ThingType = ThingTypes.Item;
         public const string Name = "Name";
-        public const EquipmentSlots EquipableAs = EquipmentSlots.LeftRing;
-        public const bool Equiped = true;
+
+        public static readonly ISlotList ValidSlots = SlotLists.NotEquipable;
+ 
+        public const EquipmentSlots EquipedAs = EquipmentSlots.LeftRing;
 
         public static readonly ICombatStatistics AttackDetails =
             new Mock<ICombatStatistics>().Object;
@@ -50,8 +55,8 @@ namespace Woz.RogueEngine.Tests.StateTests
             Id,
             ThingType,
             Name,
-            EquipableAs,
-            Equiped,
+            ValidSlots,
+            EquipedAs,
             AttackDetails,
             DefenseDetails,
             Contains);
@@ -61,8 +66,8 @@ namespace Woz.RogueEngine.Tests.StateTests
             long? id = null,
             ThingTypes? thingType = null,
             string name = null,
-            EquipmentSlots? equipableAs = null,
-            bool? equiped = null,
+            ISlotList validSlots = null,
+            EquipmentSlots? equipedAs = null,
             ICombatStatistics attackDetails = null,
             ICombatStatistics defenseDetails = null,
             IThingStore contains = null)
@@ -70,8 +75,8 @@ namespace Woz.RogueEngine.Tests.StateTests
             Assert.AreEqual(id ?? Id, instance.Id);
             Assert.AreEqual(thingType ?? ThingType, instance.ThingType);
             Assert.AreEqual(name ?? Name, instance.Name);
-            Assert.AreEqual(equipableAs ?? EquipableAs, instance.EquipableAs);
-            Assert.AreEqual(equiped ?? Equiped, instance.Equiped);
+            Assert.AreSame(validSlots ?? ValidSlots, instance.ValidSlots);
+            Assert.AreEqual(equipedAs ?? EquipedAs, instance.EquipedAs);
             Assert.AreSame(attackDetails ?? AttackDetails, instance.AttackDetails);
             Assert.AreSame(defenseDetails ?? DefenseDetails, instance.DefenseDetails);
             Assert.AreSame(contains ?? Contains, instance.Contains);
@@ -110,17 +115,22 @@ namespace Woz.RogueEngine.Tests.StateTests
         }
 
         [TestMethod]
-        public void WithEquipableAs()
+        public void WithValidSlots()
         {
+            var validSlots = ImmutableArray
+                .Create(EquipmentSlots.Amulet.ToEnumerable());
+
             Validate(
-                Thing.With(equipableAs: EquipmentSlots.Amulet),
-                equipableAs: EquipmentSlots.Amulet);
+                Thing.With(validSlots: validSlots),
+                validSlots: validSlots);
         }
 
         [TestMethod]
-        public void WithEquiped()
+        public void WithEquipedAs()
         {
-            Validate(Thing.With(equiped: false), equiped: false);
+            Validate(
+                Thing.With(equipedAs: EquipmentSlots.Amulet),
+                equipedAs: EquipmentSlots.Amulet);
         }
 
         [TestMethod]

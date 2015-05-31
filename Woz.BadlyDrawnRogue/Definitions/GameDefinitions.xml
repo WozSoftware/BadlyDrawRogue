@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<!--
+Copyright (C) Woz.Software 2015
+[https://github.com/WozSoftware/BadlyDrawRogue]
+
+This file is part of Woz.BadlyDrawnRogue.
+
+Woz.BadlyDrawnRogue is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public 
+License as published by the Free Software Foundation, either 
+version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Definitions>
+  <!-- 
+    TileTypes: 
+      Floor
+      Wall
+      OpenDoor
+      ClosedDoor 
+  -->
+  <Tiles>
+    <Tile Type="Floor" Name="Stone Floor" />
+    <Tile Type="Floor" Name="Wooden Floor" />
+    <Tile Type="Floor" Name="Tile Floor" />
+    <Tile Type="Wall" Name="Stone Wall" />
+    <Tile Type="Wall" Name="Wooden Wall" />
+    <Tile Type="Wall" Name="Stone Wall" />
+    <Tile Type="OpenDoor" Name="Wooden Door" />
+    <Tile Type="OpenDoor" Name="Metal Door" />
+    <Tile Type="ClosedDoor" Name="Wooden Door" />
+    <Tile Type="ClosedDoor" Name="Metal Door" />
+  </Tiles>
+  <!-- 
+    ThingTypes: 
+      Item
+      Chest
+      Furniture 
+
+    EquipmentSlots: 
+      None
+      LeftHand
+      RightHand
+      BothHands
+      Head
+      Torso
+      Belt
+      Hands
+      Legs
+      Feet
+      LeftRing
+      RightRing
+      Amulet
+  -->
+  <Things>
+    <Thing Type="Item" Name="Short Sword">
+      <ValidSlots>
+        <Slot Type="LeftHand" />
+        <Slot Type="RightHand" />
+      </ValidSlots>
+    </Thing>
+  </Things>
+</Definitions>

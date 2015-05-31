@@ -40,7 +40,8 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
             TileTypes.Floor, "Test Tile");
 
         public static readonly Thing Thing = Thing.Create(
-            5, ThingTypes.Item, "Test Thing", EquipmentSlots.None, false);
+            5, ThingTypes.Item, "Test Thing",
+            SlotLists.NotEquipable, EquipmentSlots.None);
 
         [TestMethod]
         public void IsValidMoveTileType()

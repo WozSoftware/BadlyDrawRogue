@@ -17,16 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Woz.Monads.MaybeMonad;
 
 namespace Woz.Linq.Collections
 {
     public static class EnumerableExtensions
     {
+        public static IEnumerable<T> ToEnumerable<T>(this T value)
+        {
+            yield return value;
+        }
+
         public static IEnumerable<T> LinkedListToEnumerable<T>(
             this T rootNode, Func<T, IMaybe<T>> nextNodeSelector)
         {
@@ -117,7 +122,19 @@ namespace Woz.Linq.Collections
             }
         }
 
-        public static void ForEachBreakable<T>(
+        public static void While<T>(
+            this IEnumerable<T> self, Func<T, bool> actionShouldContinue)
+        {
+            foreach (var item in self)
+            {
+                if (!actionShouldContinue(item))
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void Until<T>(
             this IEnumerable<T> self, Func<T, bool> actionShouldBreak)
         {
             foreach (var item in self)

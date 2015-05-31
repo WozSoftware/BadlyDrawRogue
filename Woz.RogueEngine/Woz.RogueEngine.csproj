@@ -58,6 +58,7 @@
     <Compile Include="State\ActorTypes.cs" />
     <Compile Include="State\DamageTypes.cs" />
     <Compile Include="State\Lenses\ThingLens.cs" />
+    <Compile Include="State\SlotLists.cs" />
     <Compile Include="State\ThingTypes.cs" />
     <Compile Include="State\EquipmentSlots.cs" />
     <Compile Include="State\HitPoints.cs" />
