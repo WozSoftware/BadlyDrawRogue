@@ -26,7 +26,7 @@ using Woz.Monads.MaybeMonad;
 namespace Woz.RogueEngine.State.Lenses
 {
     using ISlotList = IImmutableArray<EquipmentSlots>;
-    using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
+    using IDamageTypesStore = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
     public static class ThingLens
@@ -36,8 +36,7 @@ namespace Woz.RogueEngine.State.Lenses
         public static readonly Lens<Thing, string> Name;
         public static readonly Lens<Thing, ISlotList> ValidSlots;
         public static readonly Lens<Thing, IMaybe<EquipmentSlots>> EquipableAs;
-        public static readonly Lens<Thing, ICombatStatistics> AttackDetails;
-        public static readonly Lens<Thing, ICombatStatistics> DefenseDetails;
+        public static readonly Lens<Thing, IMaybe<CombatStatistics>> CombatStatistics;
         public static readonly Lens<Thing, IThingStore> Contains;
 
         static ThingLens()
@@ -62,13 +61,9 @@ namespace Woz.RogueEngine.State.Lenses
                 thing => thing.EquipedAs,
                 equipedAs => thing => thing.With(equipedAs: equipedAs));
 
-            AttackDetails = Lens.Create<Thing, ICombatStatistics>(
-                thing => thing.AttackDetails,
-                attackDetails => thing => thing.With(attackDetails: attackDetails));
-
-            DefenseDetails = Lens.Create<Thing, ICombatStatistics>(
-                thing => thing.DefenseDetails,
-                defenseDetails => thing => thing.With(defenseDetails: defenseDetails));
+            CombatStatistics = Lens.Create<Thing, IMaybe<CombatStatistics>>(
+                thing => thing.CombatStatistics,
+                combatStatistics => thing => thing.With(combatStatistics: combatStatistics));
 
             Contains = Lens.Create<Thing, IThingStore>(
                 thing => thing.Contains,

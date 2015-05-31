@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="StateTests\CombatStatisticsTests.cs" />
     <Compile Include="StateTests\LensesTests\ActorStateLensTests.cs" />
     <Compile Include="StateTests\ActorStateTests.cs" />
     <Compile Include="StateTests\ActorTests.cs" />

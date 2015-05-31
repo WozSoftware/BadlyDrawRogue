@@ -26,7 +26,7 @@ using Woz.Monads.MaybeMonad;
 namespace Woz.RogueEngine.State
 {
     using ISlotList = IImmutableArray<EquipmentSlots>;
-    using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
+    using IDamageTypesStore = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
     public sealed class Thing
@@ -36,8 +36,7 @@ namespace Woz.RogueEngine.State
         private readonly string _name;
         private readonly ISlotList _validSlots; 
         private readonly IMaybe<EquipmentSlots> _equipedAs;
-        private readonly ICombatStatistics _attackDetails;
-        private readonly ICombatStatistics _defenseDetails;
+        private readonly IMaybe<CombatStatistics> _combatStatistics;
         private readonly IThingStore _contains;
 
         public Thing(
@@ -45,15 +44,14 @@ namespace Woz.RogueEngine.State
             ThingTypes thingType, 
             string name,
             ISlotList validSlots,
-            IMaybe<EquipmentSlots> equipedAs, 
-            ICombatStatistics attackDetails, 
-            ICombatStatistics defenseDetails, 
+            IMaybe<EquipmentSlots> equipedAs,
+            IMaybe<CombatStatistics> combatStatistics, 
             IThingStore contains)
         {
             Debug.Assert(name != null);
             Debug.Assert(validSlots != null);
-            Debug.Assert(attackDetails != null);
-            Debug.Assert(defenseDetails != null);
+            Debug.Assert(equipedAs != null);
+            Debug.Assert(combatStatistics != null);
             Debug.Assert(contains != null);
 
             _id = id;
@@ -61,8 +59,7 @@ namespace Woz.RogueEngine.State
             _name = name;
             _validSlots = validSlots;
             _equipedAs = equipedAs;
-            _attackDetails = attackDetails;
-            _defenseDetails = defenseDetails;
+            _combatStatistics = combatStatistics;
             _contains = contains;
         }
 
@@ -79,8 +76,7 @@ namespace Woz.RogueEngine.State
                 name,
                 validSlots,
                 equipedAs,
-                ImmutableDictionary<DamageTypes, int>.Empty,
-                ImmutableDictionary<DamageTypes, int>.Empty,
+                Maybe<CombatStatistics>.None,
                 ImmutableDictionary<long, Thing>.Empty);
         }
 
@@ -90,8 +86,7 @@ namespace Woz.RogueEngine.State
             string name,
             ISlotList validSlots,
             IMaybe<EquipmentSlots> equipedAs,
-            ICombatStatistics attackDetails,
-            ICombatStatistics defenseDetails,
+            IMaybe<CombatStatistics> combatStatistics,
             IThingStore contains)
         {
             return new Thing(
@@ -100,8 +95,7 @@ namespace Woz.RogueEngine.State
                 name,
                 validSlots,
                 equipedAs,
-                attackDetails,
-                defenseDetails,
+                combatStatistics,
                 contains);
         }
 
@@ -130,14 +124,9 @@ namespace Woz.RogueEngine.State
             get { return _equipedAs; }
         }
 
-        public ICombatStatistics AttackDetails
+        public IMaybe<CombatStatistics> CombatStatistics
         {
-            get { return _attackDetails; }
-        }
-
-        public ICombatStatistics DefenseDetails
-        {
-            get { return _defenseDetails; }
+            get { return _combatStatistics; }
         }
 
         public IThingStore Contains
@@ -151,8 +140,7 @@ namespace Woz.RogueEngine.State
             string name = null,
             ISlotList validSlots = null,
             IMaybe<EquipmentSlots> equipedAs = null,
-            ICombatStatistics attackDetails = null,
-            ICombatStatistics defenseDetails = null,
+            IMaybe<CombatStatistics> combatStatistics = null,
             IThingStore contains = null)
         {
             return
@@ -161,8 +149,7 @@ namespace Woz.RogueEngine.State
                 name != null ||
                 validSlots != null ||
                 equipedAs != null ||
-                attackDetails != null ||
-                defenseDetails != null ||
+                combatStatistics != null ||
                 contains != null
                     ? new Thing(
                         id ?? _id,
@@ -170,8 +157,7 @@ namespace Woz.RogueEngine.State
                         name ?? _name,
                         validSlots ?? _validSlots,
                         equipedAs ?? _equipedAs,
-                        attackDetails ?? _attackDetails,
-                        defenseDetails ?? _defenseDetails,
+                        combatStatistics ?? _combatStatistics,
                         contains ?? _contains)
                     : this;
         }

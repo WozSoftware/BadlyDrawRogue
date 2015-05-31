@@ -28,7 +28,7 @@ using Woz.RogueEngine.State.Lenses;
 
 namespace Woz.RogueEngine.Tests.StateTests.LensesTests
 {
-    using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
+    using IDamageTypesStore = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
     [TestClass]
@@ -61,19 +61,11 @@ namespace Woz.RogueEngine.Tests.StateTests.LensesTests
         }
 
         [TestMethod]
-        public void AttackDetails()
+        public void CombatStatistics()
         {
             TestLensWithAreEqual(
-                ThingTests.Thing, ThingLens.AttackDetails, 
-                new Mock<ICombatStatistics>().Object);
-        }
-
-        [TestMethod]
-        public void DefenseDetails()
-        {
-            TestLensWithAreEqual(
-                ThingTests.Thing, ThingLens.DefenseDetails,
-                new Mock<ICombatStatistics>().Object);
+                ThingTests.Thing, ThingLens.CombatStatistics, 
+                Maybe<CombatStatistics>.None);
         }
 
         [TestMethod]

@@ -48,6 +48,7 @@
     <Compile Include="Definitions\XmlAttributes.cs" />
     <Compile Include="Definitions\XmlNames.cs" />
     <Compile Include="State\Actor.cs" />
+    <Compile Include="State\CombatStatistics.cs" />
     <Compile Include="State\Lenses\ActorLens.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\EventFactory.cs" />

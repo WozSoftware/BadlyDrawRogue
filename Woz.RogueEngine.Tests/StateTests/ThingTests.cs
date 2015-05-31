@@ -29,7 +29,7 @@ using Woz.RogueEngine.State;
 namespace Woz.RogueEngine.Tests.StateTests
 {
     using ISlotList = IImmutableArray<EquipmentSlots>;
-    using ICombatStatistics = IImmutableDictionary<DamageTypes, int>;
+    using IDamageTypesStore = IImmutableDictionary<DamageTypes, int>;
     using IThingStore = IImmutableDictionary<long, Thing>;
 
     [TestClass]
@@ -44,11 +44,8 @@ namespace Woz.RogueEngine.Tests.StateTests
         public static readonly IMaybe<EquipmentSlots> EquipedAs = 
             EquipmentSlots.LeftRing.ToSome();
 
-        public static readonly ICombatStatistics AttackDetails =
-            new Mock<ICombatStatistics>().Object;
-
-        public static readonly ICombatStatistics DefenseDetails =
-            new Mock<ICombatStatistics>().Object;
+        public static readonly IMaybe<CombatStatistics> CombatStats =
+            Maybe<CombatStatistics>.None;
 
         public static readonly IThingStore Contains =
             new Mock<IThingStore>().Object;
@@ -59,8 +56,7 @@ namespace Woz.RogueEngine.Tests.StateTests
             Name,
             ValidSlots,
             EquipedAs,
-            AttackDetails,
-            DefenseDetails,
+            CombatStats,
             Contains);
 
         private static void Validate(
@@ -70,8 +66,7 @@ namespace Woz.RogueEngine.Tests.StateTests
             string name = null,
             ISlotList validSlots = null,
             IMaybe<EquipmentSlots> equipedAs = null,
-            ICombatStatistics attackDetails = null,
-            ICombatStatistics defenseDetails = null,
+            IMaybe<CombatStatistics> combatStatistics = null,
             IThingStore contains = null)
         {
             Assert.AreEqual(id ?? Id, instance.Id);
@@ -79,8 +74,7 @@ namespace Woz.RogueEngine.Tests.StateTests
             Assert.AreEqual(name ?? Name, instance.Name);
             Assert.AreSame(validSlots ?? ValidSlots, instance.ValidSlots);
             Assert.AreSame(equipedAs ?? EquipedAs, instance.EquipedAs);
-            Assert.AreSame(attackDetails ?? AttackDetails, instance.AttackDetails);
-            Assert.AreSame(defenseDetails ?? DefenseDetails, instance.DefenseDetails);
+            Assert.AreSame(combatStatistics ?? CombatStats, instance.CombatStatistics);
             Assert.AreSame(contains ?? Contains, instance.Contains);
         }
 
@@ -137,21 +131,23 @@ namespace Woz.RogueEngine.Tests.StateTests
         }
 
         [TestMethod]
-        public void WithAttackDetails()
+        public void WithCombatStatistics()
         {
-            var details = new Mock<ICombatStatistics>().Object;
-            Validate(
-                Thing.With(attackDetails: details),
-                attackDetails: details);
-        }
+            var attack = ImmutableDictionary<DamageTypes, int>
+                .Empty
+                .SetItem(DamageTypes.Acid, 1);
 
-        [TestMethod]
-        public void WithDefenseDetails()
-        {
-            var details = new Mock<ICombatStatistics>().Object;
+            var defense = ImmutableDictionary<DamageTypes, int>
+                .Empty
+                .SetItem(DamageTypes.BluntImpact, 1);
+
+            var statistics = CombatStatistics
+                .Create(1, attack, defense)
+                .ToSome();
+
             Validate(
-                Thing.With(defenseDetails: details),
-                defenseDetails: details);
+                Thing.With(combatStatistics: statistics),
+                combatStatistics: statistics);
         }
 
         [TestMethod]
