@@ -22,6 +22,7 @@ using System.Collections.Immutable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Woz.Lenses.Tests;
+using Woz.Monads.MaybeMonad;
 using Woz.RogueEngine.State;
 using Woz.RogueEngine.State.Lenses;
 
@@ -56,7 +57,7 @@ namespace Woz.RogueEngine.Tests.StateTests.LensesTests
         public void EquipableAs()
         {
             TestLensWithAreEqual(
-                ThingTests.Thing, ThingLens.EquipableAs, EquipmentSlots.Belt);
+                ThingTests.Thing, ThingLens.EquipableAs, EquipmentSlots.Belt.ToSome());
         }
 
         [TestMethod]

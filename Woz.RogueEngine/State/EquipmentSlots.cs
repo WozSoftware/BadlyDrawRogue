@@ -21,7 +21,6 @@ namespace Woz.RogueEngine.State
 {
     public enum EquipmentSlots
     {
-        None,
         LeftHand,
         RightHand,
         BothHands,

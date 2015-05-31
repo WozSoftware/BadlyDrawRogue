@@ -21,6 +21,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using Woz.Immutable.Collections;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.RogueEngine.State
 {
@@ -34,7 +35,7 @@ namespace Woz.RogueEngine.State
         private readonly ThingTypes _thingType;
         private readonly string _name;
         private readonly ISlotList _validSlots; 
-        private readonly EquipmentSlots _equipedAs;
+        private readonly IMaybe<EquipmentSlots> _equipedAs;
         private readonly ICombatStatistics _attackDetails;
         private readonly ICombatStatistics _defenseDetails;
         private readonly IThingStore _contains;
@@ -44,7 +45,7 @@ namespace Woz.RogueEngine.State
             ThingTypes thingType, 
             string name,
             ISlotList validSlots,
-            EquipmentSlots equipedAs, 
+            IMaybe<EquipmentSlots> equipedAs, 
             ICombatStatistics attackDetails, 
             ICombatStatistics defenseDetails, 
             IThingStore contains)
@@ -70,7 +71,7 @@ namespace Woz.RogueEngine.State
             ThingTypes thingType,
             string name,
             ISlotList validSlots,
-            EquipmentSlots equipedAs)
+            IMaybe<EquipmentSlots> equipedAs)
         {
             return new Thing(
                 id,
@@ -88,7 +89,7 @@ namespace Woz.RogueEngine.State
             ThingTypes thingType,
             string name,
             ISlotList validSlots,
-            EquipmentSlots equipedAs,
+            IMaybe<EquipmentSlots> equipedAs,
             ICombatStatistics attackDetails,
             ICombatStatistics defenseDetails,
             IThingStore contains)
@@ -124,7 +125,7 @@ namespace Woz.RogueEngine.State
             get { return _validSlots; }
         }
 
-        public EquipmentSlots EquipedAs
+        public IMaybe<EquipmentSlots> EquipedAs
         {
             get { return _equipedAs; }
         }
@@ -149,7 +150,7 @@ namespace Woz.RogueEngine.State
             ThingTypes? thingType = null,
             string name = null,
             ISlotList validSlots = null,
-            EquipmentSlots? equipedAs = null,
+            IMaybe<EquipmentSlots> equipedAs = null,
             ICombatStatistics attackDetails = null,
             ICombatStatistics defenseDetails = null,
             IThingStore contains = null)
@@ -159,7 +160,7 @@ namespace Woz.RogueEngine.State
                 thingType.HasValue ||
                 name != null ||
                 validSlots != null ||
-                equipedAs.HasValue ||
+                equipedAs != null ||
                 attackDetails != null ||
                 defenseDetails != null ||
                 contains != null

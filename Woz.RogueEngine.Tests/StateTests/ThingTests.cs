@@ -23,6 +23,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Woz.Immutable.Collections;
 using Woz.Linq.Collections;
+using Woz.Monads.MaybeMonad;
 using Woz.RogueEngine.State;
 
 namespace Woz.RogueEngine.Tests.StateTests
@@ -39,8 +40,9 @@ namespace Woz.RogueEngine.Tests.StateTests
         public const string Name = "Name";
 
         public static readonly ISlotList ValidSlots = SlotLists.NotEquipable;
- 
-        public const EquipmentSlots EquipedAs = EquipmentSlots.LeftRing;
+
+        public static readonly IMaybe<EquipmentSlots> EquipedAs = 
+            EquipmentSlots.LeftRing.ToSome();
 
         public static readonly ICombatStatistics AttackDetails =
             new Mock<ICombatStatistics>().Object;
@@ -67,7 +69,7 @@ namespace Woz.RogueEngine.Tests.StateTests
             ThingTypes? thingType = null,
             string name = null,
             ISlotList validSlots = null,
-            EquipmentSlots? equipedAs = null,
+            IMaybe<EquipmentSlots> equipedAs = null,
             ICombatStatistics attackDetails = null,
             ICombatStatistics defenseDetails = null,
             IThingStore contains = null)
@@ -76,7 +78,7 @@ namespace Woz.RogueEngine.Tests.StateTests
             Assert.AreEqual(thingType ?? ThingType, instance.ThingType);
             Assert.AreEqual(name ?? Name, instance.Name);
             Assert.AreSame(validSlots ?? ValidSlots, instance.ValidSlots);
-            Assert.AreEqual(equipedAs ?? EquipedAs, instance.EquipedAs);
+            Assert.AreSame(equipedAs ?? EquipedAs, instance.EquipedAs);
             Assert.AreSame(attackDetails ?? AttackDetails, instance.AttackDetails);
             Assert.AreSame(defenseDetails ?? DefenseDetails, instance.DefenseDetails);
             Assert.AreSame(contains ?? Contains, instance.Contains);
@@ -128,9 +130,10 @@ namespace Woz.RogueEngine.Tests.StateTests
         [TestMethod]
         public void WithEquipedAs()
         {
+            var equipedAs = Maybe<EquipmentSlots>.None;
             Validate(
-                Thing.With(equipedAs: EquipmentSlots.Amulet),
-                equipedAs: EquipmentSlots.Amulet);
+                Thing.With(equipedAs: equipedAs),
+                equipedAs: equipedAs);
         }
 
         [TestMethod]

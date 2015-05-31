@@ -21,6 +21,7 @@
 using System.Collections.Immutable;
 using Woz.Immutable.Collections;
 using Woz.Lenses;
+using Woz.Monads.MaybeMonad;
 
 namespace Woz.RogueEngine.State.Lenses
 {
@@ -34,7 +35,7 @@ namespace Woz.RogueEngine.State.Lenses
         public static readonly Lens<Thing, ThingTypes> ThingType;
         public static readonly Lens<Thing, string> Name;
         public static readonly Lens<Thing, ISlotList> ValidSlots;
-        public static readonly Lens<Thing, EquipmentSlots> EquipableAs;
+        public static readonly Lens<Thing, IMaybe<EquipmentSlots>> EquipableAs;
         public static readonly Lens<Thing, ICombatStatistics> AttackDetails;
         public static readonly Lens<Thing, ICombatStatistics> DefenseDetails;
         public static readonly Lens<Thing, IThingStore> Contains;
@@ -57,7 +58,7 @@ namespace Woz.RogueEngine.State.Lenses
                 thing => thing.ValidSlots,
                 validSlots => thing => thing.With(validSlots: validSlots));
 
-            EquipableAs = Lens.Create<Thing, EquipmentSlots>(
+            EquipableAs = Lens.Create<Thing, IMaybe<EquipmentSlots>>(
                 thing => thing.EquipedAs,
                 equipedAs => thing => thing.With(equipedAs: equipedAs));
 

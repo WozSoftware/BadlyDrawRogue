@@ -41,7 +41,7 @@ namespace Woz.RogueEngine.Tests.ValidatorsTests
 
         public static readonly Thing Thing = Thing.Create(
             5, ThingTypes.Item, "Test Thing",
-            SlotLists.NotEquipable, EquipmentSlots.None);
+            SlotLists.NotEquipable, EquipmentSlots.Belt.ToSome());
 
         [TestMethod]
         public void IsValidMoveTileType()

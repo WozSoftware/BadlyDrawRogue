@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
+
 using Woz.Immutable.Collections;
-using Woz.Linq.Collections;
 
 namespace Woz.RogueEngine.State
 {
@@ -27,6 +27,6 @@ namespace Woz.RogueEngine.State
     public static class SlotLists
     {
         public static readonly ISlotList NotEquipable =
-            ImmutableArray.Create((EquipmentSlots.None.ToEnumerable()));
+            ImmutableArray<EquipmentSlots>.Create(0);
     }
 }
